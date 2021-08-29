@@ -12,6 +12,8 @@ target 'KickzMobile' do
     :hermes_enabled => false
   )
 
+  pod 'RNReactNativeHapticFeedback', :path => '../node_modules/react-native-haptic-feedback'
+
   target 'KickzMobileTests' do
     inherit! :complete
     # Pods for testing

@@ -44,7 +44,7 @@ const Styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: colors.white,
-    height: 230,
+    height: 280,
     paddingHorizontal: 20,
     paddingVertical: 25,
   },
@@ -53,7 +53,7 @@ const Styles = StyleSheet.create({
     ...text.bold,
     fontSize: 24,
     color: colors.black,
-    textAlign: 'center'
+    textAlign: 'center',
   },
 
   signupBtn: {
@@ -80,6 +80,17 @@ const Styles = StyleSheet.create({
     color: colors.primary,
     ...text.bold,
     fontSize: 14,
+  },
+
+  skipBtn: {
+    alignSelf: 'center',
+    marginTop: 32,
+  },
+
+  skipBtnText: {
+    ...text.bold,
+    color: colors.primary,
+    fontSize: 18,
   },
 });
 

@@ -9,14 +9,21 @@ import {
   Animated,
 } from 'react-native';
 
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+
+const options = {
+  enableVibrateFallback: true,
+  ignoreAndroidSystemSettings: false,
+};
+
 import Styles from './styles';
 
 const Landing = () => {
-  const [bounceValue] = useState(new Animated.Value(230));
+  const [bounceValue] = useState(new Animated.Value(280));
   const [hidden, setHidden] = useState(true);
 
   const toggleBottomView = () => {
-    let toValue = 230;
+    let toValue = 280;
 
     if (hidden) {
       toValue = 0;
@@ -61,12 +68,31 @@ const Landing = () => {
               {transform: [{translateY: bounceValue}]},
             ]}>
             <Text style={Styles.bottomHeader}>Start shopping with Kickz</Text>
-            <TouchableOpacity style={Styles.signupBtn} activeOpacity={0.7}>
+            <TouchableOpacity
+              style={Styles.signupBtn}
+              activeOpacity={0.7}
+              onPress={() => {
+                ReactNativeHapticFeedback.trigger('impactMedium', options);
+              }}>
               <Text style={Styles.signupText}>Get Started</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={Styles.loginBtn} activeOpacity={0.7}>
+            <TouchableOpacity
+              style={Styles.loginBtn}
+              activeOpacity={0.7}
+              onPress={() => {
+                ReactNativeHapticFeedback.trigger('impactMedium', options);
+              }}>
               <Text style={Styles.loginText}>Login</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={Styles.skipBtn}
+              onPress={() => {
+                ReactNativeHapticFeedback.trigger('impactMedium', options);
+              }}>
+              <Text style={Styles.skipBtnText}>Skip to our catalogue</Text>
             </TouchableOpacity>
           </Animated.View>
         </View>
