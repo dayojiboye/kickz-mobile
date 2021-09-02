@@ -8,7 +8,7 @@ export const colors = {
   white: '#fff',
   secondaryBlack: '#333333cc',
   black: '#000',
-  red: 'red',
   green: '#33D185',
   fade: '#eee',
+  red: '#ff4d4f',
 };

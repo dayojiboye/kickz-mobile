@@ -11,6 +11,8 @@ import {
 
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
+import {useNavigation} from '@react-navigation/native';
+
 const options = {
   enableVibrateFallback: true,
   ignoreAndroidSystemSettings: false,
@@ -19,6 +21,8 @@ const options = {
 import Styles from './styles';
 
 const Landing = () => {
+  const navigation = useNavigation();
+
   const [bounceValue] = useState(new Animated.Value(280));
   const [hidden, setHidden] = useState(true);
 
@@ -72,7 +76,8 @@ const Landing = () => {
               style={Styles.signupBtn}
               activeOpacity={0.7}
               onPress={() => {
-                ReactNativeHapticFeedback.trigger('impactMedium', options);
+                ReactNativeHapticFeedback.trigger('impactLight', options);
+                navigation.navigate('Signup');
               }}>
               <Text style={Styles.signupText}>Get Started</Text>
             </TouchableOpacity>
@@ -81,7 +86,8 @@ const Landing = () => {
               style={Styles.loginBtn}
               activeOpacity={0.7}
               onPress={() => {
-                ReactNativeHapticFeedback.trigger('impactMedium', options);
+                ReactNativeHapticFeedback.trigger('impactLight', options);
+                navigation.navigate('Login');
               }}>
               <Text style={Styles.loginText}>Login</Text>
             </TouchableOpacity>
@@ -90,7 +96,7 @@ const Landing = () => {
               activeOpacity={0.7}
               style={Styles.skipBtn}
               onPress={() => {
-                ReactNativeHapticFeedback.trigger('impactMedium', options);
+                ReactNativeHapticFeedback.trigger('impactLight', options);
               }}>
               <Text style={Styles.skipBtnText}>Skip to our catalogue</Text>
             </TouchableOpacity>

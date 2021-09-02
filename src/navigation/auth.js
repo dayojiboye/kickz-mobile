@@ -6,6 +6,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 // auth screens
 import Landing from '../ui/auth/landing';
+import Signup from '../ui/auth/signup';
+import Login from '../ui/auth/login';
 
 const AuthStack = createNativeStackNavigator();
 
@@ -18,10 +20,30 @@ const AuthNavigator = () => {
         options={{
           title: '',
           headerShown: false,
-          stackAnimation: 'fade',
+          animation: 'fade',
         }}
-        name="OnBoarding"
+        name="Landing"
         component={Landing}
+      />
+
+      <AuthStack.Screen
+        options={{
+          title: '',
+          headerShown: false,
+          animation: 'slide_from_right',
+        }}
+        name="Signup"
+        component={Signup}
+      />
+
+      <AuthStack.Screen
+        options={{
+          title: '',
+          headerShown: false,
+          animation: 'slide_from_right',
+        }}
+        name="Login"
+        component={Login}
       />
     </AuthStack.Navigator>
   );
