@@ -13,6 +13,8 @@ target 'KickzMobile' do
   )
 
   pod 'RNReactNativeHapticFeedback', :path => '../node_modules/react-native-haptic-feedback'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
 
   target 'KickzMobileTests' do
     inherit! :complete

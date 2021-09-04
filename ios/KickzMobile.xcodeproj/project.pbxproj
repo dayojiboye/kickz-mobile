@@ -22,6 +22,7 @@
 		930F854E26DBB90B008BF748 /* EuclidCircularB-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 930F854926DBB90B008BF748 /* EuclidCircularB-Medium.ttf */; };
 		930F858B26DBBBF2008BF748 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 930F858A26DBBBF2008BF748 /* Fonts */; };
 		931E242526DC1BD1005BE39B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB61A68108700A75B9A /* Info.plist */; };
+		931E7A9226E20C68003CD166 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 931E7A9126E20C68003CD166 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		930F854826DBB90B008BF748 /* EuclidCircularB-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EuclidCircularB-Light.ttf"; sourceTree = "<group>"; };
 		930F854926DBB90B008BF748 /* EuclidCircularB-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EuclidCircularB-Medium.ttf"; sourceTree = "<group>"; };
 		930F858A26DBBBF2008BF748 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
+		931E7A9126E20C68003CD166 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		94625E98D4EDCE14CA768BBD /* Pods-KickzMobile-KickzMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KickzMobile-KickzMobileTests.debug.xcconfig"; path = "Target Support Files/Pods-KickzMobile-KickzMobileTests/Pods-KickzMobile-KickzMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A4096CEDCDFC1FAD5AFE2C97 /* libPods-KickzMobile-KickzMobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KickzMobile-KickzMobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -101,6 +103,7 @@
 		13B07FAE1A68108700A75B9A /* KickzMobile */ = {
 			isa = PBXGroup;
 			children = (
+				931E7A9126E20C68003CD166 /* GoogleService-Info.plist */,
 				930F831F26DB7E5A008BF748 /* BootSplash.storyboard */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -280,6 +283,7 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				930F854B26DBB90B008BF748 /* EuclidCircularB-Regular.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				931E7A9226E20C68003CD166 /* GoogleService-Info.plist in Resources */,
 				930F854E26DBB90B008BF748 /* EuclidCircularB-Medium.ttf in Resources */,
 				930F854D26DBB90B008BF748 /* EuclidCircularB-Light.ttf in Resources */,
 			);
