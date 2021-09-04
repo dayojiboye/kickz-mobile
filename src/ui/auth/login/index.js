@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect} from 'react';
 import Styles from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {
@@ -12,15 +13,28 @@ import {
   StatusBar,
   Keyboard,
 } from 'react-native';
-import {colors} from '../../../styles';
+import {colors, config} from '../../../styles';
 import {useNavigation} from '@react-navigation/native';
 import CustomInput from '../../../components/customInput';
 import {Formik, Field} from 'formik';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import * as yup from 'yup';
+import {useSelector, useDispatch} from 'react-redux';
+import * as actions from '../../../../store/actions';
+import AlertView from '../../../components/alertView';
 
 const Login = () => {
   const navigation = useNavigation();
+
+  const dispatch = useDispatch();
+
+  const {currentUser, loading, error} = useSelector(state => {
+    return {
+      currentUser: state.auth.currentUser,
+      loading: state.auth.loading,
+      error: state.auth.error,
+    };
+  });
 
   const options = {
     enableVibrateFallback: true,
@@ -43,9 +57,31 @@ const Login = () => {
       .min(6, 'Password must be at least 6 characters long!'),
   });
 
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        dispatch(actions.authError(null));
+      }, 7000);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(actions.authError(null));
+    };
+  }, []);
+
   return (
     <SafeAreaView style={Styles.safeArea}>
+      <AlertView
+        show={error}
+        text={error}
+        variant="danger"
+        click={() => dispatch(actions.authError(null))}
+      />
+
       <StatusBar backgroundColor={colors.primary} />
+
       <View style={Styles.header}>
         <Pressable
           style={Styles.backBtn}
@@ -65,8 +101,15 @@ const Login = () => {
           email: '',
           password: '',
         }}
-        onSubmit={values => console.log(values)}>
-        {({handleSubmit, isValid, values}) => (
+        onSubmit={values =>
+          dispatch(
+            actions.signin({
+              email: values.email,
+              password: values.password,
+            }),
+          )
+        }>
+        {({handleSubmit, isValid}) => (
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : null}
             style={Styles.keyboardContainer}>
@@ -90,9 +133,11 @@ const Login = () => {
             </View>
 
             <Pressable
-              style={Styles.formBtn}
+              style={[Styles.formBtn, loading ? config.disabledBtn : '']}
+              disabled={loading}
               onPress={() => {
                 ReactNativeHapticFeedback.trigger('impactLight', options);
+                handleSubmit();
                 Keyboard.dismiss();
               }}>
               <Text style={Styles.formBtnText}>Log in</Text>

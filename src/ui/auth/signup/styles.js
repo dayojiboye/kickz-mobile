@@ -14,6 +14,7 @@ const Styles = StyleSheet.create({
   backBtn: {
     flexDirection: 'row',
     alignItems: 'center',
+    alignSelf: 'flex-start',
   },
 
   backText: {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
 
 import {
@@ -24,31 +25,17 @@ const Landing = () => {
   const navigation = useNavigation();
 
   const [bounceValue] = useState(new Animated.Value(280));
-  const [hidden, setHidden] = useState(true);
-
-  const toggleBottomView = () => {
-    let toValue = 280;
-
-    if (hidden) {
-      toValue = 0;
-    }
-
-    Animated.spring(bounceValue, {
-      toValue: toValue,
-      velocity: 3,
-      tension: 30,
-      friction: 8,
-      useNativeDriver: true,
-    }).start();
-
-    setHidden(true);
-  };
 
   useEffect(() => {
     setTimeout(() => {
-      toggleBottomView();
+      Animated.spring(bounceValue, {
+        toValue: 0,
+        velocity: 3,
+        tension: 30,
+        friction: 8,
+        useNativeDriver: true,
+      }).start();
     }, 500);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -36,4 +36,8 @@ export const config = StyleSheet.create({
     ...text.regular,
     marginTop: 5,
   },
+
+  disabledBtn: {
+    backgroundColor: colors.ghost,
+  },
 });

@@ -11,4 +11,6 @@ export const colors = {
   green: '#33D185',
   fade: '#eee',
   red: '#ff4d4f',
+  transparentRed: 'rgb(248,110,114)',
+  transparentGreen: 'rgb(162,248,160)',
 };

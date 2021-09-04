@@ -103,10 +103,11 @@ export const signin = ({email, password}) => {
     try {
       await auth.signInWithEmailAndPassword(email, password).then(response => {
         dispatch(setCurrentUser(response.user));
+        console.log(response.user);
       });
     } catch (err) {
       dispatch(authError(err.message));
-      // console.log(err.message);
+      console.log(err.message);
     } finally {
       dispatch(authStart(false));
     }
