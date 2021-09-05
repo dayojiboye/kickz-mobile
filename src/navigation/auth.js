@@ -1,8 +1,7 @@
 import React from 'react';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
-// screens
+import {DashboardNav} from './dashboard';
 
 // auth screens
 import Landing from '../ui/auth/landing';
@@ -44,6 +43,16 @@ const AuthNavigator = () => {
         }}
         name="Login"
         component={Login}
+      />
+
+      <AuthStack.Screen
+        options={{
+          title: '',
+          headerShown: false,
+          animation: 'slide_from_right',
+        }}
+        name="Dashboard"
+        component={DashboardNav}
       />
     </AuthStack.Navigator>
   );

@@ -113,3 +113,20 @@ export const signin = ({email, password}) => {
     }
   };
 };
+
+// sign out
+
+export const signout = () => {
+  return async dispatch => {
+    dispatch(authStart(true));
+    try {
+      await auth.signOut().then(() => {
+        dispatch(setCurrentUser(null));
+      });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      dispatch(authStart(false));
+    }
+  };
+};

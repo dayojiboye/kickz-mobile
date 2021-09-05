@@ -13,6 +13,7 @@ import {
   Platform,
   StatusBar,
   Keyboard,
+  ActivityIndicator,
 } from 'react-native';
 import {colors, config} from '../../../styles';
 import {useNavigation} from '@react-navigation/native';
@@ -147,6 +148,7 @@ const Signup = () => {
                 placeholder="Email Address"
                 iconName="mail"
                 keyboardType="email-address"
+                autoCapitalize="none"
               />
 
               <Field
@@ -173,7 +175,10 @@ const Signup = () => {
                 handleSubmit();
                 Keyboard.dismiss();
               }}>
-              <Text style={Styles.formBtnText}>Register</Text>
+              {!loading && <Text style={Styles.formBtnText}>Register</Text>}
+              {loading && (
+                <ActivityIndicator color={colors.white} animating={true} />
+              )}
             </Pressable>
           </KeyboardAvoidingView>
         )}

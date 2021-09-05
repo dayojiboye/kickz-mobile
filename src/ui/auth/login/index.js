@@ -12,6 +12,7 @@ import {
   Platform,
   StatusBar,
   Keyboard,
+  ActivityIndicator,
 } from 'react-native';
 import {colors, config} from '../../../styles';
 import {useNavigation} from '@react-navigation/native';
@@ -71,6 +72,12 @@ const Login = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (currentUser) {
+      navigation.navigate('Dashboard');
+    }
+  }, [currentUser]);
+
   return (
     <SafeAreaView style={Styles.safeArea}>
       <AlertView
@@ -121,6 +128,7 @@ const Login = () => {
                   placeholder="Email Address"
                   iconName="mail"
                   keyboardType="email-address"
+                  autoCapitalize="none"
                 />
 
                 <Field
@@ -140,7 +148,10 @@ const Login = () => {
                 handleSubmit();
                 Keyboard.dismiss();
               }}>
-              <Text style={Styles.formBtnText}>Log in</Text>
+              {!loading && <Text style={Styles.formBtnText}>Log in</Text>}
+              {loading && (
+                <ActivityIndicator color={colors.white} animating={true} />
+              )}
             </Pressable>
           </KeyboardAvoidingView>
         )}

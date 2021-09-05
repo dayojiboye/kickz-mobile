@@ -54,6 +54,8 @@ const Styles = StyleSheet.create({
     width: '100%',
     marginTop: 'auto',
     marginBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   formBtnText: {
