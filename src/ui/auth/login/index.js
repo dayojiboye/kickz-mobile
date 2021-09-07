@@ -13,6 +13,7 @@ import {
   StatusBar,
   Keyboard,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import {colors, config} from '../../../styles';
 import {useNavigation} from '@react-navigation/native';
@@ -93,7 +94,7 @@ const Login = () => {
         <Pressable
           style={Styles.backBtn}
           onPress={() => {
-            navigation.goBack();
+            navigation.navigate('Landing');
           }}>
           <Icon name="left" color={colors.primary} size={25} />
           <Text style={Styles.backText}>Back</Text>
@@ -120,39 +121,46 @@ const Login = () => {
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : null}
             style={Styles.keyboardContainer}>
-            <View style={Styles.formWrapper}>
-              <ScrollView style={[Styles.signupForm]} bounces={false}>
-                <Field
-                  component={CustomInput}
-                  name="email"
-                  placeholder="Email Address"
-                  iconName="mail"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                />
-
-                <Field
-                  component={CustomInput}
-                  name="password"
-                  placeholder="Password"
-                  isPassword
-                />
-              </ScrollView>
-            </View>
-
-            <Pressable
-              style={[Styles.formBtn, loading ? config.disabledBtn : '']}
-              disabled={loading}
+            <TouchableOpacity
+              style={Styles.touchableWrapper}
+              activeOpacity={1}
               onPress={() => {
-                ReactNativeHapticFeedback.trigger('impactLight', options);
-                handleSubmit();
                 Keyboard.dismiss();
               }}>
-              {!loading && <Text style={Styles.formBtnText}>Log in</Text>}
-              {loading && (
-                <ActivityIndicator color={colors.white} animating={true} />
-              )}
-            </Pressable>
+              <View style={Styles.formWrapper}>
+                <ScrollView style={[Styles.signupForm]} bounces={false}>
+                  <Field
+                    component={CustomInput}
+                    name="email"
+                    placeholder="Email Address"
+                    iconName="mail"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                  />
+
+                  <Field
+                    component={CustomInput}
+                    name="password"
+                    placeholder="Password"
+                    isPassword
+                  />
+                </ScrollView>
+              </View>
+
+              <Pressable
+                style={[Styles.formBtn, loading ? config.disabledBtn : '']}
+                disabled={loading}
+                onPress={() => {
+                  ReactNativeHapticFeedback.trigger('impactLight', options);
+                  handleSubmit();
+                  Keyboard.dismiss();
+                }}>
+                {!loading && <Text style={Styles.formBtnText}>Log in</Text>}
+                {loading && (
+                  <ActivityIndicator color={colors.white} animating={true} />
+                )}
+              </Pressable>
+            </TouchableOpacity>
           </KeyboardAvoidingView>
         )}
       </Formik>

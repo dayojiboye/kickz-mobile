@@ -33,6 +33,7 @@ const Account = () => {
     <>
       <View style={Styles.container}>
         <Text>This is the account page!</Text>
+        {currentUser && <Text>{currentUser.displayName}</Text>}
 
         <TouchableOpacity onPress={logout}>
           <Text>Log out</Text>

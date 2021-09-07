@@ -14,6 +14,7 @@ import {
   StatusBar,
   Keyboard,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import {colors, config} from '../../../styles';
 import {useNavigation} from '@react-navigation/native';
@@ -78,6 +79,12 @@ const Signup = () => {
   });
 
   useEffect(() => {
+    if (currentUser) {
+      navigation.navigate('Dashboard');
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
     if (error) {
       setTimeout(() => {
         dispatch(actions.authError(null));
@@ -104,7 +111,7 @@ const Signup = () => {
         <Pressable
           style={Styles.backBtn}
           onPress={() => {
-            navigation.goBack();
+            navigation.navigate('Landing');
           }}>
           <Icon name="left" color={colors.primary} size={25} />
           <Text style={Styles.backText}>Back</Text>
@@ -134,52 +141,59 @@ const Signup = () => {
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : null}
             style={Styles.keyboardContainer}>
-            <ScrollView style={[Styles.signupForm]} bounces={false}>
-              <Field
-                component={CustomInput}
-                name="displayName"
-                placeholder="Username"
-                iconName="user"
-              />
-
-              <Field
-                component={CustomInput}
-                name="email"
-                placeholder="Email Address"
-                iconName="mail"
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-
-              <Field
-                component={CustomInput}
-                name="password"
-                placeholder="Password"
-                isPassword
-              />
-
-              <Field
-                component={CustomInput}
-                name="confirm"
-                placeholder="Confirm Password"
-                isPassword
-                containerStyle={Styles.lastInput}
-              />
-            </ScrollView>
-
-            <Pressable
-              style={[Styles.formBtn, loading ? config.disabledBtn : '']}
-              disabled={loading}
+            <TouchableOpacity
+              style={Styles.touchableWrapper}
+              activeOpacity={1}
               onPress={() => {
-                ReactNativeHapticFeedback.trigger('impactLight', options);
-                handleSubmit();
                 Keyboard.dismiss();
               }}>
-              {!loading && <Text style={Styles.formBtnText}>Register</Text>}
-              {loading && (
-                <ActivityIndicator color={colors.white} animating={true} />
-              )}
-            </Pressable>
+              <ScrollView style={[Styles.signupForm]} bounces={false}>
+                <Field
+                  component={CustomInput}
+                  name="displayName"
+                  placeholder="Username"
+                  iconName="user"
+                />
+
+                <Field
+                  component={CustomInput}
+                  name="email"
+                  placeholder="Email Address"
+                  iconName="mail"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                />
+
+                <Field
+                  component={CustomInput}
+                  name="password"
+                  placeholder="Password"
+                  isPassword
+                />
+
+                <Field
+                  component={CustomInput}
+                  name="confirm"
+                  placeholder="Confirm Password"
+                  isPassword
+                  containerStyle={Styles.lastInput}
+                />
+              </ScrollView>
+
+              <Pressable
+                style={[Styles.formBtn, loading ? config.disabledBtn : '']}
+                disabled={loading}
+                onPress={() => {
+                  ReactNativeHapticFeedback.trigger('impactLight', options);
+                  handleSubmit();
+                  Keyboard.dismiss();
+                }}>
+                {!loading && <Text style={Styles.formBtnText}>Register</Text>}
+                {loading && (
+                  <ActivityIndicator color={colors.white} animating={true} />
+                )}
+              </Pressable>
+            </TouchableOpacity>
           </KeyboardAvoidingView>
         )}
       </Formik>

@@ -54,7 +54,7 @@ const App = () => {
   return (
     <NavigationContainer
       onReady={() => {
-        RNBootSplash.hide();
+        RNBootSplash.hide({fade: true});
       }}>
       <AuthNavigator />
     </NavigationContainer>

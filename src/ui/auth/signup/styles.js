@@ -37,6 +37,10 @@ const Styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
 
+  touchableWrapper: {
+    flex: 1,
+  },
+
   signupForm: {
     flex: 1,
     paddingVertical: 25,
