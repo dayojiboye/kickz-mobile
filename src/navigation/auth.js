@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {useSelector} from 'react-redux';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {DashboardNav} from './dashboard';
 
@@ -12,59 +12,74 @@ import Login from '../ui/auth/login';
 const AuthStack = createNativeStackNavigator();
 
 const AuthNavigator = () => {
+  const {hasFetched, currentUser} = useSelector(state => {
+    return {
+      hasFetched: state.auth.hasFetched,
+      currentUser: state.auth.currentUser,
+    };
+  });
+
   return (
     <AuthStack.Navigator
       initialRouteName="Initialization"
       screenOptions={{headerShown: false}}>
-      <AuthStack.Screen
-        options={{
-          title: '',
-          headerShown: false,
-          animation: 'fade',
-        }}
-        name="Initialization"
-        component={Initialization}
-      />
+      {!hasFetched && !currentUser && (
+        <AuthStack.Screen
+          options={{
+            title: '',
+            headerShown: false,
+            animation: 'fade',
+          }}
+          name="Initialization"
+          component={Initialization}
+        />
+      )}
 
-      <AuthStack.Screen
-        options={{
-          title: '',
-          headerShown: false,
-          animation: 'fade',
-        }}
-        name="Landing"
-        component={Landing}
-      />
+      {!currentUser && (
+        <>
+          <AuthStack.Screen
+            options={{
+              title: '',
+              headerShown: false,
+              animation: 'fade',
+            }}
+            name="Landing"
+            component={Landing}
+          />
 
-      <AuthStack.Screen
-        options={{
-          title: '',
-          headerShown: false,
-          animation: 'slide_from_right',
-        }}
-        name="Signup"
-        component={Signup}
-      />
+          <AuthStack.Screen
+            options={{
+              title: '',
+              headerShown: false,
+              animation: 'slide_from_right',
+            }}
+            name="Signup"
+            component={Signup}
+          />
 
-      <AuthStack.Screen
-        options={{
-          title: '',
-          headerShown: false,
-          animation: 'slide_from_right',
-        }}
-        name="Login"
-        component={Login}
-      />
+          <AuthStack.Screen
+            options={{
+              title: '',
+              headerShown: false,
+              animation: 'slide_from_right',
+            }}
+            name="Login"
+            component={Login}
+          />
+        </>
+      )}
 
-      <AuthStack.Screen
-        options={{
-          title: '',
-          headerShown: false,
-          animation: 'slide_from_right',
-        }}
-        name="Dashboard"
-        component={DashboardNav}
-      />
+      {currentUser && (
+        <AuthStack.Screen
+          options={{
+            title: '',
+            headerShown: false,
+            animation: 'slide_from_right',
+          }}
+          name="Dashboard"
+          component={DashboardNav}
+        />
+      )}
     </AuthStack.Navigator>
   );
 };

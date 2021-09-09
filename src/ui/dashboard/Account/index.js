@@ -1,11 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import Styles from './styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import * as actions from '../../../../store/actions';
 import Loader from '../../../components/loader';
+import {WithLocalSvg} from 'react-native-svg';
+import Icon from 'react-native-vector-icons/Feather';
+import {colors} from '../../../styles';
 
 const Account = () => {
   const dispatch = useDispatch();
@@ -31,14 +34,32 @@ const Account = () => {
 
   return (
     <>
-      <View style={Styles.container}>
-        <Text>This is the account page!</Text>
-        {currentUser && <Text>{currentUser.displayName}</Text>}
+      <ScrollView style={Styles.container} bounces={false}>
+        <View style={Styles.profileWrapper}>
+          <View style={Styles.avatar}>
+            <WithLocalSvg
+              width="100%"
+              height="100%"
+              asset={require('../../../assets/images/man.svg')}
+            />
+          </View>
 
-        <TouchableOpacity onPress={logout}>
-          <Text>Log out</Text>
-        </TouchableOpacity>
-      </View>
+          {currentUser && (
+            <View style={Styles.userInfo}>
+              <Text style={Styles.username}>{currentUser.displayName}</Text>
+              <Text style={Styles.userEmail}>{currentUser.email}</Text>
+              <TouchableOpacity
+                style={Styles.logoutBtn}
+                onPress={logout}
+                activeOpacity={0.7}>
+                <Icon color={colors.red} size={16} name="log-out" />
+                <Text style={Styles.logoutBtnText}>Log out</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+      </ScrollView>
+
       {loading && <Loader />}
     </>
   );

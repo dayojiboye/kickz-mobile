@@ -4,6 +4,7 @@ const initialState = {
   currentUser: null,
   loading: false,
   error: null,
+  hasFetched: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -12,6 +13,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         currentUser: action.payload,
+        hasFetched: true,
       };
     case actionTypes.AUTH_START:
       return {
