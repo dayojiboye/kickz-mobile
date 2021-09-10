@@ -11,18 +11,18 @@ const Styles = StyleSheet.create({
     paddingTop: 20,
   },
 
-  backBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-  },
+  // backBtn: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   alignSelf: 'flex-start',
+  // },
 
-  backText: {
-    color: colors.primary,
-    ...text.semiBold,
-    fontSize: 20,
-    marginLeft: 10,
-  },
+  // backText: {
+  //   color: colors.primary,
+  //   ...text.semiBold,
+  //   fontSize: 20,
+  //   marginLeft: 10,
+  // },
 
   headerText: {
     marginTop: 60,
@@ -32,9 +32,18 @@ const Styles = StyleSheet.create({
     textAlign: 'center',
   },
 
+  smallHeaderText: {
+    marginTop: 13,
+    alignSelf: 'center',
+    color: colors.secondaryBlack,
+    ...text.medium,
+    fontSize: 15,
+  },
+
   keyboardContainer: {
     flex: 1,
     paddingHorizontal: 20,
+    marginTop: 16,
   },
 
   touchableWrapper: {
@@ -51,13 +60,16 @@ const Styles = StyleSheet.create({
     flexGrow: 0,
   },
 
+  bottomView: {
+    marginTop: 'auto',
+  },
+
   formBtn: {
     ...config.roundedBtn,
     alignSelf: 'center',
     backgroundColor: colors.primary,
     width: '100%',
-    marginTop: 'auto',
-    marginBottom: 20,
+    marginBottom: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -66,6 +78,30 @@ const Styles = StyleSheet.create({
     ...text.bold,
     color: colors.white,
     fontSize: 14,
+  },
+
+  bottomInfo: {
+    marginBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  bottomTextLeft: {
+    color: colors.secondaryBlack,
+    fontSize: 15,
+    ...text.medium,
+  },
+
+  registerLink: {
+    marginLeft: 7,
+  },
+
+  registerLinkText: {
+    fontSize: 15,
+    ...text.medium,
+    color: colors.primary,
+    textDecorationLine: 'underline',
   },
 });
 

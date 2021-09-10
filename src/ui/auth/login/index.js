@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect} from 'react';
 import Styles from './styles';
-import Icon from 'react-native-vector-icons/AntDesign';
+// import Icon from 'react-native-vector-icons/AntDesign';
 import {
   SafeAreaView,
   View,
@@ -91,16 +91,18 @@ const Login = () => {
       <StatusBar backgroundColor={colors.primary} />
 
       <View style={Styles.header}>
-        <Pressable
+        {/* <Pressable
           style={Styles.backBtn}
           onPress={() => {
-            navigation.navigate('Landing');
+            navigation.goBack();
           }}>
           <Icon name="left" color={colors.primary} size={25} />
           <Text style={Styles.backText}>Back</Text>
-        </Pressable>
+        </Pressable> */}
 
-        <Text style={Styles.headerText}>Login</Text>
+        <Text style={Styles.headerText}>Welcome to Kickz</Text>
+
+        <Text style={Styles.smallHeaderText}>Sign in to continue</Text>
       </View>
 
       <Formik
@@ -147,19 +149,32 @@ const Login = () => {
                 </ScrollView>
               </View>
 
-              <Pressable
-                style={[Styles.formBtn, loading ? config.disabledBtn : '']}
-                disabled={loading}
-                onPress={() => {
-                  ReactNativeHapticFeedback.trigger('impactLight', options);
-                  handleSubmit();
-                  Keyboard.dismiss();
-                }}>
-                {!loading && <Text style={Styles.formBtnText}>Log in</Text>}
-                {loading && (
-                  <ActivityIndicator color={colors.white} animating={true} />
-                )}
-              </Pressable>
+              <View style={Styles.bottomView}>
+                <Pressable
+                  style={[Styles.formBtn, loading ? config.disabledBtn : '']}
+                  disabled={loading}
+                  onPress={() => {
+                    ReactNativeHapticFeedback.trigger('impactLight', options);
+                    handleSubmit();
+                    Keyboard.dismiss();
+                  }}>
+                  {!loading && <Text style={Styles.formBtnText}>Log in</Text>}
+                  {loading && (
+                    <ActivityIndicator color={colors.white} animating={true} />
+                  )}
+                </Pressable>
+
+                <View style={Styles.bottomInfo}>
+                  <Text style={Styles.bottomTextLeft}>
+                    Don't have an account?
+                  </Text>
+                  <Pressable
+                    style={Styles.registerLink}
+                    onPress={() => navigation.navigate('Signup')}>
+                    <Text style={Styles.registerLinkText}>Register</Text>
+                  </Pressable>
+                </View>
+              </View>
             </TouchableOpacity>
           </KeyboardAvoidingView>
         )}

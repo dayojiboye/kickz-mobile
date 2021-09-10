@@ -5,6 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {colors, text} from '../styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconFa from 'react-native-vector-icons/FontAwesome';
 import Header from '../components/header';
 import {getHeaderTitle} from '@react-navigation/elements';
 import Account from '../ui/dashboard/Account';
@@ -118,8 +119,8 @@ export const DashboardNav = () => {
             },
             tabBarIcon: ({color, focused}) => {
               return (
-                <Icon
-                  name={focused ? 'ios-apps' : 'ios-apps-outline'}
+                <IconFa
+                  name={focused ? 'user' : 'user-o'}
                   size={25}
                   color={color}
                 />

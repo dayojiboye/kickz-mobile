@@ -2,7 +2,7 @@
 import React, {useEffect} from 'react';
 
 import Styles from './styles';
-import Icon from 'react-native-vector-icons/AntDesign';
+// import Icon from 'react-native-vector-icons/AntDesign';
 import {
   SafeAreaView,
   View,
@@ -95,6 +95,7 @@ const Signup = () => {
   useEffect(() => {
     return () => {
       dispatch(actions.authError(null));
+      // formik.resetForm();
     };
   }, []);
 
@@ -108,16 +109,18 @@ const Signup = () => {
       />
       <StatusBar backgroundColor={colors.primary} />
       <View style={Styles.header}>
-        <Pressable
+        {/* <Pressable
           style={Styles.backBtn}
           onPress={() => {
-            navigation.navigate('Landing');
+            navigation.goBack();
           }}>
           <Icon name="left" color={colors.primary} size={25} />
           <Text style={Styles.backText}>Back</Text>
-        </Pressable>
+        </Pressable> */}
 
-        <Text style={Styles.headerText}>Create a new account</Text>
+        <Text style={Styles.headerText}>Let's get started</Text>
+
+        <Text style={Styles.smallHeaderText}>Create a new account</Text>
       </View>
 
       <Formik
@@ -128,15 +131,17 @@ const Signup = () => {
           password: '',
           confirm: '',
         }}
-        onSubmit={values =>
+        onSubmit={values => {
           dispatch(
             actions.signup({
               email: values.email,
               password: values.password,
               displayName: values.displayName,
             }),
-          )
-        }>
+          );
+
+          // formik.resetForm();
+        }}>
         {({handleSubmit, isValid}) => (
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : null}
@@ -180,19 +185,32 @@ const Signup = () => {
                 />
               </ScrollView>
 
-              <Pressable
-                style={[Styles.formBtn, loading ? config.disabledBtn : '']}
-                disabled={loading}
-                onPress={() => {
-                  ReactNativeHapticFeedback.trigger('impactLight', options);
-                  handleSubmit();
-                  Keyboard.dismiss();
-                }}>
-                {!loading && <Text style={Styles.formBtnText}>Register</Text>}
-                {loading && (
-                  <ActivityIndicator color={colors.white} animating={true} />
-                )}
-              </Pressable>
+              <View style={Styles.bottomView}>
+                <Pressable
+                  style={[Styles.formBtn, loading ? config.disabledBtn : '']}
+                  disabled={loading}
+                  onPress={() => {
+                    ReactNativeHapticFeedback.trigger('impactLight', options);
+                    handleSubmit();
+                    Keyboard.dismiss();
+                  }}>
+                  {!loading && <Text style={Styles.formBtnText}>Register</Text>}
+                  {loading && (
+                    <ActivityIndicator color={colors.white} animating={true} />
+                  )}
+                </Pressable>
+
+                <View style={Styles.bottomInfo}>
+                  <Text style={Styles.bottomTextLeft}>
+                    Do you have an account?
+                  </Text>
+                  <Pressable
+                    style={Styles.registerLink}
+                    onPress={() => navigation.navigate('Login')}>
+                    <Text style={Styles.registerLinkText}>Sign In</Text>
+                  </Pressable>
+                </View>
+              </View>
             </TouchableOpacity>
           </KeyboardAvoidingView>
         )}
