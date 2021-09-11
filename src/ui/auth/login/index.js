@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import Styles from './styles';
 // import Icon from 'react-native-vector-icons/AntDesign';
 import {
@@ -29,6 +29,7 @@ const Login = () => {
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
+  const loginForm = useRef(null);
 
   const {currentUser, loading, error} = useSelector(state => {
     return {
@@ -79,6 +80,21 @@ const Login = () => {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+    const unsub = navigation.addListener('focus', () => {
+      loginForm.current.resetForm();
+    });
+
+    const unsubTwo = navigation.addListener('blur', () => {
+      Keyboard.dismiss();
+    });
+
+    return () => {
+      unsub();
+      unsubTwo();
+    };
+  }, [navigation]);
+
   return (
     <SafeAreaView style={Styles.safeArea}>
       <AlertView
@@ -107,6 +123,7 @@ const Login = () => {
 
       <Formik
         validationSchema={validationSchema}
+        innerRef={loginForm}
         initialValues={{
           email: '',
           password: '',

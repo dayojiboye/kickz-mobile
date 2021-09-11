@@ -43,19 +43,28 @@ const Styles = StyleSheet.create({
   keyboardContainer: {
     flex: 1,
     paddingHorizontal: 20,
+    marginTop: 16,
   },
 
   touchableWrapper: {
     flex: 1,
   },
 
-  signupForm: {
+  formWrapper: {
     flex: 1,
-    paddingVertical: 25,
+    paddingTop: 25,
+  },
+
+  signupForm: {
+    flexGrow: 0,
   },
 
   lastInput: {
     marginBottom: 30,
+  },
+
+  bottomView: {
+    marginTop: 'auto',
   },
 
   formBtn: {
@@ -63,7 +72,6 @@ const Styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: colors.primary,
     width: '100%',
-    marginTop: 'auto',
     marginBottom: 20,
     alignItems: 'center',
     justifyContent: 'center',

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 import Styles from './styles';
 // import Icon from 'react-native-vector-icons/AntDesign';
@@ -30,6 +30,8 @@ const Signup = () => {
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
+
+  const regForm = useRef(null);
 
   const {currentUser, loading, error} = useSelector(state => {
     return {
@@ -99,6 +101,21 @@ const Signup = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const unsub = navigation.addListener('focus', () => {
+      regForm.current.resetForm();
+    });
+
+    const unsubTwo = navigation.addListener('blur', () => {
+      Keyboard.dismiss();
+    });
+
+    return () => {
+      unsub();
+      unsubTwo();
+    };
+  }, [navigation]);
+
   return (
     <SafeAreaView style={Styles.safeArea}>
       <AlertView
@@ -125,6 +142,7 @@ const Signup = () => {
 
       <Formik
         validationSchema={validationSchema}
+        innerRef={regForm}
         initialValues={{
           displayName: '',
           email: '',
@@ -152,38 +170,40 @@ const Signup = () => {
               onPress={() => {
                 Keyboard.dismiss();
               }}>
-              <ScrollView style={[Styles.signupForm]} bounces={false}>
-                <Field
-                  component={CustomInput}
-                  name="displayName"
-                  placeholder="Username"
-                  iconName="user"
-                />
+              <View style={Styles.formWrapper}>
+                <ScrollView style={[Styles.signupForm]} bounces={false}>
+                  <Field
+                    component={CustomInput}
+                    name="displayName"
+                    placeholder="Username"
+                    iconName="user"
+                  />
 
-                <Field
-                  component={CustomInput}
-                  name="email"
-                  placeholder="Email Address"
-                  iconName="mail"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                />
+                  <Field
+                    component={CustomInput}
+                    name="email"
+                    placeholder="Email Address"
+                    iconName="mail"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                  />
 
-                <Field
-                  component={CustomInput}
-                  name="password"
-                  placeholder="Password"
-                  isPassword
-                />
+                  <Field
+                    component={CustomInput}
+                    name="password"
+                    placeholder="Password"
+                    isPassword
+                  />
 
-                <Field
-                  component={CustomInput}
-                  name="confirm"
-                  placeholder="Confirm Password"
-                  isPassword
-                  containerStyle={Styles.lastInput}
-                />
-              </ScrollView>
+                  <Field
+                    component={CustomInput}
+                    name="confirm"
+                    placeholder="Confirm Password"
+                    isPassword
+                    containerStyle={Styles.lastInput}
+                  />
+                </ScrollView>
+              </View>
 
               <View style={Styles.bottomView}>
                 <Pressable
