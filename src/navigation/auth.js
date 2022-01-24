@@ -1,13 +1,17 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
 import {DashboardNav} from './dashboard';
 
+// screens
+import Shop from '../screens/Shop';
+
 // auth screens
-import Initialization from '../ui/auth/initialization';
-import Landing from '../ui/auth/landing';
-import Signup from '../ui/auth/signup';
-import Login from '../ui/auth/login';
+import Initialization from '../screens/auth/initialization';
+import Landing from '../screens/auth/landing';
+import Signup from '../screens/auth/signup';
+import Login from '../screens/auth/login';
 
 const AuthStack = createNativeStackNavigator();
 
@@ -23,7 +27,7 @@ const AuthNavigator = () => {
     <AuthStack.Navigator
       initialRouteName="Initialization"
       screenOptions={{headerShown: false}}>
-      {!hasFetched && !currentUser && (
+      {!hasFetched && !currentUser ? (
         <AuthStack.Screen
           options={{
             title: '',
@@ -33,9 +37,21 @@ const AuthNavigator = () => {
           name="Initialization"
           component={Initialization}
         />
-      )}
+      ) : null}
 
-      {!currentUser && (
+      {currentUser ? (
+        <>
+          <AuthStack.Screen
+            options={{
+              title: '',
+              headerShown: false,
+              animation: 'slide_from_right',
+            }}
+            name="Dashboard"
+            component={DashboardNav}
+          />
+        </>
+      ) : (
         <>
           <AuthStack.Screen
             options={{
@@ -66,19 +82,17 @@ const AuthNavigator = () => {
             name="Login"
             component={Login}
           />
-        </>
-      )}
 
-      {currentUser && (
-        <AuthStack.Screen
-          options={{
-            title: '',
-            headerShown: false,
-            animation: 'slide_from_right',
-          }}
-          name="Dashboard"
-          component={DashboardNav}
-        />
+          <AuthStack.Screen
+            options={{
+              title: '',
+              headerShown: false,
+              animation: 'slide_from_right',
+            }}
+            name="Shop"
+            component={Shop}
+          />
+        </>
       )}
     </AuthStack.Navigator>
   );

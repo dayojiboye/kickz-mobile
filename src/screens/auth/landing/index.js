@@ -84,6 +84,7 @@ const Landing = () => {
               style={Styles.skipBtn}
               onPress={() => {
                 ReactNativeHapticFeedback.trigger('impactLight', options);
+                navigation.navigate('Shop');
               }}>
               <Text style={Styles.skipBtnText}>Skip to our catalogue</Text>
             </TouchableOpacity>

@@ -16,6 +16,7 @@ import AuthNavigator from './src/navigation/auth';
 import {useDispatch, useSelector} from 'react-redux';
 import * as actions from './store/actions';
 import {auth, firestore} from './firebase/utils';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -56,7 +57,9 @@ const App = () => {
       onReady={() => {
         RNBootSplash.hide({fade: true});
       }}>
-      <AuthNavigator />
+      <SafeAreaProvider>
+        <AuthNavigator />
+      </SafeAreaProvider>
     </NavigationContainer>
   );
 };

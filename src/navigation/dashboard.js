@@ -1,134 +1,129 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {TouchableOpacity, SafeAreaView} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {colors, text} from '../styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconFa from 'react-native-vector-icons/FontAwesome';
-import Header from '../components/header';
-import {getHeaderTitle} from '@react-navigation/elements';
-import Account from '../ui/dashboard/Account';
+import {isIphoneWithNotch} from '../utils/helpers';
+
+// tab screens
+import Account from '../screens/dashboard/Account';
+import Home from '../screens/dashboard/Home';
+import Shop from '../screens/Shop';
+import Cart from '../screens/dashboard/Cart';
 
 const Tab = createBottomTabNavigator();
 
 export const DashboardNav = () => {
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: colors.white}}>
-      <Tab.Navigator
-        initialRouteName="Account"
-        screenOptions={{
-          tabBarActiveTintColor: colors.primary,
-          tabBarInactiveTintColor: colors.ghost,
-          tabBarStyle: {
-            borderTopColor: colors.fade,
-            borderTopWidth: 1,
-            height: 55,
-            paddingTop: 10,
-            paddingBottom: 0,
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.ghost,
+        headerShown: false,
+        tabBarStyle: {
+          borderTopColor: colors.fade,
+          borderTopWidth: 1,
+          paddingTop: 10,
+          paddingBottom: isIphoneWithNotch() ? 16 : 5,
+          height: isIphoneWithNotch() ? 75 : 70,
+        },
+        tabBarButton: props => (
+          <TouchableOpacity activeOpacity={0.7} {...props} />
+        ),
+      }}>
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarLabel: '',
+          tabBarLabelStyle: {
+            fontSize: 15,
+            ...text.medium,
           },
-          // tabBarActiveBackgroundColor: 'rgb(67, 91, 116)',
-          tabBarButton: props => (
-            <TouchableOpacity activeOpacity={0.7} {...props} />
-          ),
-          header: ({navigation, route, options}) => {
-            const title = getHeaderTitle(options, route.name);
-
-            return <Header title={title} />;
+          tabBarIcon: ({color, focused}) => {
+            return (
+              <Icon
+                name={focused ? 'home' : 'home-outline'}
+                size={25}
+                color={color}
+              />
+            );
           },
-        }}>
-        <Tab.Screen
-          name="Home"
-          component={Account}
-          options={{
-            // headerShown: false,
-            tabBarLabel: '',
-            tabBarLabelStyle: {
-              fontSize: 15,
-              ...text.medium,
-            },
-            //   headerBackground
-            tabBarIcon: ({color, focused}) => {
-              return (
-                <Icon
-                  name={focused ? 'home' : 'home-outline'}
-                  size={25}
-                  color={color}
-                />
-              );
-            },
-          }}
-        />
+        }}
+      />
 
-        <Tab.Screen
-          name="Shop"
-          component={Account}
-          options={{
-            tabBarLabel: '',
-            tabBarLabelStyle: {
-              fontSize: 15,
-              ...text.medium,
-            },
-            tabBarIcon: ({color, focused}) => {
-              return (
-                <IconMaterial
-                  name={focused ? 'shopping' : 'shopping-outline'}
-                  size={25}
-                  color={color}
-                />
-              );
-            },
-          }}
-        />
+      <Tab.Screen
+        name="Shop"
+        component={Shop}
+        options={{
+          tabBarLabel: '',
+          tabBarLabelStyle: {
+            fontSize: 15,
+            ...text.medium,
+          },
+          tabBarIcon: ({color, focused}) => {
+            return (
+              <IconMaterial
+                name={focused ? 'shopping' : 'shopping-outline'}
+                size={25}
+                color={color}
+              />
+            );
+          },
+        }}
+      />
 
-        <Tab.Screen
-          name="Cart"
-          component={Account}
-          options={{
-            tabBarLabel: '',
-            tabBarLabelStyle: {
-              fontSize: 15,
-              ...text.medium,
-            },
-            tabBarBadge: 9,
-            tabBarBadgeStyle: {
-              top: -5,
-              left: 0,
-              ...text.bold,
-            },
-            tabBarIcon: ({color, focused}) => {
-              return (
-                <IconMaterial
-                  name={focused ? 'cart' : 'cart-outline'}
-                  size={25}
-                  color={color}
-                />
-              );
-            },
-          }}
-        />
+      <Tab.Screen
+        name="Cart"
+        component={Cart}
+        options={{
+          tabBarLabel: '',
+          tabBarLabelStyle: {
+            fontSize: 15,
+            ...text.medium,
+          },
+          // tabBarBadge: 0,
+          tabBarBadgeStyle: {
+            top: -5,
+            left: 0,
+            ...text.bold,
+          },
+          tabBarIcon: ({color, focused}) => {
+            return (
+              <IconMaterial
+                name={focused ? 'cart' : 'cart-outline'}
+                size={25}
+                color={color}
+              />
+            );
+          },
+        }}
+      />
 
-        <Tab.Screen
-          name="Account"
-          component={Account}
-          options={{
-            tabBarLabel: '',
-            tabBarLabelStyle: {
-              fontSize: 15,
-              ...text.medium,
-            },
-            tabBarIcon: ({color, focused}) => {
-              return (
-                <IconFa
-                  name={focused ? 'user' : 'user-o'}
-                  size={25}
-                  color={color}
-                />
-              );
-            },
-          }}
-        />
-      </Tab.Navigator>
-    </SafeAreaView>
+      <Tab.Screen
+        name="Account"
+        component={Account}
+        options={{
+          tabBarLabel: '',
+          tabBarLabelStyle: {
+            fontSize: 15,
+            ...text.medium,
+          },
+          tabBarIcon: ({color, focused}) => {
+            return (
+              <IconFa
+                name={focused ? 'user' : 'user-o'}
+                size={25}
+                color={color}
+              />
+            );
+          },
+        }}
+      />
+    </Tab.Navigator>
   );
 };
