@@ -770,6 +770,8 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.15.15):
     - React-Core
+  - RNGestureHandler (2.2.0):
+    - React-Core
   - RNReactNativeHapticFeedback (1.13.0):
     - React-Core
   - RNScreens (3.10.2):
@@ -839,6 +841,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -939,6 +942,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-bootsplash"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNGestureHandler:
+    :path: "../node_modules/react-native-gesture-handler"
   RNReactNativeHapticFeedback:
     :path: "../node_modules/react-native-haptic-feedback"
   RNScreens:
@@ -1010,6 +1015,7 @@ SPEC CHECKSUMS:
   ReactCommon: eafed38eec7b591c31751bfa7494801618460459
   RNBootSplash: f31eba8f6d496e2029859e06e5582cac4607256d
   RNCAsyncStorage: 0bef6a21517c0254bd6bd59a3672963abfa0d18e
+  RNGestureHandler: bf572f552ea324acd5b5464b8d30755b2d8c1de6
   RNReactNativeHapticFeedback: b83bfb4b537bdd78eb4f6ffe63c6884f7b049ead
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f

@@ -1,15 +1,11 @@
 import React, {useEffect, useRef} from 'react';
-import {Animated, Text, TouchableOpacity} from 'react-native';
+import {Animated, Text} from 'react-native';
 import Styles from './styles';
-import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import CustomButton from '../CustomButton';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const AlertView = ({show, text, children, variant, click}) => {
   const showValue = useRef(new Animated.Value(-250)).current;
-
-  const options = {
-    enableVibrateFallback: true,
-    ignoreAndroidSystemSettings: false,
-  };
 
   useEffect(() => {
     Animated.spring(showValue, {
@@ -28,22 +24,18 @@ const AlertView = ({show, text, children, variant, click}) => {
         {transform: [{translateY: showValue}]},
         variant === 'danger' ? Styles.alertError : Styles.alertSuccess,
       ]}>
-      <Text style={Styles.alertText}>{text || null}</Text>
-      <TouchableOpacity
-        activeOpacity={0.7}
-        style={[
-          Styles.alertDismissBtn,
-          variant === 'danger'
-            ? Styles.alertDismissBtnError
-            : Styles.alertDismissBtnSuccess,
-        ]}
-        onPress={() => {
-          ReactNativeHapticFeedback.trigger('impactLight', options);
-          click();
-        }}>
-        <Text style={Styles.alertBtnText}>Dismiss</Text>
-      </TouchableOpacity>
-      {children}
+      <SafeAreaView edges={['top']}>
+        <Text style={Styles.alertText}>{text || null}</Text>
+        <CustomButton
+          activeOpacity={0.7}
+          hasHapticFeedback
+          style={Styles.alertDismissBtn}
+          onPress={() => click?.()}
+          labelStyle={Styles.alertBtnText}
+          label="Dismiss"
+        />
+        {children}
+      </SafeAreaView>
     </Animated.View>
   );
 };

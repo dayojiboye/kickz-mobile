@@ -1,33 +1,17 @@
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
-import * as actions from '../../../store/actions';
-import {colors, text} from '../../styles';
+import React from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import {useDispatch} from 'react-redux';
+import * as actions from '../../store/actions';
+import {colors, text} from '../styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import CustomButton from '../components/CustomButton';
 
 const Cart = () => {
   const dispatch = useDispatch();
 
-  const navigation = useNavigation();
-
-  const {currentUser} = useSelector(state => {
-    return {
-      currentUser: state.auth.currentUser,
-    };
-  });
-
   const logout = () => {
     dispatch(actions.signout());
   };
-
-  useEffect(() => {
-    if (!currentUser) {
-      navigation.navigate('Login');
-    }
-  }, [currentUser]);
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -36,11 +20,12 @@ const Cart = () => {
       </View>
       <View style={styles.emptyContainer}>
         <Text style={styles.text}>Welcome to the Cart Screen 👋🏽</Text>
-        <TouchableOpacity style={styles.logout} onPress={() => logout()}>
-          <Text style={{color: colors.white, fontSize: 16, ...text.medium}}>
-            Log out
-          </Text>
-        </TouchableOpacity>
+        <CustomButton
+          label="Log out"
+          style={styles.logout}
+          hasHapticFeedback
+          onPress={() => logout()}
+        />
       </View>
     </SafeAreaView>
   );
@@ -78,11 +63,7 @@ const styles = StyleSheet.create({
     ...text.medium,
   },
   logout: {
-    borderRadius: 3,
-    backgroundColor: colors.primary,
     padding: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
     width: '60%',
     marginTop: 16,
   },

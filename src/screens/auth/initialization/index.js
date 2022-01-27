@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../../../components/loader';
-import {useNavigation} from '@react-navigation/core';
+import {useNavigation} from '@react-navigation/native';
 import {StyleSheet} from 'react-native';
 import {colors} from '../../../styles';
 
@@ -14,9 +14,11 @@ const Initialization = () => {
   const checkAuth = async () => {
     setLoading(true);
     try {
+      setLoading(false);
       const auth = JSON.parse(await AsyncStorage.getItem('persist:root'));
       const user = JSON.parse(auth.currentUser);
       //   console.log('user: ', user);
+
       if (user) {
         navigation.navigate('Dashboard');
         // console.log('auth:', user.currentUser);
@@ -25,9 +27,8 @@ const Initialization = () => {
         navigation.navigate('Landing');
       }
     } catch (err) {
-      console.log(err);
-    } finally {
       setLoading(false);
+      console.log(err);
     }
   };
 

@@ -57,40 +57,23 @@ const Styles = StyleSheet.create({
   },
 
   signupBtn: {
-    ...config.roundedBtn,
     alignSelf: 'center',
     marginTop: 20,
     marginBottom: 13,
-    backgroundColor: colors.primary,
-  },
-
-  signupText: {
-    color: colors.white,
-    ...text.bold,
-    fontSize: 14,
   },
 
   loginBtn: {
-    ...config.roundedBtn,
     alignSelf: 'center',
     backgroundColor: colors.fade,
-  },
-
-  loginText: {
-    color: colors.primary,
-    ...text.bold,
-    fontSize: 14,
   },
 
   skipBtn: {
     alignSelf: 'center',
     marginTop: 32,
-  },
-
-  skipBtnText: {
-    ...text.bold,
-    color: colors.primary,
-    fontSize: 18,
+    backgroundColor: 'transparent',
+    width: 'auto',
+    paddingHorizontal: 0,
+    paddingVertical: 0,
   },
 });
 

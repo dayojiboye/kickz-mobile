@@ -1,36 +1,20 @@
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
-import * as actions from '../../../store/actions';
+import {useDispatch} from 'react-redux';
+import * as actions from '../../store/actions';
 import Icon from 'react-native-vector-icons/Feather';
-import {colors, text} from '../../styles';
+import {colors, text} from '../styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import SVGElement from '../../components/SVGElement';
-import Avatar from '../../assets/images/user_icon_circle.svg';
+import SVGElement from '../components/SVGElement';
+import Avatar from '../assets/images/user_icon_circle.svg';
 
 const Account = () => {
   const dispatch = useDispatch();
 
-  const navigation = useNavigation();
-
-  const {currentUser} = useSelector(state => {
-    return {
-      currentUser: state.auth.currentUser,
-    };
-  });
-
   const logout = () => {
     dispatch(actions.signout());
   };
-
-  useEffect(() => {
-    if (!currentUser) {
-      navigation.navigate('Login');
-    }
-  }, [currentUser]);
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>

@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {colors, text, config} from '../../../styles';
+import {colors, text} from '../../../styles';
 
 const Styles = StyleSheet.create({
   safeArea: {
@@ -8,24 +8,10 @@ const Styles = StyleSheet.create({
 
   header: {
     paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingTop: 15,
   },
 
-  // backBtn: {
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  //   alignSelf: 'flex-start',
-  // },
-
-  // backText: {
-  //   color: colors.primary,
-  //   ...text.semiBold,
-  //   fontSize: 20,
-  //   marginLeft: 10,
-  // },
-
   headerText: {
-    marginTop: 60,
     color: colors.primary,
     ...text.bold,
     fontSize: 23,
@@ -52,7 +38,6 @@ const Styles = StyleSheet.create({
 
   formWrapper: {
     flex: 1,
-    // maxHeight: 210,
     paddingTop: 25,
   },
 
@@ -62,26 +47,16 @@ const Styles = StyleSheet.create({
 
   bottomView: {
     marginTop: 'auto',
+    marginBottom: 30,
   },
 
   formBtn: {
-    ...config.roundedBtn,
     alignSelf: 'center',
-    backgroundColor: colors.primary,
     width: '100%',
     marginBottom: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  formBtnText: {
-    ...text.bold,
-    color: colors.white,
-    fontSize: 14,
   },
 
   bottomInfo: {
-    marginBottom: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -91,17 +66,7 @@ const Styles = StyleSheet.create({
     color: colors.secondaryBlack,
     fontSize: 15,
     ...text.medium,
-  },
-
-  registerLink: {
-    marginLeft: 7,
-  },
-
-  registerLinkText: {
-    fontSize: 15,
-    ...text.medium,
-    color: colors.primary,
-    textDecorationLine: 'underline',
+    marginRight: 7,
   },
 });
 

@@ -1,6 +1,9 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+} from '@react-navigation/stack';
 
 import {DashboardNav} from './dashboard';
 
@@ -13,7 +16,7 @@ import Landing from '../screens/auth/landing';
 import Signup from '../screens/auth/signup';
 import Login from '../screens/auth/login';
 
-const AuthStack = createNativeStackNavigator();
+const AuthStack = createStackNavigator();
 
 const AuthNavigator = () => {
   const {hasFetched, currentUser} = useSelector(state => {
@@ -23,75 +26,24 @@ const AuthNavigator = () => {
     };
   });
 
+  if (!hasFetched && !currentUser) return <Initialization />;
+
   return (
     <AuthStack.Navigator
-      initialRouteName="Initialization"
-      screenOptions={{headerShown: false}}>
-      {!hasFetched && !currentUser ? (
-        <AuthStack.Screen
-          options={{
-            title: '',
-            headerShown: false,
-            animation: 'fade',
-          }}
-          name="Initialization"
-          component={Initialization}
-        />
-      ) : null}
-
+      screenOptions={{
+        headerShown: false,
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      }}>
       {currentUser ? (
         <>
-          <AuthStack.Screen
-            options={{
-              title: '',
-              headerShown: false,
-              animation: 'slide_from_right',
-            }}
-            name="Dashboard"
-            component={DashboardNav}
-          />
+          <AuthStack.Screen name="Dashboard" component={DashboardNav} />
         </>
       ) : (
         <>
-          <AuthStack.Screen
-            options={{
-              title: '',
-              headerShown: false,
-              animation: 'fade',
-            }}
-            name="Landing"
-            component={Landing}
-          />
-
-          <AuthStack.Screen
-            options={{
-              title: '',
-              headerShown: false,
-              animation: 'slide_from_right',
-            }}
-            name="Signup"
-            component={Signup}
-          />
-
-          <AuthStack.Screen
-            options={{
-              title: '',
-              headerShown: false,
-              animation: 'slide_from_right',
-            }}
-            name="Login"
-            component={Login}
-          />
-
-          <AuthStack.Screen
-            options={{
-              title: '',
-              headerShown: false,
-              animation: 'slide_from_right',
-            }}
-            name="Shop"
-            component={Shop}
-          />
+          <AuthStack.Screen name="Landing" component={Landing} />
+          <AuthStack.Screen name="Signup" component={Signup} />
+          <AuthStack.Screen name="Login" component={Login} />
+          <AuthStack.Screen name="Shop" component={Shop} />
         </>
       )}
     </AuthStack.Navigator>

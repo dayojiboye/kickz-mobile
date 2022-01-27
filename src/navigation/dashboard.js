@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -9,10 +8,10 @@ import IconFa from 'react-native-vector-icons/FontAwesome';
 import {isIphoneWithNotch} from '../utils/helpers';
 
 // tab screens
-import Account from '../screens/dashboard/Account';
-import Home from '../screens/dashboard/Home';
+import Account from '../screens/Account';
+import Home from '../screens//Home';
 import Shop from '../screens/Shop';
-import Cart from '../screens/dashboard/Cart';
+import Cart from '../screens/Cart';
 
 const Tab = createBottomTabNavigator();
 

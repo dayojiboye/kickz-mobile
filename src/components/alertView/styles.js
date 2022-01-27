@@ -1,4 +1,4 @@
-import {StyleSheet, Platform} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {colors, text} from '../../styles';
 
 const Styles = StyleSheet.create({
@@ -9,7 +9,7 @@ const Styles = StyleSheet.create({
     right: 0,
     height: 'auto',
     paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'ios' ? 35 : 15,
+    paddingTop: 10,
     paddingBottom: 20,
     zIndex: 120,
     justifyContent: 'flex-end',
@@ -39,13 +39,6 @@ const Styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     marginTop: 16,
-  },
-
-  alertDismissBtnError: {
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-  },
-
-  alertDismissBtnSuccess: {
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
 

@@ -1,25 +1,14 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
 
-import {
-  Text,
-  View,
-  ImageBackground,
-  Image,
-  TouchableOpacity,
-  Animated,
-} from 'react-native';
-
-import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import {Text, View, ImageBackground, Image, Animated} from 'react-native';
+import CustomButton from '../../../components/CustomButton';
 
 import {useNavigation} from '@react-navigation/native';
 
-const options = {
-  enableVibrateFallback: true,
-  ignoreAndroidSystemSettings: false,
-};
-
 import Styles from './styles';
+import {colors} from '../../../styles';
 
 const Landing = () => {
   const navigation = useNavigation();
@@ -59,35 +48,28 @@ const Landing = () => {
               {transform: [{translateY: bounceValue}]},
             ]}>
             <Text style={Styles.bottomHeader}>Start shopping with Kickz</Text>
-            <TouchableOpacity
+            <CustomButton
+              label="Get Started"
               style={Styles.signupBtn}
-              activeOpacity={0.7}
-              onPress={() => {
-                ReactNativeHapticFeedback.trigger('impactLight', options);
-                navigation.navigate('Signup');
-              }}>
-              <Text style={Styles.signupText}>Get Started</Text>
-            </TouchableOpacity>
+              onPress={() => navigation.navigate('Signup')}
+              hasHapticFeedback
+            />
 
-            <TouchableOpacity
+            <CustomButton
+              label="Login"
               style={Styles.loginBtn}
-              activeOpacity={0.7}
-              onPress={() => {
-                ReactNativeHapticFeedback.trigger('impactLight', options);
-                navigation.navigate('Login');
-              }}>
-              <Text style={Styles.loginText}>Login</Text>
-            </TouchableOpacity>
+              labelStyle={{color: colors.primary}}
+              onPress={() => navigation.navigate('Login')}
+              hasHapticFeedback
+            />
 
-            <TouchableOpacity
-              activeOpacity={0.7}
+            <CustomButton
+              label="Skip to our catalogue"
               style={Styles.skipBtn}
-              onPress={() => {
-                ReactNativeHapticFeedback.trigger('impactLight', options);
-                navigation.navigate('Shop');
-              }}>
-              <Text style={Styles.skipBtnText}>Skip to our catalogue</Text>
-            </TouchableOpacity>
+              labelStyle={{fontSize: 18, color: colors.primary}}
+              onPress={() => navigation.navigate('Shop')}
+              hasHapticFeedback
+            />
           </Animated.View>
         </View>
       </ImageBackground>

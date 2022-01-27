@@ -1,9 +1,8 @@
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {colors, text} from '../styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import CustomButton from '../components/CustomButton';
 
 const Shop = ({navigation}) => {
   return (
@@ -13,13 +12,12 @@ const Shop = ({navigation}) => {
       </View>
       <View style={styles.emptyContainer}>
         <Text style={styles.text}>Welcome to the Shop Screen 👋🏽</Text>
-        <TouchableOpacity
+        <CustomButton
+          label="Go back"
           style={styles.logout}
-          onPress={() => navigation.goBack()}>
-          <Text style={{color: colors.white, fontSize: 16, ...text.medium}}>
-            Go back
-          </Text>
-        </TouchableOpacity>
+          hasHapticFeedback
+          onPress={() => navigation.goBack()}
+        />
       </View>
     </SafeAreaView>
   );
@@ -57,11 +55,7 @@ const styles = StyleSheet.create({
     ...text.medium,
   },
   logout: {
-    borderRadius: 3,
-    backgroundColor: colors.primary,
     padding: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
     width: '60%',
     marginTop: 16,
   },
