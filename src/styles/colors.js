@@ -13,4 +13,6 @@ export const colors = {
   red: '#ff4d4f',
   transparentRed: 'rgb(248,110,114)',
   transparentGreen: 'rgb(162,248,160)',
+  gold: '#FFC833',
+  neutral: '#EBF0FF',
 };
