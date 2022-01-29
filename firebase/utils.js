@@ -1,7 +1,7 @@
-import firebase from 'firebase/app';
+import firebase from '@react-native-firebase/app';
 
-import 'firebase/auth';
-import 'firebase/firestore';
+// import 'firebase/auth';
+// import 'firebase/firestore';
 
 import {clientCredentials} from './clientApp';
 
@@ -9,5 +9,5 @@ import {clientCredentials} from './clientApp';
   ? firebase.initializeApp(clientCredentials)
   : firebase.app();
 
-export const auth = firebase.auth();
-export const firestore = firebase.firestore();
+// export const auth = firebase.auth();
+// export const firestore = firebase.firestore();

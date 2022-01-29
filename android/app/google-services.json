@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "726349203738",
+    "firebase_url": "https://kickz-786be.firebaseio.com",
+    "project_id": "kickz-786be",
+    "storage_bucket": "kickz-786be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726349203738:android:2dca83bd6bc78b2e6604a3",
+        "android_client_info": {
+          "package_name": "com.kickzmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "726349203738-phbf6v0ant3fv0govatfib7un4no50jj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWy7eplIj4ou0aqbEi98f8kk_S2svEBu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "726349203738-phbf6v0ant3fv0govatfib7un4no50jj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "726349203738-tmmogusn9j9lj0o4rgvmaa1c0ufnqbiu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.KickzMobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

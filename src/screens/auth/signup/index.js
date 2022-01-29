@@ -17,7 +17,7 @@ import CustomInput from '../../../components/customInput';
 import {Formik, Field} from 'formik';
 import * as yup from 'yup';
 import {useSelector, useDispatch} from 'react-redux';
-import * as actions from '../../../../store/actions';
+import * as actions from '../../../store/actions';
 import AlertView from '../../../components/alertView';
 import CustomButton from '../../../components/CustomButton';
 import TextButton from '../../../components/TextButton';

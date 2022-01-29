@@ -1,8 +1,11 @@
 import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
 import thunk from 'redux-thunk';
-import auth from './reducers/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistStore, persistReducer} from 'redux-persist';
+
+// reducers
+import auth from './reducers/auth';
+import products from './reducers/products';
 
 const persistConfig = {
   key: 'root',
@@ -12,6 +15,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   auth: persistReducer(persistConfig, auth),
+  products,
 });
 
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

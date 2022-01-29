@@ -1,7 +1,8 @@
+/* eslint-disable react-native/no-inline-styles */
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import {colors, text} from '../styles';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Rating from './Rating';
 
 const ProductCard = ({style, image, name, amount, rating}) => {
   return (
@@ -12,39 +13,9 @@ const ProductCard = ({style, image, name, amount, rating}) => {
         }}
         style={styles.productImage}
       />
-      <View style={{height: 80}}>
+      <View style={{minHeight: 80}}>
         <Text style={styles.productName}>{name}</Text>
-        <View style={{...styles.row, marginTop: 'auto', marginBottom: 7}}>
-          <Icon
-            name="star"
-            size={18}
-            color={rating > 0 ? colors.gold : colors.neutral}
-            style={styles.starIcon}
-          />
-          <Icon
-            name="star"
-            size={18}
-            color={rating > 1 ? colors.gold : colors.neutral}
-            style={styles.starIcon}
-          />
-          <Icon
-            name="star"
-            size={18}
-            color={rating > 2 ? colors.gold : colors.neutral}
-            style={styles.starIcon}
-          />
-          <Icon
-            name="star"
-            size={18}
-            color={rating > 3 ? colors.gold : colors.neutral}
-            style={styles.starIcon}
-          />
-          <Icon
-            name="star"
-            size={18}
-            color={rating > 4 ? colors.gold : colors.neutral}
-          />
-        </View>
+        <Rating rating={rating} />
       </View>
       <View style={{marginTop: 'auto'}}>
         <Text style={styles.amount}>
@@ -63,7 +34,7 @@ export default ProductCard;
 
 const styles = StyleSheet.create({
   container: {
-    height: 300,
+    height: 330,
     width: 200,
     backgroundColor: colors.white,
     borderRadius: 5,
@@ -93,9 +64,6 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  starIcon: {
-    marginRight: 2,
   },
   originalPrice: {
     textDecorationLine: 'line-through',

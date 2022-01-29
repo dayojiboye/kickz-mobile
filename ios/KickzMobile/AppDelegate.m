@@ -1,4 +1,10 @@
+#import <Firebase.h>
 #import "AppDelegate.h"
+
+// put this condition after AppDelegate.h import to solve RCTBridge required dispatch_sync to load lead to deadlock
+#if RCT_DEV
+#import <React/RCTDevLoadingView.h>
+#endif
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -29,11 +35,19 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	 if ([FIRApp defaultApp] == nil) { // new line
+    [FIRApp configure]; 
+  }
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+	// new line
+	#if RCT_DEV
+    [bridge moduleForClass:[RCTDevLoadingView class]];
+  #endif
+	// end of new line
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"Kickz"
                                             initialProperties:nil];

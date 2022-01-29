@@ -11,7 +11,6 @@ import {DashboardNav} from './dashboard';
 import Shop from '../screens/Shop';
 
 // auth screens
-import Initialization from '../screens/auth/initialization';
 import Landing from '../screens/auth/landing';
 import Signup from '../screens/auth/signup';
 import Login from '../screens/auth/login';
@@ -19,14 +18,11 @@ import Login from '../screens/auth/login';
 const AuthStack = createStackNavigator();
 
 const AuthNavigator = () => {
-  const {hasFetched, currentUser} = useSelector(state => {
+  const {currentUser} = useSelector(state => {
     return {
-      hasFetched: state.auth.hasFetched,
       currentUser: state.auth.currentUser,
     };
   });
-
-  if (!hasFetched && !currentUser) return <Initialization />;
 
   return (
     <AuthStack.Navigator

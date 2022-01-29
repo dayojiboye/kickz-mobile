@@ -7,3 +7,5 @@ export {
   setCurrentUser,
   getUserAdditionalData,
 } from './auth';
+
+export {addProduct, fetchProducts, deleteProduct} from './products';

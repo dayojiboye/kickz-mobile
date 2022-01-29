@@ -8,27 +8,29 @@
  */
 
 import React, {useEffect} from 'react';
-
-// import {StyleSheet, Text, View} from 'react-native';
 import RNBootSplash from 'react-native-bootsplash';
 import {NavigationContainer} from '@react-navigation/native';
 import AuthNavigator from './src/navigation/auth';
 import {useDispatch, useSelector} from 'react-redux';
-import * as actions from './store/actions';
-import {auth, firestore} from './firebase/utils';
+import * as actions from './src/store/actions';
+// import {auth, firestore} from './firebase/utils';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import Initialization from './src/screens/auth/initialization';
 
 const App = () => {
   const dispatch = useDispatch();
 
-  const {currentUser} = useSelector(state => {
+  const {currentUser, hasFetched} = useSelector(state => {
     return {
       currentUser: state.auth.currentUser,
+      hasFetched: state.auth.hasFetched,
     };
   });
 
   useEffect(() => {
-    const authListener = auth.onAuthStateChanged(async user => {
+    const authListener = auth().onAuthStateChanged(async user => {
       if (user) {
         dispatch(actions.getUserAdditionalData(user));
       }
@@ -41,7 +43,7 @@ const App = () => {
 
   useEffect(() => {
     if (currentUser?.uid) {
-      const unsubscribe = firestore
+      const unsubscribe = firestore()
         .collection('users')
         .doc(currentUser.uid)
         .onSnapshot(doc => {
@@ -51,6 +53,8 @@ const App = () => {
       return () => unsubscribe();
     }
   }, []);
+
+  if (!hasFetched && !currentUser) return <Initialization />;
 
   return (
     <NavigationContainer

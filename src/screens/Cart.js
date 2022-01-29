@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
-import * as actions from '../../store/actions';
+import * as actions from '../store/actions';
 import {colors, text} from '../styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomButton from '../components/CustomButton';

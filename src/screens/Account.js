@@ -2,7 +2,7 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
-import * as actions from '../../store/actions';
+import * as actions from '../store/actions';
 import Icon from 'react-native-vector-icons/Feather';
 import {colors, text} from '../styles';
 import {SafeAreaView} from 'react-native-safe-area-context';

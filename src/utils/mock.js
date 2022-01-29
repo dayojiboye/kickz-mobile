@@ -42,10 +42,10 @@ export const flashSales = [
     rating: 5,
   },
   {
-    name: 'Le Guzz',
+    name: 'YSL Casual Women',
     image:
       'https://images.unsplash.com/photo-1457647239067-15a2a76c724e?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MzA2fHx3b21lbiUyMHNob2VzfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-    amount: 30000,
+    amount: 40500,
     rating: 3,
   },
 ];
@@ -80,7 +80,7 @@ export const megaSales = [
     rating: 4,
   },
   {
-    name: 'YSL Casual Women',
+    name: 'Women Casual Sandals 2',
     image:
       'https://images.unsplash.com/photo-1591892026062-b2dd209ae259?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTI2fHx3b21lbiUyMHNob2VzfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
     amount: 40500,

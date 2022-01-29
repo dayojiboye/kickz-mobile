@@ -1,6 +1,8 @@
 import * as actionTypes from './actionTypes';
 
-import {auth, firestore} from '../../firebase/utils';
+// import {auth, firestore} from '../../../firebase/utils';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 export const authStart = payload => {
   return {
@@ -28,7 +30,7 @@ export const setCurrentUser = payload => {
 export const createUser = user => {
   return async dispatch => {
     try {
-      await firestore
+      await firestore()
         .collection('users')
         .doc(user.uid)
         .set(user)
@@ -46,7 +48,7 @@ export const createUser = user => {
 export const getUserAdditionalData = user => {
   return async dispatch => {
     try {
-      await firestore
+      await firestore()
         .collection('users')
         .doc(user.uid)
         .get()
@@ -67,7 +69,7 @@ export const signup = ({email, password, displayName}) => {
   return async dispatch => {
     dispatch(authStart(true));
     try {
-      await auth
+      await auth()
         .createUserWithEmailAndPassword(email, password)
         .then(response => {
           response.user.updateProfile({
@@ -101,10 +103,12 @@ export const signin = ({email, password}) => {
   return async dispatch => {
     dispatch(authStart(true));
     try {
-      await auth.signInWithEmailAndPassword(email, password).then(response => {
-        dispatch(setCurrentUser(response.user));
-        console.log(response.user);
-      });
+      await auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(response => {
+          dispatch(setCurrentUser(response.user));
+          console.log(response.user);
+        });
     } catch (err) {
       dispatch(authError(err.message));
       console.log(err.message);
@@ -120,9 +124,11 @@ export const signout = () => {
   return async dispatch => {
     dispatch(authStart(true));
     try {
-      await auth.signOut().then(() => {
-        dispatch(setCurrentUser(null));
-      });
+      await auth()
+        .signOut()
+        .then(() => {
+          dispatch(setCurrentUser(null));
+        });
     } catch (err) {
       console.log(err);
     } finally {
