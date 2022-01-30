@@ -20,9 +20,12 @@ import ProductCard from '../components/ProductCard';
 
 const Shop = ({navigation}) => {
   const [showDropdown, setDropdown] = React.useState(false);
-  const [selectedFilter, setSelectedFilter] = React.useState('Show All');
   const filterCategories = ['Show All', 'Women', 'Men'];
+  const [filter, setFilter] = React.useState('');
   const dispatch = useDispatch();
+  const flatlistRef = React.useRef(null);
+  // to force a remount of component
+  const [uniqueValue, setUniqueValue] = React.useState(1);
 
   const {products, loading} = useSelector(state => {
     return {
@@ -33,30 +36,41 @@ const Shop = ({navigation}) => {
 
   const {data, latestDoc, isLastPage} = products;
 
-  // handle select filter
-  const selectFilter = category => {
-    if (selectedFilter === category) {
-      return;
-    }
-    setSelectedFilter(category);
-  };
+  const forceRemount = () => setUniqueValue(uniqueValue + 1);
 
   // fetch products handler
-  const handleFetchProducts = () => dispatch(actions.fetchProducts(true));
+  const handleFetchProducts = () =>
+    dispatch(actions.fetchProducts(true, filter.toLowerCase()));
 
   // load more products
   const handleLoadMoreProducts = () => {
     if (isLastPage) return;
-    dispatch(actions.fetchProducts(true, null, latestDoc, data));
+    dispatch(
+      actions.fetchProducts(true, filter.toLowerCase(), latestDoc, data),
+    );
   };
 
-  // fetch products on mount
+  // filter products
+  const handleFilterProducts = item => {
+    if (item === 'Show All') {
+      setFilter('');
+    } else {
+      setFilter(item);
+    }
+  };
+
+  // fetch products anytime filter changes
   React.useEffect(() => {
-    handleFetchProducts();
-  }, []);
+    forceRemount();
+    if (filter === 'Show All') {
+      dispatch(actions.fetchProducts(true, null));
+    } else {
+      handleFetchProducts();
+    }
+  }, [filter]);
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeAreaView style={styles.container} edges={['top']} key={uniqueValue}>
       <View style={styles.header}>
         <Text style={styles.headingText}>Shop</Text>
       </View>
@@ -71,7 +85,7 @@ const Shop = ({navigation}) => {
             return (
               <TouchableOpacity style={styles.dropdownButton} {...triggerProps}>
                 <Text style={{...styles.filterText, fontSize: 16}}>
-                  {selectedFilter}
+                  {filter || 'Show All'}
                 </Text>
                 <Icon
                   name={showDropdown ? 'chevron-up' : 'chevron-down'}
@@ -84,8 +98,11 @@ const Shop = ({navigation}) => {
           {filterCategories?.map(item => (
             <Menu.Item
               key={item}
-              onPress={() => selectFilter(item)}
-              style={{opacity: selectedFilter === item ? 0.5 : 1}}>
+              onPress={() => handleFilterProducts(item)}
+              style={{
+                opacity:
+                  filter === item || (!filter && item === 'Show All') ? 0.5 : 1,
+              }}>
               <Text style={styles.filterText}>{item}</Text>
             </Menu.Item>
           ))}
@@ -100,13 +117,14 @@ const Shop = ({navigation}) => {
         onEndReachedThreshold={0.1}
         initialNumToRender={6}
         loading={loading}
+        listRef={flatlistRef}
       />
     </SafeAreaView>
   );
 };
 
 // products list component
-const ProductsList = ({data, loading, ...props}) => {
+const ProductsList = ({data, loading, listRef, ...props}) => {
   const renderItem = ({item}) => (
     <ProductCard
       image={item.thumbnail}
@@ -135,11 +153,13 @@ const ProductsList = ({data, loading, ...props}) => {
         justifyContent: 'space-between',
       }}
       ListFooterComponent={<ProductListFooter loading={loading} />}
+      ref={listRef}
       {...props}
     />
   );
 };
 
+// products list footer
 const ProductListFooter = ({loading}) => {
   if (!loading) return null;
 

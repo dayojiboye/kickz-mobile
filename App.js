@@ -47,7 +47,7 @@ const App = () => {
         .collection('users')
         .doc(currentUser.uid)
         .onSnapshot(doc => {
-          dispatch(actions.setCurrentUser(doc.data()));
+          dispatch(actions.setCurrentUser(doc?.data()));
         });
 
       return () => unsubscribe();
