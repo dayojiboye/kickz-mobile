@@ -3,10 +3,13 @@ import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import {colors, text} from '../styles';
 import Rating from './Rating';
+import {formatPrice} from '../utils/helpers';
 
-const ProductCard = ({style, image, name, amount, rating}) => {
+const ProductCard = ({style, image, name, amount, rating, onPress}) => {
   return (
-    <TouchableOpacity style={{...styles.container, ...style}}>
+    <TouchableOpacity
+      style={{...styles.container, ...style}}
+      onPress={() => onPress?.()}>
       <Image
         source={{
           uri: image,
@@ -18,9 +21,7 @@ const ProductCard = ({style, image, name, amount, rating}) => {
         <Rating rating={rating} />
       </View>
       <View style={{marginTop: 'auto'}}>
-        <Text style={styles.amount}>
-          ₦{amount.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}
-        </Text>
+        <Text style={styles.amount}>{formatPrice(amount)}</Text>
         <View style={styles.row}>
           <Text style={styles.originalPrice}>₦534.33</Text>
           <Text style={styles.discount}>24% Off</Text>

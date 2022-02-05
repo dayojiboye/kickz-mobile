@@ -7,8 +7,9 @@ import {
 
 import {DashboardNav} from './dashboard';
 
-// screens
+// in app screens
 import Shop from '../screens/Shop';
+import ProductScreen from '../screens/ProductScreen';
 
 // auth screens
 import Landing from '../screens/auth/landing';
@@ -33,6 +34,7 @@ const AuthNavigator = () => {
       {currentUser ? (
         <>
           <AuthStack.Screen name="Dashboard" component={DashboardNav} />
+          <AuthStack.Screen name="ProductScreen" component={ProductScreen} />
         </>
       ) : (
         <>
@@ -40,6 +42,7 @@ const AuthNavigator = () => {
           <AuthStack.Screen name="Signup" component={Signup} />
           <AuthStack.Screen name="Login" component={Login} />
           <AuthStack.Screen name="Shop" component={Shop} />
+          <AuthStack.Screen name="ProductScreen" component={ProductScreen} />
         </>
       )}
     </AuthStack.Navigator>

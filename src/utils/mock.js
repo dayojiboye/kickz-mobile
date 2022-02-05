@@ -87,3 +87,32 @@ export const megaSales = [
     rating: 5,
   },
 ];
+
+export const shoeSizes = ['6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5'];
+
+export const reviews = [
+  {
+    id: 1,
+    image: require('../assets/images/floyd.png'),
+    name: 'Tina Lawson',
+    rating: 3,
+    comment:
+      'These are always very comfortable fit, clean and just perfect in every way. just the box was too small and scrunched the sneakers up a little bit, not sure if the box was always this small but the 90s are and will always be one of my favorites.',
+  },
+  {
+    id: 2,
+    image: require('../assets/images/john.png'),
+    name: 'David Richards',
+    rating: 4,
+    comment:
+      'These are always very comfortable fit, clean and just perfect in every way. just the box was too small and scrunched the sneakers up a little bit, not sure if the box was always this small but the 90s are and will always be one of my favorites.',
+  },
+  {
+    id: 3,
+    image: require('../assets/images/maria.png'),
+    name: 'Lizzy Thomas',
+    rating: 2,
+    comment:
+      'These are always very comfortable fit, clean and just perfect in every way. just the box was too small and scrunched the sneakers up a little bit, not sure if the box was always this small but the 90s are and will always be one of my favorites.',
+  },
+];

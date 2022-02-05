@@ -17,8 +17,9 @@ import Icon from 'react-native-vector-icons/EvilIcons';
 import * as actions from '../store/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import ProductCard from '../components/ProductCard';
+import {useNavigation} from '@react-navigation/native';
 
-const Shop = ({navigation}) => {
+const Shop = () => {
   const [showDropdown, setDropdown] = React.useState(false);
   const filterCategories = ['Show All', 'Women', 'Men'];
   const [filter, setFilter] = React.useState('');
@@ -27,15 +28,16 @@ const Shop = ({navigation}) => {
   // to force a remount of component
   const [uniqueValue, setUniqueValue] = React.useState(1);
 
-  const {products, loading} = useSelector(state => {
+  const {products, loading, currentUser} = useSelector(state => {
     return {
       products: state.products.products,
       loading: state.products.loading,
+      currentUser: state.auth.currentUser,
     };
   });
 
   const {data, latestDoc, isLastPage} = products;
-
+  const navigation = useNavigation();
   const forceRemount = () => setUniqueValue(uniqueValue + 1);
 
   // fetch products handler
@@ -73,6 +75,19 @@ const Shop = ({navigation}) => {
     <SafeAreaView style={styles.container} edges={['top']} key={uniqueValue}>
       <View style={styles.header}>
         <Text style={styles.headingText}>Shop</Text>
+        {!currentUser ? (
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text
+              style={{
+                fontSize: 16,
+                color: colors.black,
+                marginLeft: 5,
+                ...text.medium,
+              }}>
+              Go back
+            </Text>
+          </TouchableOpacity>
+        ) : null}
       </View>
       <View style={{marginTop: 16, paddingHorizontal: 16}}>
         <Menu
@@ -125,6 +140,8 @@ const Shop = ({navigation}) => {
 
 // products list component
 const ProductsList = ({data, loading, listRef, ...props}) => {
+  const navigation = useNavigation();
+
   const renderItem = ({item}) => (
     <ProductCard
       image={item.thumbnail}
@@ -132,6 +149,11 @@ const ProductsList = ({data, loading, listRef, ...props}) => {
       amount={item.price}
       name={item.name}
       style={styles.gridItem}
+      onPress={() =>
+        navigation.navigate('ProductScreen', {
+          id: item.documentID,
+        })
+      }
     />
   );
 
@@ -221,5 +243,9 @@ const styles = StyleSheet.create({
   gridItem: {
     width: '47.7%',
     marginBottom: 16,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

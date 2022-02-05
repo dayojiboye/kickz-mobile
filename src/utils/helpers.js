@@ -26,3 +26,14 @@ export const getRandomIntInclusive = (min, max) => {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 };
+
+// default haptic feedback options
+export const hapticOptions = {
+  enableVibrateFallback: true,
+  ignoreAndroidSystemSettings: false,
+};
+
+// format price
+export const formatPrice = amount => {
+  return `₦${amount.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
+};
