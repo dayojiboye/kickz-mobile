@@ -11,11 +11,13 @@ import {
   StatusBar,
   ActivityIndicator,
   Dimensions,
+  TouchableWithoutFeedback,
+  Pressable,
 } from 'react-native';
 import {colors, text} from '../styles';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {handleFetchProduct} from '../utils/products.helpers';
-import {formatPrice} from '../utils/helpers';
+import {formatPrice, hapticOptions} from '../utils/helpers';
 import {Fab} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -25,6 +27,7 @@ import {shoeSizes, reviews, megaSales} from '../utils/mock';
 import SizeTag from '../components/SizeTag';
 import Review from '../components/Review';
 import ProductCard from '../components/ProductCard';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const {width} = Dimensions.get('window');
 
@@ -58,6 +61,7 @@ export default function ProductScreen({route, navigation}) {
         const response = await handleFetchProduct(id);
         setData(response);
       } catch (err) {
+        // take care of error!
         console.log(err);
       } finally {
         setLoading(false);
@@ -212,24 +216,137 @@ export default function ProductScreen({route, navigation}) {
         )}
       </SafeAreaView>
       {/* add to cart button */}
-      {shouldShowAddToCartButton ? (
-        <Fab
-          icon={
-            <IconMaterial
-              name="cart-outline"
-              size={25}
-              color={colors.white}
-              solid={true}
-            />
-          }
-          padding={0}
-          style={styles.floatingCartButton}
-          // onPress={() => handleBackButtonPress()}
-        />
+      {shouldShowAddToCartButton && data ? (
+        <FloatingButtonExpand navigation={navigation} />
       ) : null}
     </>
   );
 }
+
+const FloatingButtonExpand = ({navigation}) => {
+  const animatedValueRef = React.useRef(new Animated.Value(0));
+  const [isExpand, setIsExpand] = React.useState(false);
+
+  React.useEffect(() => {
+    return () => setIsExpand(false);
+  }, []);
+
+  // toggle the expansion
+  const toggleOpen = () => {
+    ReactNativeHapticFeedback.trigger('impactLight', hapticOptions);
+    const toValue = isExpand ? 0 : 1;
+
+    Animated.timing(animatedValueRef.current, {
+      toValue,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+
+    setIsExpand(!isExpand);
+  };
+
+  // bookmark button interpolate
+  const bookmarkInterpolate = animatedValueRef.current.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, -70],
+  });
+
+  // share button interpolate
+  const shareInterpolate = animatedValueRef.current.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, -140],
+  });
+
+  // bookmark button animated style
+  const bookmarkStyle = {
+    transform: [
+      {
+        scale: animatedValueRef.current,
+      },
+      {
+        translateY: bookmarkInterpolate,
+      },
+    ],
+  };
+
+  // share button animated style
+  const shareStyle = {
+    transform: [
+      {
+        scale: animatedValueRef.current,
+      },
+      {
+        translateY: shareInterpolate,
+      },
+    ],
+  };
+
+  // scale interpolate for hidden animated background
+  const scaleInterpolate = animatedValueRef.current.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 30],
+  });
+
+  // hidden animated background animated style
+  const hiddenBackgroundStyle = {
+    transform: [
+      {
+        scale: scaleInterpolate,
+      },
+    ],
+  };
+
+  return (
+    <>
+      <Animated.View style={[styles.hiddenBackground, hiddenBackgroundStyle]} />
+      <TouchableWithoutFeedback>
+        <Animated.View
+          style={[
+            styles.floatingCartButton,
+            styles.otherFloatingButton,
+            shareStyle,
+          ]}>
+          <IconMaterial name="share-outline" size={27} color={colors.primary} />
+        </Animated.View>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback>
+        <Animated.View
+          style={[
+            styles.floatingCartButton,
+            styles.otherFloatingButton,
+            bookmarkStyle,
+          ]}>
+          <IconMaterial
+            name="bookmark-outline"
+            size={27}
+            color={colors.primary}
+          />
+        </Animated.View>
+      </TouchableWithoutFeedback>
+      {isExpand ? (
+        <TouchableWithoutFeedback
+          onPress={() => {
+            toggleOpen();
+          }}
+          onLongPress={() => {
+            toggleOpen();
+          }}>
+          <View
+            style={{...styles.floatingCartButton, ...styles.addToCartButton}}>
+            <IconMaterial name="close" size={27} color={colors.white} />
+          </View>
+        </TouchableWithoutFeedback>
+      ) : (
+        <TouchableWithoutFeedback onLongPress={() => toggleOpen()}>
+          <View
+            style={{...styles.floatingCartButton, ...styles.addToCartButton}}>
+            <IconMaterial name="cart-outline" size={27} color={colors.white} />
+          </View>
+        </TouchableWithoutFeedback>
+      )}
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -299,9 +416,39 @@ const styles = StyleSheet.create({
   },
   floatingCartButton: {
     bottom: 100,
-    backgroundColor: colors.primary,
+    right: 16,
     padding: 0,
     height: 60,
     width: 60,
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 30,
+    shadowColor: '#000',
+    shadowOpacity: 0.6,
+    shadowOffset: {x: 2, y: 0},
+    shadowRadius: 5,
+    zIndex: 55,
+    // add elevation for android
+  },
+  addToCartButton: {
+    backgroundColor: colors.primary,
+  },
+  otherFloatingButton: {
+    backgroundColor: colors.white,
+  },
+  hiddenBackground: {
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    position: 'absolute',
+    width: 60,
+    height: 60,
+    bottom: 100,
+    right: 16,
+    borderRadius: 30,
+  },
+  closeExpandLabel: {
+    fontSize: 25,
+    color: colors.white,
+    ...text.bold,
   },
 });
