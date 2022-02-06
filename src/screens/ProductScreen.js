@@ -12,7 +12,6 @@ import {
   ActivityIndicator,
   Dimensions,
   TouchableWithoutFeedback,
-  Pressable,
 } from 'react-native';
 import {colors, text} from '../styles';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -215,7 +214,7 @@ export default function ProductScreen({route, navigation}) {
           </>
         )}
       </SafeAreaView>
-      {/* add to cart button */}
+      {/* add to cart floating animation button */}
       {shouldShowAddToCartButton && data ? (
         <FloatingButtonExpand navigation={navigation} />
       ) : null}
@@ -287,7 +286,7 @@ const FloatingButtonExpand = ({navigation}) => {
     outputRange: [0, 30],
   });
 
-  // hidden animated background animated style
+  // hidden animated background animation style
   const hiddenBackgroundStyle = {
     transform: [
       {
@@ -429,7 +428,7 @@ const styles = StyleSheet.create({
     shadowOffset: {x: 2, y: 0},
     shadowRadius: 5,
     zIndex: 55,
-    // add elevation for android
+    elevation: 9,
   },
   addToCartButton: {
     backgroundColor: colors.primary,
