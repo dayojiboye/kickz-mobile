@@ -12,7 +12,12 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {NativeBaseProvider, extendTheme} from 'native-base';
 
 const nativeBaseDefaultProps = extendTheme({
-  components: {},
+  components: {
+    Toast: {
+      placement: 'top-left',
+      duration: 3000,
+    },
+  },
 });
 
 const MainApp = () => {

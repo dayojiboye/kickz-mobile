@@ -71,6 +71,22 @@ const Shop = () => {
     }
   }, [filter]);
 
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     let isApiSubcribed = true;
+  //     forceRemount();
+  //     if (isApiSubcribed) {
+  //       if (filter === 'Show All') {
+  //         dispatch(actions.fetchProducts(true, null));
+  //       } else {
+  //         handleFetchProducts();
+  //       }
+  //     }
+
+  //     return () => (isApiSubcribed = false);
+  //   }, [filter]),
+  // );
+
   return (
     <SafeAreaView style={styles.container} edges={['top']} key={uniqueValue}>
       <View style={styles.header}>
@@ -175,6 +191,7 @@ const ProductsList = ({data, loading, listRef, ...props}) => {
         justifyContent: 'space-between',
       }}
       ListFooterComponent={<ProductListFooter loading={loading} />}
+      scrollIndicatorInsets={{right: 1}}
       ref={listRef}
       {...props}
     />

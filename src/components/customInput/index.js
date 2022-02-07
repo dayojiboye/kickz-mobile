@@ -6,6 +6,8 @@ import Styles from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 import IconFeather from 'react-native-vector-icons/Feather';
 
+// two types of input, the one configured to use formik field and the one not configured to use formik field
+
 const CustomInput = props => {
   const {
     field: {name, onBlur, onChange, value},
@@ -13,6 +15,7 @@ const CustomInput = props => {
     iconName,
     isPassword,
     containerStyle,
+    isNotInAForm,
     ...inputProps
   } = props;
 
@@ -22,44 +25,54 @@ const CustomInput = props => {
 
   return (
     <View style={[Styles.inputContainer, containerStyle]}>
-      <TextInput
-        style={[Styles.textInput, hasError && Styles.errorInput]}
-        placeholderTextColor={colors.ghost}
-        value={value || ''}
-        onChangeText={text => onChange(name)(text)}
-        secureTextEntry={isPassword && showPass}
-        onBlur={() => {
-          setFieldTouched(name);
-          onBlur(name);
-        }}
-        {...inputProps}
-      />
-
-      {iconName && !isPassword && (
-        <View style={Styles.inputIcon}>
-          <Icon
-            name={iconName}
-            size={20}
-            color={hasError ? colors.red : colors.ghost}
+      {isNotInAForm ? (
+        <TextInput
+          style={Styles.textInput}
+          placeholderTextColor={colors.ghost}
+          {...inputProps}
+        />
+      ) : (
+        <>
+          <TextInput
+            style={[Styles.textInput, hasError && Styles.errorInput]}
+            placeholderTextColor={colors.ghost}
+            value={value || ''}
+            onChangeText={text => onChange(name)(text)}
+            secureTextEntry={isPassword && showPass}
+            onBlur={() => {
+              setFieldTouched(name);
+              onBlur(name);
+            }}
+            {...inputProps}
           />
-        </View>
-      )}
 
-      {isPassword && (
-        <View style={Styles.inputIcon}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => setShowPass(!showPass)}>
-            <IconFeather
-              name={showPass ? 'eye-off' : 'eye'}
-              size={20}
-              color={hasError ? colors.red : colors.ghost}
-            />
-          </TouchableOpacity>
-        </View>
-      )}
+          {iconName && !isPassword && (
+            <View style={Styles.inputIcon}>
+              <Icon
+                name={iconName}
+                size={20}
+                color={hasError ? colors.red : colors.ghost}
+              />
+            </View>
+          )}
 
-      {hasError && <Text style={Styles.errorText}>{errors[name]}</Text>}
+          {isPassword && (
+            <View style={Styles.inputIcon}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => setShowPass(!showPass)}>
+                <IconFeather
+                  name={showPass ? 'eye-off' : 'eye'}
+                  size={20}
+                  color={hasError ? colors.red : colors.ghost}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+
+          {hasError && <Text style={Styles.errorText}>{errors[name]}</Text>}
+        </>
+      )}
     </View>
   );
 };

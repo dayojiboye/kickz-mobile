@@ -18,6 +18,7 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Initialization from './src/screens/auth/initialization';
+import {Host} from 'react-native-portalize';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -61,9 +62,11 @@ const App = () => {
       onReady={() => {
         RNBootSplash.hide({fade: true});
       }}>
-      <SafeAreaProvider>
-        <AuthNavigator />
-      </SafeAreaProvider>
+      <Host>
+        <SafeAreaProvider>
+          <AuthNavigator />
+        </SafeAreaProvider>
+      </Host>
     </NavigationContainer>
   );
 };

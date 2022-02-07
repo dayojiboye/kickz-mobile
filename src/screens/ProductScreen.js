@@ -12,12 +12,13 @@ import {
   ActivityIndicator,
   Dimensions,
   TouchableWithoutFeedback,
+  Share,
 } from 'react-native';
 import {colors, text} from '../styles';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {handleFetchProduct} from '../utils/products.helpers';
 import {formatPrice, hapticOptions} from '../utils/helpers';
-import {Fab} from 'native-base';
+import {Fab, useToast} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomReactionButton from '../components/CustomReactionButton';
@@ -27,6 +28,7 @@ import SizeTag from '../components/SizeTag';
 import Review from '../components/Review';
 import ProductCard from '../components/ProductCard';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import CustomToast from '../components/CustomToast';
 
 const {width} = Dimensions.get('window');
 
@@ -39,6 +41,7 @@ export default function ProductScreen({route, navigation}) {
   const [shouldShowBackButton, setShouldShowBackButton] = React.useState(false);
   const [shouldShowAddToCartButton, setShouldShowAddToCartButton] =
     React.useState(false);
+  const Toast = useToast();
 
   const headerHeight = offset.interpolate({
     inputRange: [0, 200 + insets.top],
@@ -60,8 +63,11 @@ export default function ProductScreen({route, navigation}) {
         const response = await handleFetchProduct(id);
         setData(response);
       } catch (err) {
-        // take care of error!
-        console.log(err);
+        Toast.show({
+          render: () => <CustomToast text={err.message} variant="error" />,
+          placement: 'top-left',
+          duration: 3000,
+        });
       } finally {
         setLoading(false);
       }
@@ -162,8 +168,8 @@ export default function ProductScreen({route, navigation}) {
                     style={{
                       ...styles.headingText,
                       color: colors.primary,
-                      ...text.bold,
-                      fontSize: 18,
+                      ...text.semiBold,
+                      fontSize: 14,
                       marginBottom: 0,
                     }}>
                     See More
@@ -225,6 +231,7 @@ export default function ProductScreen({route, navigation}) {
 const FloatingButtonExpand = ({navigation}) => {
   const animatedValueRef = React.useRef(new Animated.Value(0));
   const [isExpand, setIsExpand] = React.useState(false);
+  const Toast = useToast();
 
   React.useEffect(() => {
     return () => setIsExpand(false);
@@ -295,10 +302,33 @@ const FloatingButtonExpand = ({navigation}) => {
     ],
   };
 
+  // share handler
+  const shareHandler = () => {
+    Share.share({
+      message: 'With Love From Dee ❤️',
+    });
+    toggleOpen();
+  };
+
+  // bookmark handler
+  const bookmarkHandler = () => {
+    Toast.show({
+      render: () => <CustomToast text="Item has been bookmarked! ✅" />,
+      placement: 'top-left',
+      duration: 3000,
+    });
+    toggleOpen();
+  };
+
+  // cart handler - should bring out a bottom sheet
+  const cartHandler = () => {
+    return;
+  };
+
   return (
     <>
       <Animated.View style={[styles.hiddenBackground, hiddenBackgroundStyle]} />
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={() => shareHandler()}>
         <Animated.View
           style={[
             styles.floatingCartButton,
@@ -308,7 +338,7 @@ const FloatingButtonExpand = ({navigation}) => {
           <IconMaterial name="share-outline" size={27} color={colors.primary} />
         </Animated.View>
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={() => bookmarkHandler()}>
         <Animated.View
           style={[
             styles.floatingCartButton,
@@ -336,7 +366,9 @@ const FloatingButtonExpand = ({navigation}) => {
           </View>
         </TouchableWithoutFeedback>
       ) : (
-        <TouchableWithoutFeedback onLongPress={() => toggleOpen()}>
+        <TouchableWithoutFeedback
+          onLongPress={() => toggleOpen()}
+          onPress={() => cartHandler()}>
           <View
             style={{...styles.floatingCartButton, ...styles.addToCartButton}}>
             <IconMaterial name="cart-outline" size={27} color={colors.white} />

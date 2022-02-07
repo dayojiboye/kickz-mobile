@@ -58,6 +58,7 @@ export const fetchProducts = (
       dispatch(fetchProductsSuccess(products));
       // console.log(products);
     } catch (err) {
+      // take care of error
       console.log(err);
     } finally {
       dispatch(fetchProductsStart(false));
@@ -74,6 +75,7 @@ export const deleteProduct = payload => {
         dispatch(fetchProducts(true));
       });
     } catch (err) {
+      // take care of error
       console.log(err);
     }
   };
