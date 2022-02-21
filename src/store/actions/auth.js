@@ -107,7 +107,6 @@ export const signin = ({email, password}) => {
         .signInWithEmailAndPassword(email, password)
         .then(response => {
           dispatch(setCurrentUser(response.user));
-          console.log(response.user);
         });
     } catch (err) {
       dispatch(authError(err.message));

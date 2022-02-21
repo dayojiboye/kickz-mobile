@@ -66,7 +66,7 @@ export const fetchProducts = (
   };
 };
 
-// delete product
+// delete product - not needed on the app
 
 export const deleteProduct = payload => {
   return dispatch => {
