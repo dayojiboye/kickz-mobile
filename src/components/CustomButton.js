@@ -34,6 +34,7 @@ const CustomButton = ({
       }}
       disabled={disabled}
       onPress={() => {
+        if (disabled || loading) return;
         onPress?.();
         if (hasHapticFeedback) {
           ReactNativeHapticFeedback.trigger('impactLight', options);

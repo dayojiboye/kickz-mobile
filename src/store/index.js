@@ -6,6 +6,7 @@ import {persistStore, persistReducer} from 'redux-persist';
 // reducers
 import auth from './reducers/auth';
 import products from './reducers/products';
+import cart from './reducers/cart';
 
 const persistConfig = {
   key: 'root',
@@ -16,6 +17,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: persistReducer(persistConfig, auth),
   products,
+  cart: persistReducer(persistConfig, cart),
 });
 
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

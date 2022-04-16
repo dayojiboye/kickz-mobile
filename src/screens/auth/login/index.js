@@ -21,13 +21,15 @@ import * as actions from '../../../store/actions';
 import AlertView from '../../../components/alertView';
 import CustomButton from '../../../components/CustomButton';
 import TextButton from '../../../components/TextButton';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/Fontisto';
 
 const Login = () => {
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
   const loginForm = useRef(null);
+  const insets = useSafeAreaInsets();
 
   const {currentUser, loading, error} = useSelector(state => {
     return {
@@ -52,6 +54,10 @@ const Login = () => {
       .required('Please enter your password!')
       .min(6, 'Password must be at least 6 characters long!'),
   });
+
+  const goToLanding = () => {
+    navigation.navigate('Landing');
+  };
 
   useEffect(() => {
     if (error) {
@@ -84,20 +90,25 @@ const Login = () => {
   }, [navigation]);
 
   return (
-    <>
-      <StatusBar backgroundColor={colors.primary} />
+    <View style={[Styles.safeArea, {paddingTop: insets.top}]}>
+      <StatusBar backgroundColor={colors.primary} barStyle="dark-content" />
       <AlertView
         show={error}
         text={error}
         variant="danger"
         click={() => dispatch(actions.authError(null))}
       />
-      <SafeAreaView edges={['top']}>
-        <View style={Styles.header}>
-          <Text style={Styles.headerText}>Welcome to Kickz</Text>
-          <Text style={Styles.smallHeaderText}>Sign in to continue</Text>
-        </View>
-      </SafeAreaView>
+
+      <TouchableOpacity
+        style={{alignSelf: 'flex-end', marginRight: 20, marginBottom: 20}}
+        onPress={() => goToLanding()}>
+        <Icon color={colors.primary} size={18} name="close-a" />
+      </TouchableOpacity>
+      <View style={Styles.header}>
+        <Text style={Styles.headerText}>Welcome to Kickz</Text>
+        <Text style={Styles.smallHeaderText}>Sign in to continue</Text>
+      </View>
+
       <Formik
         validationSchema={validationSchema}
         innerRef={loginForm}
@@ -159,7 +170,7 @@ const Login = () => {
                   </Text>
                   <TextButton
                     label="Register"
-                    onPress={() => navigation.navigate('Signup')}
+                    onPress={() => navigation.replace('Signup')}
                   />
                 </View>
               </View>
@@ -167,7 +178,7 @@ const Login = () => {
           </KeyboardAvoidingView>
         )}
       </Formik>
-    </>
+    </View>
   );
 };
 

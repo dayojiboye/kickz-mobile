@@ -24,6 +24,7 @@ export const config = StyleSheet.create({
     paddingRight: 40,
     color: colors.black,
     fontSize: 15,
+    ...text.regular,
   },
 
   errorInput: {

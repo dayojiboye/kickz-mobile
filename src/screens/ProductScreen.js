@@ -29,6 +29,7 @@ import Review from '../components/Review';
 import ProductCard from '../components/ProductCard';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import CustomToast from '../components/CustomToast';
+import AddToCartBottomSheet from '../components/bottom-sheets/AddToCartBottomSheet';
 
 const {width} = Dimensions.get('window');
 
@@ -42,6 +43,7 @@ export default function ProductScreen({route, navigation}) {
   const [shouldShowAddToCartButton, setShouldShowAddToCartButton] =
     React.useState(false);
   const Toast = useToast();
+  const addToCartBottomSheetRef = React.useRef(null);
 
   const headerHeight = offset.interpolate({
     inputRange: [0, 200 + insets.top],
@@ -91,7 +93,7 @@ export default function ProductScreen({route, navigation}) {
     <>
       <StatusBar
         backgroundColor="transparent"
-        barStyle="light-content"
+        barStyle="dark-content"
         translucent
       />
       <SafeAreaView
@@ -219,16 +221,19 @@ export default function ProductScreen({route, navigation}) {
             </ScrollView>
           </>
         )}
+        <AddToCartBottomSheet refProp={addToCartBottomSheetRef} />
       </SafeAreaView>
       {/* add to cart floating animation button */}
       {shouldShowAddToCartButton && data ? (
-        <FloatingButtonExpand navigation={navigation} />
+        <FloatingButtonExpand
+          onPress={() => addToCartBottomSheetRef?.current?.open()}
+        />
       ) : null}
     </>
   );
 }
 
-const FloatingButtonExpand = ({navigation}) => {
+const FloatingButtonExpand = ({onPress}) => {
   const animatedValueRef = React.useRef(new Animated.Value(0));
   const [isExpand, setIsExpand] = React.useState(false);
   const Toast = useToast();
@@ -322,7 +327,8 @@ const FloatingButtonExpand = ({navigation}) => {
 
   // cart handler - should bring out a bottom sheet
   const cartHandler = () => {
-    return;
+    // do anything here
+    onPress?.();
   };
 
   return (
@@ -433,6 +439,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.textPrimary,
     lineHeight: 24,
+    ...text.regular,
   },
   description: {
     marginTop: 40,
@@ -441,6 +448,7 @@ const styles = StyleSheet.create({
   smallText: {
     fontSize: 12,
     color: colors.textPrimary,
+    ...text.regular,
   },
   productCard: {
     marginRight: 16,

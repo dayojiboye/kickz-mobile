@@ -12,6 +12,8 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.mkuczera.RNReactNativeHapticFeedbackPackage;
+import com.facebook.react.bridge.JSIModulePackage;
+import com.swmansion.reanimated.ReanimatedJSIModulePackage
 // import 'io.invertase.firebase.app.ReactNativeFirebaseAppPackage'; // new line
 
 public class MainApplication extends Application implements ReactApplication {
@@ -38,6 +40,11 @@ public class MainApplication extends Application implements ReactApplication {
         protected String getJSMainModuleName() {
           return "index";
         }
+
+				   @Override
+      protected JSIModulePackage getJSIModulePackage() {
+        return new ReanimatedJSIModulePackage(); // <- add
+      }
       };
 
   @Override

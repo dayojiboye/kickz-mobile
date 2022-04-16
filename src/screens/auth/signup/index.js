@@ -21,7 +21,8 @@ import * as actions from '../../../store/actions';
 import AlertView from '../../../components/alertView';
 import CustomButton from '../../../components/CustomButton';
 import TextButton from '../../../components/TextButton';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/Fontisto';
 
 const Signup = () => {
   const navigation = useNavigation();
@@ -29,6 +30,7 @@ const Signup = () => {
   const dispatch = useDispatch();
 
   const regForm = useRef(null);
+  const insets = useSafeAreaInsets();
 
   const {currentUser, loading, error} = useSelector(state => {
     return {
@@ -72,6 +74,10 @@ const Signup = () => {
       }),
   });
 
+  const goToLanding = () => {
+    navigation.navigate('Landing');
+  };
+
   useEffect(() => {
     if (currentUser) {
       navigation.navigate('Dashboard');
@@ -103,20 +109,23 @@ const Signup = () => {
   }, [navigation]);
 
   return (
-    <>
-      <StatusBar backgroundColor={colors.primary} />
+    <View style={[Styles.safeArea, {paddingTop: insets.top}]}>
+      <StatusBar backgroundColor={colors.primary} barStyle="dark-content" />
       <AlertView
         show={error}
         text={error}
         variant="danger"
         click={() => dispatch(actions.authError(null))}
       />
-      <SafeAreaView edges={['top']}>
-        <View style={Styles.header}>
-          <Text style={Styles.headerText}>Let's get started</Text>
-          <Text style={Styles.smallHeaderText}>Create a new account</Text>
-        </View>
-      </SafeAreaView>
+      <TouchableOpacity
+        style={{alignSelf: 'flex-end', marginRight: 20, marginBottom: 20}}
+        onPress={() => goToLanding()}>
+        <Icon color={colors.primary} size={18} name="close-a" />
+      </TouchableOpacity>
+      <View style={Styles.header}>
+        <Text style={Styles.headerText}>Let's get started</Text>
+        <Text style={Styles.smallHeaderText}>Create a new account</Text>
+      </View>
       <Formik
         validationSchema={validationSchema}
         innerRef={regForm}
@@ -199,7 +208,7 @@ const Signup = () => {
                   </Text>
                   <TextButton
                     label="Sign in"
-                    onPress={() => navigation.navigate('Login')}
+                    onPress={() => navigation.replace('Login')}
                   />
                 </View>
               </View>
@@ -207,7 +216,7 @@ const Signup = () => {
           </KeyboardAvoidingView>
         )}
       </Formik>
-    </>
+    </View>
   );
 };
 

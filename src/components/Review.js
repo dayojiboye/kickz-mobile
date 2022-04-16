@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     lineHeight: 24,
     marginTop: 16,
+		...text.regular
   },
   image: {
     width: 50,
