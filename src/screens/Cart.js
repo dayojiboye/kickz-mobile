@@ -34,6 +34,10 @@ const Cart = () => {
     dispatch(actions.reduceCartItem(item));
   };
 
+  React.useEffect(() => {
+    setCartTotalPrice(totalCartPrice(cart));
+  }, [cart]);
+
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.header}>
