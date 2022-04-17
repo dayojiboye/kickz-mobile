@@ -12,13 +12,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {colors} from '../../../styles';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import CustomInput from '../../../components/customInput';
 import {Formik, Field} from 'formik';
 import * as yup from 'yup';
 import {useSelector, useDispatch} from 'react-redux';
 import * as actions from '../../../store/actions';
-import AlertView from '../../../components/alertView';
 import CustomButton from '../../../components/CustomButton';
 import TextButton from '../../../components/TextButton';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -32,11 +31,10 @@ const Signup = () => {
   const regForm = useRef(null);
   const insets = useSafeAreaInsets();
 
-  const {currentUser, loading, error} = useSelector(state => {
+  const {currentUser, loading} = useSelector(state => {
     return {
       currentUser: state.auth.currentUser,
       loading: state.auth.loading,
-      error: state.auth.error,
     };
   });
 
@@ -84,39 +82,9 @@ const Signup = () => {
     }
   }, [currentUser]);
 
-  useEffect(() => {
-    if (error) {
-      setTimeout(() => {
-        dispatch(actions.authError(null));
-      }, 7000);
-    }
-  }, [error]);
-
-  useEffect(() => {
-    const unsub = navigation.addListener('focus', () => {
-      regForm.current.resetForm();
-      Keyboard.dismiss();
-    });
-
-    const unSub2 = navigation.addListener('blur', () => {
-      dispatch(actions.authError(null));
-    });
-
-    return () => {
-      unsub();
-      unSub2();
-    };
-  }, [navigation]);
-
   return (
     <View style={[Styles.safeArea, {paddingTop: insets.top}]}>
       <StatusBar backgroundColor={colors.primary} barStyle="dark-content" />
-      <AlertView
-        show={error}
-        text={error}
-        variant="danger"
-        click={() => dispatch(actions.authError(null))}
-      />
       <TouchableOpacity
         style={{alignSelf: 'flex-end', marginRight: 20, marginBottom: 20}}
         onPress={() => goToLanding()}>

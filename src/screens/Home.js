@@ -23,7 +23,9 @@ const Home = ({navigation}) => {
       <View style={styles.header}>
         <Text style={styles.screenTitle}>Home</Text>
       </View>
-      <ScrollView style={{flex: 1}} contentContainerStyle={{paddingBottom: 50}}>
+      <ScrollView
+        style={{flex: 1}}
+        contentContainerStyle={{paddingBottom: 100}}>
         {/* flash sales card */}
         <FlashCard
           style={{paddingHorizontal: 16}}

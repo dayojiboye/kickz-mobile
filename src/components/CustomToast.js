@@ -1,52 +1,72 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, Text, StyleSheet, Dimensions, Platform} from 'react-native';
-import {Host, Portal} from 'react-native-portalize';
-import {colors} from '../styles';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign';
+import {Toast} from 'native-base';
 
 const {width} = Dimensions.get('window');
 
-export default function CustomToast({variant, text, iconColor, ...props}) {
+export default function CustomToast({variant, text, ...props}) {
+  const getBackgroundColor = () => {
+    switch (variant) {
+      case 'error':
+        return '#f44336';
+      case 'success':
+        return '#4ECC4E';
+      case 'warning':
+        return '#FFA500';
+      case 'info':
+        return '#8D6CFA';
+      default:
+        return '#4ECC4E';
+    }
+  };
+
   return (
-    <Host>
-      <Portal>
-        <View
-          style={{
-            ...styles.container,
-            backgroundColor: variant === 'error' ? 'red' : 'green',
-          }}>
-          <Text style={styles.toastText}>{text}</Text>
-        </View>
-      </Portal>
-    </Host>
+    <View style={[styles.container, {backgroundColor: getBackgroundColor()}]}>
+      <Text style={styles.toastText} numberOfLines={3}>
+        {text}
+      </Text>
+      <TouchableOpacity
+        onPress={() => Toast.closeAll()}
+        style={styles.closeIcon}>
+        <Icon name="close" size={20} color="white" />
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: Platform.OS === 'ios' ? 105 : 115,
-    width,
-    backgroundColor: 'green',
-    opacity: Platform.OS === 'ios' ? 0.8 : 1,
+    minHeight: 65,
+    maxHeight: 90,
+    width: width - 40,
     position: 'absolute',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'center',
-    top: 0,
-    left: 0,
-    transform: [{translateY: -60}],
-    padding: 20,
+    alignSelf: 'center',
+    transform: [{translateY: Platform.OS === 'ios' ? 10 : -30}],
+    paddingHorizontal: 10,
     zIndex: 1000,
+    borderRadius: 10,
   },
   toastText: {
-    color: colors.white,
-    fontSize: 16,
-    letterSpacing: 0.4,
-    textAlign: 'center',
+    color: '#fff',
+    fontSize: 15,
+    // letterSpacing: 0.4,
+    textAlign: 'left',
     fontFamily: 'EuclidCircularB-Regular',
+    maxWidth: width - 100,
   },
-  toastIcon: {
-    fontSize: 18,
-    marginRight: 10,
+  closeIcon: {
+    right: 20,
+    zIndex: 10,
+    position: 'absolute',
   },
 });

@@ -1,28 +1,28 @@
 /* eslint-disable curly */
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, StyleSheet, FlatList, ActivityIndicator} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {handleFetchProducts} from '../../utils/products.helpers';
-import ProductCard from '../../components/ProductCard';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import {colors} from '../../styles';
+import ErrorComponent from '../../components/ErrorComponent';
+import ProductsFlatList from '../../components/ProductsFlatList';
 
 export default function Men() {
   const [products, setProducts] = React.useState({});
   const [loading, setLoading] = React.useState(false);
+  const [errorState, setErrorState] = React.useState(false);
   const [refreshLoading, setRefreshLoading] = React.useState(false);
-  const navigation = useNavigation();
   const flatlistRef = React.useRef(null);
 
   // fetch products handler
   const fetchProducts = async () => {
     setLoading(true);
+    setErrorState(false);
     try {
       const response = await handleFetchProducts('men');
       setProducts(response);
     } catch (err) {
-      // take care of error
-      console.log(err);
+      setErrorState(true);
     } finally {
       setLoading(false);
       setRefreshLoading(false);
@@ -33,6 +33,7 @@ export default function Men() {
   const handleLoadMoreProducts = async () => {
     if (products?.isLastPage) return;
     setLoading(true);
+    setErrorState(false);
     try {
       const response = await handleFetchProducts(
         'men',
@@ -41,8 +42,7 @@ export default function Men() {
       );
       setProducts(response);
     } catch (err) {
-      // take care of error
-      console.log(err);
+      setErrorState(true);
     } finally {
       setLoading(false);
     }
@@ -61,73 +61,48 @@ export default function Men() {
     }, []),
   );
 
-  const renderItem = ({item}) => (
-    <ProductCard
-      image={item.thumbnail}
-      rating={4}
-      amount={item.price}
-      name={item.name}
-      style={styles.gridItem}
-      onPress={() =>
-        navigation.navigate('ProductScreen', {
-          id: item.documentID,
-        })
-      }
-    />
-  );
-
   return (
-    <FlatList
-      data={products?.data}
-      renderItem={renderItem}
-      onRefresh={() => {
-        setRefreshLoading(true);
-        fetchProducts();
-      }}
-      refreshing={refreshLoading}
-      onEndReached={() => handleLoadMoreProducts()}
-      onEndReachedThreshold={0.1}
-      initialNumToRender={6}
-      keyExtractor={(item, index) => index}
-      enableOnAndroid
-      numColumns={2}
-      style={{
-        flex: 1,
-        backgroundColor: colors.white,
-      }}
-      contentContainerStyle={styles.container}
-      columnWrapperStyle={{
-        justifyContent: 'space-between',
-      }}
-      ListFooterComponent={<ProductListFooter loading={loading} />}
-      scrollIndicatorInsets={{right: 1}}
-      ref={flatlistRef}
-    />
+    <View style={styles.container}>
+      <RenderErrorComponent
+        isVisible={errorState && !loading}
+        onPress={() => fetchProducts()}
+      />
+      <ProductsFlatList
+        refProp={flatlistRef}
+        data={products?.data}
+        loading={loading}
+        refreshLoading={refreshLoading}
+        isVisible={!errorState}
+        onRefresh={() => {
+          setRefreshLoading(true);
+          fetchProducts();
+        }}
+        onLoadMore={() => handleLoadMoreProducts()}
+      />
+    </View>
   );
 }
 
-// products list footer
-const ProductListFooter = ({loading}) => {
-  if (!loading) return null;
-
-  return (
-    <View style={{paddingVertical: 20, marginVertical: 10}}>
-      <ActivityIndicator animating size="large" />
+const RenderErrorComponent = ({isVisible, onPress}) => {
+  return isVisible ? (
+    <View style={styles.errorContainer}>
+      <ErrorComponent onPress={() => onPress?.()} />
     </View>
-  );
+  ) : null;
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
-    paddingBottom: 50,
-  },
-  gridItem: {
-    width: '47.7%',
-    marginBottom: 16,
+    flex: 1,
+    backgroundColor: colors.white,
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {colors, text} from '../styles';
@@ -8,30 +7,28 @@ export default function SizeTag({selected, style, size}) {
 
   return (
     <TouchableOpacity
-      style={{
-        ...styles.container,
-        ...style,
-        borderColor: isSelected ? colors.primary : colors.ghost,
-        borderWidth: isSelected ? 1.5 : 1,
-      }}
+      style={[styles.container(isSelected), {...style}]}
       onPress={() => setSelected(!isSelected)}>
-      <Text style={styles.text}>{size}</Text>
+      <Text style={styles.text(isSelected)}>{size}</Text>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container: selected => ({
     width: 48,
     height: 48,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 48 / 2,
     marginRight: 16,
-  },
-  text: {
+    borderColor: selected ? colors.primary : colors.ghost,
+    borderWidth: selected ? 1.5 : 1,
+    backgroundColor: selected ? colors.primary : 'transparent',
+  }),
+  text: selected => ({
     fontSize: 14,
-    color: colors.textPrimary,
+    color: selected ? colors.white : colors.textPrimary,
     ...text.semiBold,
-  },
+  }),
 });

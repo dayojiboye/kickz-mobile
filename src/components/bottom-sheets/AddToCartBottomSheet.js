@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-hooks/exhaustive-deps */
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import CustomInput from '../customInput';
@@ -45,7 +47,7 @@ export default function AddToCartBottomSheet({refProp}) {
         onOverlayPress={() => onCloseBottomSheet()}
         onBackButtonPress={() => onCloseBottomSheet()}>
         <View style={styles.container}>
-          <Text style={styles.text}>Add to cart</Text>
+          {/* <Text style={styles.text}>Add to cart</Text> */}
           <CustomInput
             isNotInAForm
             placeholder="Quantity"
@@ -96,6 +98,6 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 40,
     width: '100%',
-    height: 60,
+    height: 50,
   },
 });

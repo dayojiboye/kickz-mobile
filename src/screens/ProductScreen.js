@@ -18,7 +18,7 @@ import {colors, text} from '../styles';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {handleFetchProduct} from '../utils/products.helpers';
 import {formatPrice, hapticOptions} from '../utils/helpers';
-import {Fab, useToast} from 'native-base';
+import {Fab} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomReactionButton from '../components/CustomReactionButton';
@@ -28,8 +28,10 @@ import SizeTag from '../components/SizeTag';
 import Review from '../components/Review';
 import ProductCard from '../components/ProductCard';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
-import CustomToast from '../components/CustomToast';
+import {ShowCustomToast} from '../utils/helpers';
 import AddToCartBottomSheet from '../components/bottom-sheets/AddToCartBottomSheet';
+import {useFocusEffect} from '@react-navigation/native';
+import ErrorComponent from '../components/ErrorComponent';
 
 const {width} = Dimensions.get('window');
 
@@ -39,10 +41,10 @@ export default function ProductScreen({route, navigation}) {
   const insets = useSafeAreaInsets();
   const [data, setData] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
+  const [errorState, setErrorState] = React.useState(false);
   const [shouldShowBackButton, setShouldShowBackButton] = React.useState(false);
   const [shouldShowAddToCartButton, setShouldShowAddToCartButton] =
     React.useState(false);
-  const Toast = useToast();
   const addToCartBottomSheetRef = React.useRef(null);
 
   const headerHeight = offset.interpolate({
@@ -57,186 +59,194 @@ export default function ProductScreen({route, navigation}) {
     navigation.goBack();
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      setTimeout(() => {
+        setShouldShowBackButton(true);
+        setShouldShowAddToCartButton(true);
+      }, 200);
+      return () => {
+        setShouldShowBackButton(false);
+        setShouldShowAddToCartButton(false);
+      };
+    }, []),
+  );
+
+  // fetch product
+  const getProductData = async () => {
+    setLoading(true);
+    setErrorState(false);
+    try {
+      const response = await handleFetchProduct(id);
+      setData(response);
+    } catch (err) {
+      setErrorState(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   React.useEffect(() => {
     let isApiSubcribed = true;
-    // fetch product
-    const getProductData = async () => {
-      try {
-        const response = await handleFetchProduct(id);
-        setData(response);
-      } catch (err) {
-        Toast.show({
-          render: () => <CustomToast text={err.message} variant="error" />,
-          placement: 'top-left',
-          duration: 3000,
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-    // doing this because the back button still appears after navigating away and before the component is fully transitioned into
-    setTimeout(() => {
-      setShouldShowBackButton(true);
-      setShouldShowAddToCartButton(true);
-    }, 200);
-
     if (isApiSubcribed) getProductData();
     // effect cleanup
     return () => {
       isApiSubcribed = false;
-      setShouldShowBackButton(false);
-      setShouldShowAddToCartButton(false);
     };
   }, []);
 
   return (
-    <>
+    <SafeAreaView
+      forceInset={{top: 'always'}}
+      edges={['top']}
+      style={styles.container}>
       <StatusBar
         backgroundColor="transparent"
         barStyle="dark-content"
         translucent
       />
-      <SafeAreaView
-        forceInset={{top: 'always'}}
-        edges={['top']}
-        style={styles.container}>
-        {shouldShowBackButton ? (
-          <Fab
-            placement="top-left"
-            icon={<Icon name="arrow-left" size={18} color={colors.white} />}
-            padding={0}
-            style={styles.floatingButton}
-            onPress={() => handleBackButtonPress()}
-          />
-        ) : null}
-        {!data && loading ? (
-          <ActivityIndicator
-            size="large"
-            color={colors.primary}
-            style={{marginTop: 14}}
-          />
-        ) : (
-          <>
-            <Animated.Image
-              style={{...styles.headerImage, height: headerHeight}}
-              source={{
-                uri: data?.thumbnail,
-              }}
-            />
-            <ScrollView
-              style={{flex: 1}}
-              contentContainerStyle={styles.innerContainer}
-              showsVerticalScrollIndicator={false}
-              scrollEventThrottle={16}
-              onScroll={Animated.event(
-                [{nativeEvent: {contentOffset: {y: offset}}}],
-                {useNativeDriver: false},
-              )}>
-              <View style={{...styles.row, paddingHorizontal: 16}}>
-                <Text style={styles.productName}>{data?.name}</Text>
-                <CustomReactionButton />
-              </View>
-              {/* rating */}
-              <Rating rating={4} style={{marginTop: 16, marginLeft: 16}} />
-              {/* price */}
-              <Text style={styles.price}>{formatPrice(data?.price)}</Text>
-              {/* size selection */}
-              <Text
-                style={{...styles.headingText, marginLeft: 16, marginTop: 40}}>
-                Select Size
-              </Text>
-              <ScrollView
-                horizontal
-                style={{width: width}}
-                contentContainerStyle={{paddingLeft: 16}}
-                showsHorizontalScrollIndicator={false}>
-                {shoeSizes?.map(item => (
-                  <SizeTag key={item} size={item} />
-                ))}
-              </ScrollView>
-              {/* description */}
-              <View style={styles.description}>
-                <Text style={styles.headingText}>Specification</Text>
-                <Text style={styles.text}>{data?.desc}</Text>
-              </View>
-              {/* review product */}
-              <View
-                style={{...styles.row, marginTop: 40, paddingHorizontal: 16}}>
-                <Text style={{...styles.headingText, marginBottom: 0}}>
-                  Review Product
-                </Text>
-                <TouchableOpacity>
-                  <Text
-                    style={{
-                      ...styles.headingText,
-                      color: colors.primary,
-                      ...text.semiBold,
-                      fontSize: 14,
-                      marginBottom: 0,
-                    }}>
-                    See More
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              {/* ratings */}
-              <View
-                style={{
-                  ...styles.row,
-                  marginTop: 16,
-                  paddingHorizontal: 16,
-                  justifyContent: 'flex-start',
-                }}>
-                <Rating rating={4} style={{marginBottom: 0, marginRight: 10}} />
-                <Text style={styles.smallText}>4.5 (5 Reviews)</Text>
-              </View>
-              {/* reviews */}
-              {reviews?.map(item => (
-                <Review
-                  key={item.id}
-                  {...item}
-                  style={{paddingHorizontal: 16}}
-                />
-              ))}
-              {/* other products */}
-              <Text
-                style={{...styles.headingText, marginLeft: 16, marginTop: 40}}>
-                You Might Also Like
-              </Text>
-              <ScrollView
-                horizontal
-                style={{width: width}}
-                contentContainerStyle={{paddingLeft: 16}}
-                showsHorizontalScrollIndicator={false}>
-                {megaSales?.map(item => (
-                  <ProductCard
-                    key={item.name}
-                    amount={item.amount}
-                    name={item.name}
-                    image={item.image}
-                    rating={item.rating}
-                    style={styles.productCard}
-                  />
-                ))}
-              </ScrollView>
-            </ScrollView>
-          </>
-        )}
-        <AddToCartBottomSheet refProp={addToCartBottomSheetRef} />
-      </SafeAreaView>
-      {/* add to cart floating animation button */}
-      {shouldShowAddToCartButton && data ? (
-        <FloatingButtonExpand
-          onPress={() => addToCartBottomSheetRef?.current?.open()}
+      {shouldShowBackButton ? (
+        <Fab
+          placement="top-left"
+          icon={<Icon name="arrow-left" size={18} color={colors.white} />}
+          padding={0}
+          style={styles.floatingButton}
+          onPress={() => handleBackButtonPress()}
         />
       ) : null}
-    </>
+      {loading && !data && !errorState ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      ) : null}
+      <RenderErrorComponent
+        isVisible={errorState && !data && !loading}
+        onPress={() => getProductData()}
+      />
+      {/*  */}
+      {data && Object.keys(data).length > 0 && !loading && !errorState ? (
+        <>
+          <Animated.Image
+            style={{...styles.headerImage, height: headerHeight}}
+            source={{
+              uri: data?.thumbnail,
+            }}
+          />
+          <ScrollView
+            style={{flex: 1}}
+            contentContainerStyle={styles.innerContainer}
+            showsVerticalScrollIndicator={false}
+            scrollEventThrottle={16}
+            onScroll={Animated.event(
+              [{nativeEvent: {contentOffset: {y: offset}}}],
+              {useNativeDriver: false},
+            )}>
+            <View style={{...styles.row, paddingHorizontal: 16}}>
+              <Text style={styles.productName}>{data?.name}</Text>
+              <CustomReactionButton />
+            </View>
+            {/* rating */}
+            <Rating rating={4} style={{marginTop: 16, marginLeft: 16}} />
+            {/* price */}
+            <Text style={styles.price}>{formatPrice(data?.price)}</Text>
+            {/* size selection */}
+            <Text
+              style={{...styles.headingText, marginLeft: 16, marginTop: 40}}>
+              Select Size
+            </Text>
+            <ScrollView
+              horizontal
+              style={{width: width}}
+              contentContainerStyle={{paddingLeft: 16}}
+              showsHorizontalScrollIndicator={false}>
+              {shoeSizes?.map(item => (
+                <SizeTag key={item} size={item} />
+              ))}
+            </ScrollView>
+            {/* description */}
+            <View style={styles.description}>
+              <Text style={styles.headingText}>Specification</Text>
+              <Text style={styles.text}>{data?.desc}</Text>
+            </View>
+            {/* review product */}
+            <View style={{...styles.row, marginTop: 40, paddingHorizontal: 16}}>
+              <Text style={{...styles.headingText, marginBottom: 0}}>
+                Review Product
+              </Text>
+              <TouchableOpacity>
+                <Text
+                  style={{
+                    ...styles.headingText,
+                    color: colors.primary,
+                    ...text.semiBold,
+                    fontSize: 14,
+                    marginBottom: 0,
+                  }}>
+                  See More
+                </Text>
+              </TouchableOpacity>
+            </View>
+            {/* ratings */}
+            <View
+              style={{
+                ...styles.row,
+                marginTop: 16,
+                paddingHorizontal: 16,
+                justifyContent: 'flex-start',
+              }}>
+              <Rating rating={4} style={{marginBottom: 0, marginRight: 10}} />
+              <Text style={styles.smallText}>4.5 (5 Reviews)</Text>
+            </View>
+            {/* reviews */}
+            {reviews?.map(item => (
+              <Review key={item.id} {...item} style={{paddingHorizontal: 16}} />
+            ))}
+            {/* other products */}
+            <Text
+              style={{...styles.headingText, marginLeft: 16, marginTop: 40}}>
+              You Might Also Like
+            </Text>
+            <ScrollView
+              horizontal
+              style={{width: width}}
+              contentContainerStyle={{paddingLeft: 16}}
+              showsHorizontalScrollIndicator={false}>
+              {megaSales?.map(item => (
+                <ProductCard
+                  key={item.name}
+                  amount={item.amount}
+                  name={item.name}
+                  image={item.image}
+                  rating={item.rating}
+                  style={styles.productCard}
+                />
+              ))}
+            </ScrollView>
+          </ScrollView>
+          {shouldShowAddToCartButton ? (
+            <FloatingButtonExpand
+              onPress={() => addToCartBottomSheetRef?.current?.open()}
+            />
+          ) : null}
+        </>
+      ) : null}
+      {/*  */}
+      <AddToCartBottomSheet refProp={addToCartBottomSheetRef} />
+    </SafeAreaView>
   );
 }
+
+const RenderErrorComponent = ({isVisible, onPress}) => {
+  return isVisible ? (
+    <View style={styles.errorContainer}>
+      <ErrorComponent onPress={() => onPress?.()} />
+    </View>
+  ) : null;
+};
 
 const FloatingButtonExpand = ({onPress}) => {
   const animatedValueRef = React.useRef(new Animated.Value(0));
   const [isExpand, setIsExpand] = React.useState(false);
-  const Toast = useToast();
 
   React.useEffect(() => {
     return () => setIsExpand(false);
@@ -317,10 +327,9 @@ const FloatingButtonExpand = ({onPress}) => {
 
   // bookmark handler
   const bookmarkHandler = () => {
-    Toast.show({
-      render: () => <CustomToast text="Item has been bookmarked! ✅" />,
-      placement: 'top-left',
-      duration: 3000,
+    ShowCustomToast({
+      text: 'Item has been bookmarked',
+      type: 'success',
     });
     toggleOpen();
   };
@@ -489,5 +498,15 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: colors.white,
     ...text.bold,
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

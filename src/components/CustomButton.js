@@ -25,6 +25,14 @@ const CustomButton = ({
   hasHapticFeedback,
   ...props
 }) => {
+  const handlePress = () => {
+    if (disabled || loading) return;
+    onPress?.();
+    if (hasHapticFeedback) {
+      ReactNativeHapticFeedback.trigger('impactLight', options);
+    }
+  };
+
   return (
     <TouchableOpacity
       style={{
@@ -33,13 +41,7 @@ const CustomButton = ({
         ...style,
       }}
       disabled={disabled}
-      onPress={() => {
-        if (disabled || loading) return;
-        onPress?.();
-        if (hasHapticFeedback) {
-          ReactNativeHapticFeedback.trigger('impactLight', options);
-        }
-      }}
+      onPress={() => handlePress()}
       {...props}>
       {iconElement ? iconElement : null}
       <Text style={{...styles.label, ...labelStyle}}>{label}</Text>

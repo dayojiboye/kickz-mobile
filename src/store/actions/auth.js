@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import {ShowCustomToast, formatErrorMessage} from '../../utils/helpers';
 
 // import {auth, firestore} from '../../../firebase/utils';
 import auth from '@react-native-firebase/auth';
@@ -7,13 +8,6 @@ import firestore from '@react-native-firebase/firestore';
 export const authStart = payload => {
   return {
     type: actionTypes.AUTH_START,
-    payload: payload,
-  };
-};
-
-export const authError = payload => {
-  return {
-    type: actionTypes.AUTH_ERROR,
     payload: payload,
   };
 };
@@ -90,7 +84,10 @@ export const signup = ({email, password, displayName}) => {
           dispatch(createUser(userData));
         });
     } catch (err) {
-      dispatch(authError(err.message));
+      ShowCustomToast({
+        text: formatErrorMessage(err.message) || 'Something went wrong',
+        type: 'error',
+      });
     } finally {
       dispatch(authStart(false));
     }
@@ -109,8 +106,10 @@ export const signin = ({email, password}) => {
           dispatch(setCurrentUser(response.user));
         });
     } catch (err) {
-      dispatch(authError(err.message));
-      console.log(err.message);
+      ShowCustomToast({
+        text: formatErrorMessage(err.message) || 'Something went wrong',
+        type: 'error',
+      });
     } finally {
       dispatch(authStart(false));
     }
@@ -129,7 +128,10 @@ export const signout = () => {
           dispatch(setCurrentUser(null));
         });
     } catch (err) {
-      console.log(err);
+      ShowCustomToast({
+        text: formatErrorMessage(err.message) || 'Something went wrong',
+        type: 'error',
+      });
     } finally {
       dispatch(authStart(false));
     }

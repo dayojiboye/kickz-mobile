@@ -1,4 +1,7 @@
+import React from 'react';
 import {Dimensions, Platform} from 'react-native';
+import {Toast} from 'native-base';
+import CustomToast from '../components/CustomToast';
 
 // check if a phone is an iphone with a notch
 export const isIphoneWithNotch = () => {
@@ -35,5 +38,22 @@ export const hapticOptions = {
 
 // format price
 export const formatPrice = amount => {
-  return `₦${amount.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
+  return `₦${amount?.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
+};
+
+// Custom Toast Renderer
+export const ShowCustomToast = ({message, text, type, duration}) => {
+  Promise.resolve(Toast?.closeAll()).then(() => {
+    Toast.show({
+      render: () => <CustomToast text={message || text} variant={type} />,
+      placement: 'top',
+      duration: duration || 2000,
+      order: 'first',
+    });
+  });
+};
+
+// Format Firebase Error Message
+export const formatErrorMessage = text => {
+  return text?.replace(/ *\[[^\]]*]/, '');
 };
