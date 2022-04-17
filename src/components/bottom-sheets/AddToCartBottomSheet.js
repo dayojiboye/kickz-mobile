@@ -1,12 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import CustomInput from '../customInput';
 import {colors, text} from '../../styles';
 import CustomButton from '../CustomButton';
 import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 export default function AddToCartBottomSheet({refProp}) {
   const [quantity, setQuantity] = React.useState('1');
@@ -22,8 +23,18 @@ export default function AddToCartBottomSheet({refProp}) {
     refProp?.current?.close();
   };
 
+  const increaseQuantity = () => {
+    if (quantity === '50') return;
+    setQuantity(String(parseInt(quantity) + 1));
+  };
+
+  const decreaseQuantity = () => {
+    if (quantity === '1') return;
+    setQuantity(String(parseInt(quantity) - 1));
+  };
+
   React.useEffect(() => {
-    // onBlur, do not snap the bottom sheet to the bottom
+    // on blur, do not snap the bottom sheet to the bottom
     if (buttonPressed) {
       setTimeout(() => {
         setButtonPressed(false);
@@ -48,16 +59,26 @@ export default function AddToCartBottomSheet({refProp}) {
         onBackButtonPress={() => onCloseBottomSheet()}>
         <View style={styles.container}>
           {/* <Text style={styles.text}>Add to cart</Text> */}
-          <CustomInput
-            isNotInAForm
-            placeholder="Quantity"
-            style={styles.input}
-            onFocus={() => refProp?.current?.open('top')}
-            onBlur={() => !buttonPressed && refProp?.current?.open('bottom')}
-            value={quantity}
-            onChangeText={text => setQuantity(text)}
-            keyboardType="numeric"
-          />
+          <View style={[styles.row, {height: 70, marginTop: 20}]}>
+            <CustomInput
+              isNotInAForm
+              placeholder="Quantity"
+              style={styles.input}
+              onFocus={() => refProp?.current?.open('top')}
+              onBlur={() => !buttonPressed && refProp?.current?.open('bottom')}
+              value={quantity}
+              onChangeText={text => setQuantity(text)}
+              keyboardType="numeric"
+            />
+            <View style={styles.controllerContainer}>
+              <TouchableOpacity onPress={() => increaseQuantity()}>
+                <Icon name="caretup" color={colors.primary} size={22} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => decreaseQuantity()}>
+                <Icon name="caretdown" color={colors.primary} size={22} />
+              </TouchableOpacity>
+            </View>
+          </View>
           <CustomButton
             label="Add To Cart"
             style={styles.button}
@@ -92,12 +113,21 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
   },
   input: {
-    marginTop: 20,
-    height: 70,
+    flex: 1,
+    height: '100%',
   },
   button: {
     marginTop: 40,
     width: '100%',
     height: 50,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  controllerContainer: {
+    marginLeft: 10,
+    height: '100%',
+    justifyContent: 'center',
   },
 });
