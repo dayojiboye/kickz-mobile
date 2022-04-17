@@ -231,7 +231,7 @@ export default function ProductScreen({route, navigation}) {
         </>
       ) : null}
       {/*  */}
-      <AddToCartBottomSheet refProp={addToCartBottomSheetRef} />
+      <AddToCartBottomSheet refProp={addToCartBottomSheetRef} product={data} />
     </SafeAreaView>
   );
 }

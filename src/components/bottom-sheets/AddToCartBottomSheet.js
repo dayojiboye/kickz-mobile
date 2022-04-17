@@ -8,15 +8,15 @@ import CustomButton from '../CustomButton';
 import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {useDispatch} from 'react-redux';
+import * as actions from '../../store/actions/index';
+import {ShowCustomToast} from '../../utils/helpers';
 
-export default function AddToCartBottomSheet({refProp}) {
+export default function AddToCartBottomSheet({refProp, product}) {
   const [quantity, setQuantity] = React.useState('1');
   const [buttonPressed, setButtonPressed] = React.useState(false);
 
-  const handleAddToCart = () => {
-    // setButtonPressed(true);
-    onCloseBottomSheet();
-  };
+  const dispatch = useDispatch();
 
   const onCloseBottomSheet = () => {
     setQuantity('1');
@@ -31,6 +31,21 @@ export default function AddToCartBottomSheet({refProp}) {
   const decreaseQuantity = () => {
     if (quantity === '1') return;
     setQuantity(String(parseInt(quantity) - 1));
+  };
+
+  const handleAddToCart = () => {
+    // setButtonPressed(true);
+    dispatch(
+      actions.addToCart({
+        ...product,
+        quantity: parseInt(quantity),
+      }),
+    );
+    ShowCustomToast({
+      text: 'Item has been added to cart',
+      type: 'success',
+    });
+    onCloseBottomSheet();
   };
 
   React.useEffect(() => {

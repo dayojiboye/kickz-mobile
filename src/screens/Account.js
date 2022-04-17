@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import * as actions from '../store/actions';
 import Icon from 'react-native-vector-icons/Feather';
 import {colors, text} from '../styles';
@@ -11,6 +11,11 @@ import Avatar from '../assets/images/user_icon_circle.svg';
 
 const Account = () => {
   const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.auth?.currentUser);
+
+  React.useEffect(() => {
+    console.log(currentUser);
+  }, [currentUser]);
 
   const logout = () => {
     dispatch(actions.signout());

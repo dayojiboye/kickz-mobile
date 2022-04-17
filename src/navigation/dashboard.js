@@ -6,6 +6,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconFa from 'react-native-vector-icons/FontAwesome';
 import {isIphoneWithNotch} from '../utils/helpers';
+import {useSelector} from 'react-redux';
+import {totalCartItems} from '../utils/cart.helpers';
 
 // tab screens
 import Account from '../screens/Account';
@@ -16,6 +18,18 @@ import Cart from '../screens/Cart';
 const Tab = createBottomTabNavigator();
 
 export const DashboardNav = () => {
+  const cart = useSelector(state => state.cart?.cart);
+  const [cartTotal, setCartTotal] = React.useState(0);
+
+  React.useEffect(() => {
+    if (cart?.length) {
+      const total = totalCartItems(cart);
+      setCartTotal(total);
+    } else {
+      setCartTotal(0);
+    }
+  }, [cart]);
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -85,7 +99,7 @@ export const DashboardNav = () => {
             fontSize: 15,
             ...text.medium,
           },
-          // tabBarBadge: 0,
+          tabBarBadge: cartTotal,
           tabBarBadgeStyle: {
             top: -5,
             left: 0,
