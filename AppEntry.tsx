@@ -2,7 +2,6 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-// import AppRoutes from "./src/config/routes";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { RootSiblingParent } from "react-native-root-siblings";
 import * as SplashScreen from "expo-splash-screen";
@@ -16,6 +15,7 @@ import { UserData } from "./src/types";
 import { showToast } from "./src/utils/helpers";
 import { toastType } from "./src/enums";
 import db from "./firebase/firebaseConfig";
+import AppRoutes from "./src/config/routes";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -57,9 +57,11 @@ export default function AppEntry() {
 	);
 
 	const [fontsLoaded] = useFonts({
-		aller: require("./assets/fonts/Aller_Std_Rg.ttf"),
-		allerLight: require("./assets/fonts/Aller_Std_Lt.ttf"),
-		allerBold: require("./assets/fonts/Aller_Std_Bd.ttf"),
+		OSLight: require("./assets/fonts/OpenSans-Light.ttf"),
+		OS: require("./assets/fonts/OpenSans-Regular.ttf"),
+		OSMedium: require("./assets/fonts/OpenSans-Medium.ttf"),
+		OSSemiBold: require("./assets/fonts/OpenSans-SemiBold.ttf"),
+		OSBold: require("./assets/fonts/OpenSans-Bold.ttf"),
 	});
 
 	React.useEffect(() => {
@@ -82,7 +84,9 @@ export default function AppEntry() {
 			<GestureHandlerRootView style={{ flex: 1 }}>
 				<BottomSheetModalProvider>
 					<NavigationContainer>
-						<RootSiblingParent>{/* <AppRoutes /> */}</RootSiblingParent>
+						<RootSiblingParent>
+							<AppRoutes />
+						</RootSiblingParent>
 					</NavigationContainer>
 				</BottomSheetModalProvider>
 			</GestureHandlerRootView>

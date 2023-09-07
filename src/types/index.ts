@@ -18,7 +18,6 @@ export type AppContextValue = {
 };
 
 export type RootStackParamList = {
-	Initial: undefined;
 	Home: undefined;
 	Profile: undefined;
 	Login: undefined;

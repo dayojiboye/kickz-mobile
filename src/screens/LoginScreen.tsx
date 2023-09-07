@@ -1,0 +1,112 @@
+import { Dimensions, StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../types";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import theme from "../config/theme";
+import * as yup from "yup";
+import { Formik } from "formik";
+import CustomTextInput from "../components/CustomTextInput";
+import CustomButton from "../components/CustomButton";
+import CustomTextButton from "../components/CustomTextButton";
+import { StatusBar } from "expo-status-bar";
+
+type Props = NativeStackScreenProps<RootStackParamList, "Login">;
+const { height } = Dimensions.get("window");
+
+const formValidationSchema = yup.object().shape({
+	email: yup.string().required("Email is required").email("Please enter a valid email"),
+	password: yup
+		.string()
+		.required("Password is required")
+		.min(6, "Password must be at least 6 characters long"),
+});
+
+export default function LoginScreen({ navigation }: Props) {
+	const initialFormValues = {
+		email: "",
+		password: "",
+	};
+
+	return (
+		<>
+			<StatusBar style="dark" />
+
+			<KeyboardAwareScrollView
+				style={styles.scrollView}
+				contentContainerStyle={styles.container}
+				keyboardShouldPersistTaps="handled"
+			>
+				<Text style={styles.heading}>Kickz</Text>
+				<Formik
+					initialValues={initialFormValues}
+					validationSchema={formValidationSchema}
+					onSubmit={(values) => console.log(values)}
+				>
+					{({ errors, touched, handleSubmit, handleChange }) => (
+						<View style={styles.form}>
+							<CustomTextInput
+								autoCapitalize="none"
+								placeholder="Email"
+								keyboardType="email-address"
+								onChangeText={handleChange("email")}
+								error={touched.email && errors.email}
+							/>
+							<CustomTextInput
+								isPassword
+								autoCapitalize="none"
+								placeholder="Password"
+								onChangeText={handleChange("password")}
+								error={touched.password && errors.password}
+							/>
+							<CustomButton
+								label="Login"
+								style={{ marginTop: 70 }}
+								onPress={() => handleSubmit()}
+							/>
+						</View>
+					)}
+				</Formik>
+				<View style={styles.footer}>
+					<Text style={styles.footerText}>Already have an account?</Text>
+					<CustomTextButton label="Sign In" />
+				</View>
+			</KeyboardAwareScrollView>
+		</>
+	);
+}
+
+const styles = StyleSheet.create({
+	scrollView: {
+		flex: 1,
+		backgroundColor: theme.white,
+	},
+	container: {
+		flex: 1,
+		height,
+		paddingHorizontal: 20,
+		justifyContent: "center",
+	},
+	heading: {
+		color: theme.primary,
+		fontFamily: "OSBold",
+		fontSize: 48,
+		letterSpacing: -1,
+		textAlign: "center",
+	},
+	form: {
+		marginTop: 72,
+		gap: 24,
+	},
+	footer: {
+		flexDirection: "row",
+		gap: 5,
+		justifyContent: "center",
+		marginTop: 35,
+	},
+	footerText: {
+		fontSize: 16,
+		color: theme.black,
+		fontFamily: "OS",
+	},
+});
