@@ -10,6 +10,7 @@ import CustomTextInput from "../components/CustomTextInput";
 import CustomButton from "../components/CustomButton";
 import CustomTextButton from "../components/CustomTextButton";
 import { StatusBar } from "expo-status-bar";
+import useLoginMutation from "../hooks/useLogin";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Login">;
 const { height } = Dimensions.get("window");
@@ -28,6 +29,8 @@ export default function LoginScreen({ navigation }: Props) {
 		password: "",
 	};
 
+	const loginMutation = useLoginMutation();
+
 	return (
 		<>
 			<StatusBar style="dark" />
@@ -41,7 +44,7 @@ export default function LoginScreen({ navigation }: Props) {
 				<Formik
 					initialValues={initialFormValues}
 					validationSchema={formValidationSchema}
-					onSubmit={(values) => console.log(values)}
+					onSubmit={(values) => loginMutation.mutate(values)}
 				>
 					{({ errors, touched, handleSubmit, handleChange }) => (
 						<View style={styles.form}>
@@ -62,6 +65,7 @@ export default function LoginScreen({ navigation }: Props) {
 							<CustomButton
 								label="Login"
 								style={{ marginTop: 70 }}
+								isLoading={loginMutation.isLoading}
 								onPress={() => handleSubmit()}
 							/>
 						</View>
@@ -78,18 +82,16 @@ export default function LoginScreen({ navigation }: Props) {
 
 const styles = StyleSheet.create({
 	scrollView: {
-		flex: 1,
 		backgroundColor: theme.white,
 	},
 	container: {
-		flex: 1,
 		height,
 		paddingHorizontal: 20,
 		justifyContent: "center",
 	},
 	heading: {
 		color: theme.primary,
-		fontFamily: "OSBold",
+		fontFamily: theme.fontBold,
 		fontSize: 48,
 		letterSpacing: -1,
 		textAlign: "center",
@@ -107,6 +109,6 @@ const styles = StyleSheet.create({
 	footerText: {
 		fontSize: 16,
 		color: theme.black,
-		fontFamily: "OS",
+		fontFamily: theme.fontRegular,
 	},
 });

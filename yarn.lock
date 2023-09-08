@@ -4189,7 +4189,7 @@ find-yarn-workspace-root@~2.0.0:
   dependencies:
     micromatch "^4.0.2"
 
-firebase@^10.1.0:
+firebase@^10.3.1:
   version "10.3.1"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-10.3.1.tgz#9e8133866af36f8fe2133fc86b821f2d10dc748b"
   integrity sha512-lUk1X0SQocShyIwz5x9mj829Yn1y4Y9KWriGLZ0/Pbwqt4ZxElx8rI1p/YAi4MZTtT1qi0wazo7dAlmuF6J0Aw==

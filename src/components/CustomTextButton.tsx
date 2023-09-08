@@ -52,7 +52,9 @@ export default function CustomTextButton({
 			{...props}
 		>
 			{leftIcon && <Icon {...iconProps} />}
-			<Text style={[{ fontSize: 16, color: theme.primary, fontFamily: "OSMedium" }, labelStyle]}>
+			<Text
+				style={[{ fontSize: 16, color: theme.primary, fontFamily: theme.fontMedium }, labelStyle]}
+			>
 				{label}
 			</Text>
 			{rightIcon && <Icon {...iconProps} />}

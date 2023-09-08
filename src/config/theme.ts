@@ -11,6 +11,11 @@ const theme = {
 	black: "#000",
 	green: "rgb(98, 205, 128)",
 	border: "rgb(240, 239, 240)",
+	fontLight: "OSLight",
+	fontRegular: "OS",
+	fontMedium: "OSMedium",
+	fontSemiBold: "OSSemiBold",
+	fontBold: "OSBold",
 };
 
 export default theme;

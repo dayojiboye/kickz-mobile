@@ -88,7 +88,10 @@ export default function CustomButton({
 						<>
 							{leftIcon && <Icon {...iconProps} />}
 							<Text
-								style={[{ fontSize: 18, color: theme.white, fontFamily: "OSSemiBold" }, labelStyle]}
+								style={[
+									{ fontSize: 18, color: theme.white, fontFamily: theme.fontSemiBold },
+									labelStyle,
+								]}
 							>
 								{label}
 							</Text>

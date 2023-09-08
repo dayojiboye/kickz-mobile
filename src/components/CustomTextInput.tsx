@@ -70,7 +70,7 @@ export default function CustomTextInput({
 						{
 							fontSize: 18,
 							color: theme.primary,
-							fontFamily: "OS",
+							fontFamily: theme.fontRegular,
 							flex: 1,
 							height: "100%",
 							paddingHorizontal: 32,
@@ -103,7 +103,9 @@ export default function CustomTextInput({
 				)}
 			</View>
 			{error && (
-				<Text style={{ fontSize: 16, fontFamily: "OS", color: theme.red, marginTop: 4 }}>
+				<Text
+					style={{ fontSize: 16, fontFamily: theme.fontRegular, color: theme.red, marginTop: 4 }}
+				>
 					{error}
 				</Text>
 			)}

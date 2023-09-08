@@ -8,7 +8,7 @@ import * as SplashScreen from "expo-splash-screen";
 import useStore from "./src/hooks/useStore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
-// import useAuthentication from "./src/hooks/useAuthentication";
+import useAuthentication from "./src/hooks/useAuthentication";
 import * as firestore from "firebase/firestore";
 import { useMutation } from "react-query";
 import { UserData } from "./src/types";
@@ -21,7 +21,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function AppEntry() {
 	const appStore = useStore();
-	// const user = useAuthentication();
+	const user = useAuthentication();
 
 	const _fetchUserData = useMutation<
 		firestore.DocumentSnapshot<firestore.DocumentData, firestore.DocumentData> | undefined
