@@ -53,7 +53,10 @@ export default function CustomTextButton({
 		>
 			{leftIcon && <Icon {...iconProps} />}
 			<Text
-				style={[{ fontSize: 16, color: theme.primary, fontFamily: theme.fontMedium }, labelStyle]}
+				style={[
+					{ fontSize: 16, color: theme.textPrimary, fontFamily: theme.fontMedium },
+					labelStyle,
+				]}
 			>
 				{label}
 			</Text>

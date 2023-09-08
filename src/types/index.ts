@@ -3,7 +3,7 @@ export type UserData =
 			displayName: string;
 			email: string | null;
 			uid: string;
-			createdDate: string;
+			createdDate: string | Date;
 			userRoles: string;
 	  }
 	| undefined;

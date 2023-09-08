@@ -5,12 +5,13 @@ import { RootStackParamList } from "../types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import theme from "../config/theme";
 import * as yup from "yup";
-import { Formik } from "formik";
+import { Formik, useFormikContext } from "formik";
 import CustomTextInput from "../components/CustomTextInput";
 import CustomButton from "../components/CustomButton";
 import CustomTextButton from "../components/CustomTextButton";
 import { StatusBar } from "expo-status-bar";
 import useLoginMutation from "../hooks/useLogin";
+import { useFocusEffect } from "@react-navigation/native";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Login">;
 const { height } = Dimensions.get("window");
@@ -47,38 +48,53 @@ export default function LoginScreen({ navigation }: Props) {
 					onSubmit={(values) => loginMutation.mutate(values)}
 				>
 					{({ errors, touched, handleSubmit, handleChange }) => (
-						<View style={styles.form}>
-							<CustomTextInput
-								autoCapitalize="none"
-								placeholder="Email"
-								keyboardType="email-address"
-								onChangeText={handleChange("email")}
-								error={touched.email && errors.email}
-							/>
-							<CustomTextInput
-								isPassword
-								autoCapitalize="none"
-								placeholder="Password"
-								onChangeText={handleChange("password")}
-								error={touched.password && errors.password}
-							/>
-							<CustomButton
-								label="Login"
-								style={{ marginTop: 70 }}
-								isLoading={loginMutation.isLoading}
-								onPress={() => handleSubmit()}
-							/>
-						</View>
+						<>
+							<View style={styles.form}>
+								<CustomTextInput
+									autoCapitalize="none"
+									placeholder="Email"
+									keyboardType="email-address"
+									onChangeText={handleChange("email")}
+									error={touched.email && errors.email}
+								/>
+								<CustomTextInput
+									isPassword
+									autoCapitalize="none"
+									placeholder="Password"
+									onChangeText={handleChange("password")}
+									error={touched.password && errors.password}
+								/>
+								<CustomButton
+									label="Login"
+									style={{ marginTop: 44 }}
+									isLoading={loginMutation.isLoading}
+									onPress={() => handleSubmit()}
+								/>
+							</View>
+							<FormikObserver />
+						</>
 					)}
 				</Formik>
 				<View style={styles.footer}>
-					<Text style={styles.footerText}>Already have an account?</Text>
-					<CustomTextButton label="Sign In" />
+					<Text style={styles.footerText}>Don't have an account?</Text>
+					<CustomTextButton label="Sign Up" onPress={() => navigation.push("Signup")} />
 				</View>
 			</KeyboardAwareScrollView>
 		</>
 	);
 }
+
+const FormikObserver = () => {
+	const { handleReset } = useFormikContext<unknown | any>();
+
+	useFocusEffect(
+		React.useCallback(() => {
+			handleReset();
+		}, [])
+	);
+
+	return null;
+};
 
 const styles = StyleSheet.create({
 	scrollView: {
@@ -97,7 +113,7 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 	},
 	form: {
-		marginTop: 72,
+		marginTop: 60,
 		gap: 24,
 	},
 	footer: {

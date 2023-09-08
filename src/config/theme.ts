@@ -1,6 +1,7 @@
 const theme = {
 	primary: "#334d68",
 	white: "#ffffff",
+	textPrimary: "rgb(47, 50, 85)",
 	progressBg: "rgba(0, 0, 0, 0.8)",
 	background: "rgb(244, 245, 249)",
 	faded: "#ccc",

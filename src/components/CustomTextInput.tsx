@@ -69,7 +69,7 @@ export default function CustomTextInput({
 					style={[
 						{
 							fontSize: 18,
-							color: theme.primary,
+							color: theme.textPrimary,
 							fontFamily: theme.fontRegular,
 							flex: 1,
 							height: "100%",
