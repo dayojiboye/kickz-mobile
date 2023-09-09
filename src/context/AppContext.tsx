@@ -18,6 +18,14 @@ const _removeUserId = async () => {
 	}
 };
 
+const _storeFavorites = async (value: ProductType) => {
+	try {
+		await AsyncStorage.setItem("favorites", JSON.stringify(value));
+	} catch (err) {
+		__DEV__ && console.log("Something went wrong saving product", err);
+	}
+};
+
 type AppContextAction =
 	| { type: "login_user"; payload: UserData }
 	| { type: "logout_user" }
@@ -100,10 +108,12 @@ export default function AppProvider(props: React.PropsWithChildren<{}>) {
 
 		const addFavoriteProduct = (value: ProductType) => {
 			dispatch({ type: "add_fav", payload: value });
+			_storeFavorites(value);
 		};
 
 		const removeFavoriteProduct = (value: ProductType) => {
 			dispatch({ type: "remove_fav", payload: value });
+			_storeFavorites(value);
 		};
 
 		return {

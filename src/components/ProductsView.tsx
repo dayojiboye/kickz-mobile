@@ -27,8 +27,7 @@ export default function ProductsView({
 					renderItem={({ item: product }) => (
 						<ProductCard
 							product={product}
-							isFavorite={false}
-							rating={Math.floor(Math.random() * (6 - 1) + 1)}
+							// rating={Math.floor(Math.random() * (6 - 1) + 1)}
 						/>
 					)}
 					style={{ flex: 1 }}

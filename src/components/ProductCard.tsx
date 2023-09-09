@@ -6,15 +6,20 @@ import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { formatCurrency } from "../utils/helpers";
 import { BlurView } from "expo-blur";
+import useStore from "../hooks/useStore";
 
 type Props = {
-	isFavorite: boolean;
 	product: ProductType;
-	rating: number;
 };
 
-export default function ProductCard({ isFavorite, product, rating }: Props) {
-	const [isFav, setIsFav] = React.useState(false);
+export default function ProductCard({ product }: Props) {
+	const { favoriteProducts, addFavoriteProduct, removeFavoriteProduct } = useStore();
+	const isFav = favoriteProducts.some((prod) => prod.documentID === product.documentID);
+
+	const toggleFavorite = (product: ProductType) => {
+		if (isFav) removeFavoriteProduct(product);
+		else addFavoriteProduct(product);
+	};
 
 	return (
 		<TouchableOpacity activeOpacity={0.8} style={styles.container}>
@@ -32,7 +37,7 @@ export default function ProductCard({ isFavorite, product, rating }: Props) {
 					<BlurView style={styles.favoriteButton} intensity={3} tint="light">
 						<TouchableOpacity
 							style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-							onPress={() => setIsFav(!isFav)}
+							onPress={() => toggleFavorite(product)}
 						>
 							<Icon
 								name={isFav ? "favorite" : "favorite-border"}
@@ -60,6 +65,8 @@ export default function ProductCard({ isFavorite, product, rating }: Props) {
 
 const styles = StyleSheet.create({
 	container: {
+		width: "48%",
+		maxWidth: "50%",
 		flex: 1,
 	},
 	imageContainer: {

@@ -23,6 +23,17 @@ export default function AppEntry() {
 	const appStore = useStore();
 	const user = useAuthentication();
 
+	const _getUserFavorites = async () => {
+		try {
+			const value = await AsyncStorage.getItem("favorites");
+			if (value !== null) {
+				appStore.addFavoriteProduct(JSON.parse(value));
+			}
+		} catch (err) {
+			__DEV__ && console.log("Something went wrong loading favorites", err);
+		}
+	};
+
 	const _fetchUserData = useMutation<
 		firestore.DocumentSnapshot<firestore.DocumentData, firestore.DocumentData> | undefined
 	>(
@@ -70,6 +81,7 @@ export default function AppEntry() {
 
 	const onLayoutRootView = React.useCallback(async () => {
 		if (fontsLoaded) {
+			_getUserFavorites();
 			await SplashScreen.hideAsync();
 		}
 	}, [fontsLoaded]);

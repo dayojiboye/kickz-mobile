@@ -6,8 +6,8 @@ import FAIcon from "react-native-vector-icons/FontAwesome5";
 import HomeScreen from "./HomeScreen";
 import theme from "../config/theme";
 import ProfileScreen from "./ProfileScreen";
-import CartScreen from "./CartScreen";
 import OrdersScreen from "./OrdersScreen";
+import FavoritesScreen from "./FavoritesScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -33,8 +33,8 @@ export default function Home() {
 				}}
 			/>
 			<Tab.Screen
-				name="CartScreen"
-				component={CartScreen}
+				name="Favorites"
+				component={FavoritesScreen}
 				options={{
 					tabBarIcon: (props) => (
 						<FAIcon

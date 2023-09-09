@@ -23,11 +23,11 @@ export type AppContextValue = {
 export type RootStackParamList = {
 	Login: undefined;
 	Signup: undefined;
-	Home: undefined;
-	Profile: undefined;
-	HomeScreen: undefined;
-	Orders: undefined;
-	Cart: undefined;
+	// Home: undefined;
+	// Profile: undefined;
+	// HomeScreen: undefined;
+	// Orders: undefined;
+	// Favorites: undefined;
 };
 
 export type ProductType = {
@@ -39,4 +39,16 @@ export type ProductType = {
 	price: number;
 	thumbnail: string;
 	documentID: string;
+};
+
+export type ScrollContextType = {
+	opacity: number;
+	maxOffset: number;
+	offset: number;
+	titleShowing: boolean;
+	updateOffset(val: number): void;
+};
+
+export type ChildProps = {
+	children: JSX.Element[] | JSX.Element;
 };
