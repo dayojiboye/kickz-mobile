@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View, Animated } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Animated, Text } from "react-native";
 import React from "react";
 import theme from "../../config/theme";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -9,6 +9,8 @@ import {
 } from "@react-navigation/material-top-tabs";
 import MenScreen from "./MenScreen";
 import WomenScreen from "./WomenScreen";
+import { BlurView } from "expo-blur";
+import Icon from "react-native-vector-icons/Entypo";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -18,10 +20,7 @@ export default function HomeScreen() {
 	return (
 		<>
 			<StatusBar style="dark" />
-			{/* <CustomAppBar
-				trailIcon={Icon}
-				trailIconProps={{ name: "notifications-sharp", size: 30, color: theme.primary }}
-			/> */}
+			{/* Add scroll to top on swipe start */}
 			<Tab.Navigator
 				tabBar={(props) => <ProductTab {...props} />}
 				style={[styles.container, { paddingTop: inset.top }]}
@@ -29,6 +28,15 @@ export default function HomeScreen() {
 				<Tab.Screen name="Men" component={MenScreen} />
 				<Tab.Screen name="Women" component={WomenScreen} />
 			</Tab.Navigator>
+			<BlurView intensity={3} tint="default" style={styles.blurView} />
+			<TouchableOpacity activeOpacity={0.8} style={styles.checkoutButton}>
+				<View style={styles.checkoutIcon}>
+					<Icon name="shopping-bag" color="white" size={35} />
+					<View style={styles.checkoutCount}>
+						<Text style={styles.checkoutCountText}>0</Text>
+					</View>
+				</View>
+			</TouchableOpacity>
 		</>
 	);
 }
@@ -140,5 +148,51 @@ const styles = StyleSheet.create({
 		height: "100%",
 		zIndex: -1,
 		borderRadius: 50,
+	},
+	blurView: {
+		// backgroundColor: "rgba(255, 255, 255, 0.4)",
+		position: "absolute",
+		left: 0,
+		right: 0,
+		bottom: 0,
+		height: 70,
+	},
+	checkoutButton: {
+		position: "absolute",
+		bottom: 30,
+		right: 20,
+		backgroundColor: theme.primary,
+		width: 70,
+		height: 70,
+		borderRadius: 35,
+		alignItems: "center",
+		justifyContent: "center",
+		shadowColor: theme.black,
+		shadowOffset: {
+			width: 0,
+			height: 8,
+		},
+		shadowOpacity: 0.44,
+		shadowRadius: 10.32,
+		elevation: 16,
+	},
+	checkoutIcon: {
+		position: "relative",
+	},
+	checkoutCount: {
+		minWidth: 20,
+		minHeight: 20,
+		borderRadius: 10,
+		position: "absolute",
+		backgroundColor: theme.textPrimary,
+		right: -5,
+		top: -5,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	checkoutCountText: {
+		fontFamily: theme.fontBold,
+		color: theme.white,
+		fontSize: 14,
 	},
 });

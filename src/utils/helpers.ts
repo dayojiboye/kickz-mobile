@@ -16,3 +16,13 @@ export const showToast = (
 		shadow: false,
 		animation: true,
 	});
+
+export const formatCurrency = (cash: number | string): string => {
+	const money = cash
+		? Number(cash)
+				.toFixed(2)
+				.replace(/./g, (c, i, a) => (i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c))
+		: "0.00";
+
+	return `₦${money}`;
+};

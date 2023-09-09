@@ -35,4 +35,5 @@ export type ProductType = {
 	name: string;
 	price: number;
 	thumbnail: string;
+	documentID: string;
 };

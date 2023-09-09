@@ -37,8 +37,9 @@ export default function Home() {
 				component={CartScreen}
 				options={{
 					tabBarIcon: (props) => (
-						<EIcon
-							name="shopping-bag"
+						<FAIcon
+							name="bookmark"
+							solid
 							color={props.focused ? theme.primary : theme.placeholder}
 							size={25}
 						/>

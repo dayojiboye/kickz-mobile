@@ -1,27 +1,30 @@
 import { useQuery } from "react-query";
-import { collection, query, getDocs } from "firebase/firestore";
+import { collection, query, getDocs, where } from "firebase/firestore";
 import db from "../../firebase/firebaseConfig";
 import { showToast } from "../utils/helpers";
 import { toastType } from "../enums";
-import useStore from "./useStore";
 import { ProductType } from "../types";
 
 export default function useGetProducts(
+	category: "men" | "women",
 	onDone?: () => void
 	// isSearching?: boolean,
 	// searchText?: string
 ) {
-	const appStore = useStore();
-
-	const fetchUserNotes = async () => {
-		const q = query(collection(db, "products"));
+	const fetchProducts = async () => {
+		const q = query(collection(db, "products"), where("category", "==", category));
 		const querySnapshot = await getDocs(q);
 		const products: ProductType[] = [];
-		querySnapshot.forEach((doc) => products.push(JSON.parse(JSON.stringify(doc.data()))));
+		querySnapshot.forEach((doc) =>
+			products.push({
+				...JSON.parse(JSON.stringify(doc.data())),
+				documentID: doc.id,
+			})
+		);
 		return products;
 	};
 
-	return useQuery<ProductType[]>(["user_notes", appStore.user?.uid], fetchUserNotes, {
+	return useQuery<ProductType[]>(["products", category], fetchProducts, {
 		onError: (err: any) => {
 			showToast(err.message, toastType.ERROR);
 		},

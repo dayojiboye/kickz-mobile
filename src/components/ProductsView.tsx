@@ -1,57 +1,84 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { BlurView } from "expo-blur";
-import CustomButton from "./CustomButton";
 import theme from "../config/theme";
 import { ProductType } from "../types";
+import { Skeleton } from "moti/skeleton";
+import ProductCard from "./ProductCard";
 
-export default function ProductsView({ products }: { products: ProductType[] }) {
+export default function ProductsView({
+	products,
+	isLoading,
+}: {
+	products: ProductType[];
+	isLoading: boolean;
+}) {
 	return (
 		<View style={styles.container}>
-			<ScrollView style={{ flex: 1 }} contentContainerStyle={styles.contentStyle}>
-				<Text>{products.length}</Text>
-			</ScrollView>
-
-			<CustomButton label="Checkout" style={styles.checkoutButton} />
-			{/* <LinearGradient
-				colors={["rgba(255, 255, 255, 0.3)", "transparent"]}
-				style={styles.linearGradient}
-				pointerEvents="none"
-			/> */}
-			<BlurView intensity={5} tint="light" style={styles.blur} />
+			{isLoading ? (
+				<LoadingComponent />
+			) : (
+				<FlatList
+					data={products}
+					keyExtractor={(item, index) => index.toString()}
+					renderItem={({ item: product }) => (
+						<ProductCard
+							product={product}
+							isFavorite={false}
+							rating={Math.floor(Math.random() * (6 - 1) + 1)}
+						/>
+					)}
+					style={{ flex: 1 }}
+					numColumns={2}
+					contentContainerStyle={styles.contentStyle}
+					columnWrapperStyle={{ gap: 10 }}
+				/>
+			)}
 		</View>
 	);
 }
+
+const LoadingComponent = () => {
+	return (
+		<View style={styles.loadingContainer}>
+			{Array(12)
+				.fill({})
+				.map((_, index) => (
+					<LoadingSkeleton key={index} />
+				))}
+		</View>
+	);
+};
+
+const LoadingSkeleton = () => {
+	return (
+		<View style={styles.skeleton}>
+			<Skeleton colorMode="light" radius={4} height={250} width="100%" />
+		</View>
+	);
+};
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: theme.white,
-		position: "relative",
-		paddingBottom: 10,
+		paddingTop: 20,
 	},
 	contentStyle: {
-		paddingTop: 48,
+		paddingTop: 28,
+		paddingHorizontal: 20,
+		paddingBottom: 50,
+		rowGap: 10,
 	},
-	checkoutButton: {
-		// borderRadius: 50,
-		width: 200,
-		alignSelf: "center",
+	loadingContainer: {
+		flexDirection: "row",
+		flexWrap: "wrap",
+		justifyContent: "space-between",
+		rowGap: 10,
+		width: "100%",
+		paddingTop: 28,
+		paddingHorizontal: 20,
 	},
-	// linearGradient: {
-	// 	position: "absolute",
-	// 	left: 0,
-	// 	right: 0,
-	// 	bottom: 0,
-	// 	height: 80,
-	// 	zIndex: -1,
-	// },
-	blur: {
-		position: "absolute",
-		left: 0,
-		right: 0,
-		bottom: 0,
-		height: 80,
-		zIndex: -1,
+	skeleton: {
+		width: "48%",
 	},
 });
