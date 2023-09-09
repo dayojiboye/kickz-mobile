@@ -1,5 +1,5 @@
 import React from "react";
-import { AppContextValue, UserData } from "../types";
+import { AppContextValue, ProductType, UserData } from "../types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const _storeUserId = async (value: string) => {
@@ -21,16 +21,20 @@ const _removeUserId = async () => {
 type AppContextAction =
 	| { type: "login_user"; payload: UserData }
 	| { type: "logout_user" }
-	| { type: "init_app"; payload: boolean };
+	| { type: "init_app"; payload: boolean }
+	| { type: "add_fav"; payload: ProductType }
+	| { type: "remove_fav"; payload: ProductType };
 
 const initialState: {
 	user: UserData | null;
 	isInitializing: boolean;
 	isAuth: boolean;
+	favoriteProducts: ProductType[];
 } = {
 	user: null,
 	isInitializing: true,
 	isAuth: false,
+	favoriteProducts: [],
 };
 
 export const AppContext = React.createContext({} as AppContextValue);
@@ -57,6 +61,20 @@ const reducer = (state: typeof initialState, action: AppContextAction) => {
 				isInitializing: action.payload,
 			};
 
+		case "add_fav":
+			return {
+				...state,
+				favoriteProducts: [action.payload, ...state.favoriteProducts],
+			};
+
+		case "remove_fav":
+			return {
+				...state,
+				favoriteProducts: state.favoriteProducts.filter(
+					(prod) => prod.documentID !== action.payload.documentID
+				),
+			};
+
 		default:
 			throw new Error("Unsupported action type for app context");
 	}
@@ -80,15 +98,26 @@ export default function AppProvider(props: React.PropsWithChildren<{}>) {
 			dispatch({ type: "init_app", payload: value });
 		};
 
+		const addFavoriteProduct = (value: ProductType) => {
+			dispatch({ type: "add_fav", payload: value });
+		};
+
+		const removeFavoriteProduct = (value: ProductType) => {
+			dispatch({ type: "remove_fav", payload: value });
+		};
+
 		return {
 			user: state.user,
 			isInitializing: state.isInitializing,
 			isAuth: state.isAuth,
+			favoriteProducts: state.favoriteProducts,
 			loginUser,
 			logoutUser,
 			setInitApp,
+			addFavoriteProduct,
+			removeFavoriteProduct,
 		};
-	}, [state.user, state.isInitializing, state.isAuth]);
+	}, [state.user, state.isInitializing, state.isAuth, state.favoriteProducts]);
 
 	return <AppContext.Provider value={value} {...props} />;
 }

@@ -8,9 +8,13 @@ import ProductCard from "./ProductCard";
 export default function ProductsView({
 	products,
 	isLoading,
+	refreshing,
+	onRefresh,
 }: {
 	products: ProductType[];
 	isLoading: boolean;
+	refreshing?: boolean;
+	onRefresh?: () => void;
 }) {
 	return (
 		<View style={styles.container}>
@@ -31,6 +35,8 @@ export default function ProductsView({
 					numColumns={2}
 					contentContainerStyle={styles.contentStyle}
 					columnWrapperStyle={{ gap: 10 }}
+					refreshing={refreshing}
+					onRefresh={onRefresh}
 				/>
 			)}
 		</View>
@@ -52,7 +58,7 @@ const LoadingComponent = () => {
 const LoadingSkeleton = () => {
 	return (
 		<View style={styles.skeleton}>
-			<Skeleton colorMode="light" radius={4} height={250} width="100%" />
+			<Skeleton colorMode="light" radius={4} height={180} width="100%" />
 		</View>
 	);
 };
@@ -61,13 +67,13 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: theme.white,
-		paddingTop: 20,
+		paddingTop: 10,
 	},
 	contentStyle: {
 		paddingTop: 28,
 		paddingHorizontal: 20,
 		paddingBottom: 50,
-		rowGap: 10,
+		rowGap: 20,
 	},
 	loadingContainer: {
 		flexDirection: "row",

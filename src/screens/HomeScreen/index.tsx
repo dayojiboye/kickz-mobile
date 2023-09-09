@@ -29,7 +29,7 @@ export default function HomeScreen() {
 				<Tab.Screen name="Women" component={WomenScreen} />
 			</Tab.Navigator>
 			<BlurView intensity={3} tint="default" style={styles.blurView} />
-			<TouchableOpacity activeOpacity={0.8} style={styles.checkoutButton}>
+			<TouchableOpacity activeOpacity={0.9} style={styles.checkoutButton}>
 				<View style={styles.checkoutIcon}>
 					<Icon name="shopping-bag" color="white" size={35} />
 					<View style={styles.checkoutCount}>
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
 		left: 0,
 		right: 0,
 		bottom: 0,
-		height: 70,
+		height: 40,
 	},
 	checkoutButton: {
 		position: "absolute",

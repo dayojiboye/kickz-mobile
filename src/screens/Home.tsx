@@ -24,7 +24,7 @@ export default function Home() {
 				component={HomeScreen}
 				options={{
 					tabBarIcon: (props) => (
-						<EIcon
+						<FAIcon
 							name="home"
 							color={props.focused ? theme.primary : theme.placeholder}
 							size={25}

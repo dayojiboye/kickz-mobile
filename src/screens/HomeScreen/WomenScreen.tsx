@@ -1,16 +1,20 @@
-import { StyleSheet } from "react-native";
 import ProductsView from "../../components/ProductsView";
 import useGetProducts from "../../hooks/useGetProducts";
+import React from "react";
 
 export default function WomenScreen() {
-	const womenProductsQuery = useGetProducts("women");
+	const [isRefreshing, setIsRefreshing] = React.useState<boolean>(false);
+	const womenProductsQuery = useGetProducts("women", () => setIsRefreshing(false));
 
 	return (
 		<ProductsView
 			isLoading={womenProductsQuery.isLoading}
 			products={womenProductsQuery.data || []}
+			refreshing={isRefreshing}
+			onRefresh={() => {
+				setIsRefreshing(true);
+				womenProductsQuery.refetch();
+			}}
 		/>
 	);
 }
-
-const styles = StyleSheet.create({});
