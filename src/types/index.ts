@@ -23,4 +23,16 @@ export type RootStackParamList = {
 	Home: undefined;
 	Profile: undefined;
 	HomeScreen: undefined;
+	Orders: undefined;
+	Cart: undefined;
+};
+
+export type ProductType = {
+	adminUserUID: string;
+	category: string;
+	createdDate: Date | string;
+	desc: string;
+	name: string;
+	price: number;
+	thumbnail: string;
 };

@@ -51,7 +51,7 @@ export default function CustomAppBar({
 					onPress={() => onLeadPress?.()}
 					icon={leadIcon}
 					iconProps={leadIconProps}
-					style={leadIconStyle}
+					style={[{ paddingRight: 20 }, leadIconStyle]}
 				/>
 			) : null}
 			{trailIcon ? (
@@ -60,7 +60,7 @@ export default function CustomAppBar({
 					onPress={() => onTrailPress?.()}
 					icon={trailIcon}
 					iconProps={trailIconProps}
-					style={[{ marginLeft: "auto" }, trailIconStyle]}
+					style={[{ marginLeft: "auto", paddingLeft: 20 }, trailIconStyle]}
 				/>
 			) : null}
 		</View>
