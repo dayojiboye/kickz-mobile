@@ -6,17 +6,15 @@ import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { formatCurrency } from "../utils/helpers";
 import useStore from "../hooks/useStore";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 type Props = {
 	product: ProductType;
+	onPress: () => void;
 };
 
-export default function ProductCard({ product }: Props) {
+export default function ProductCard({ product, onPress }: Props) {
 	const { favoriteProducts, addFavoriteProduct, removeFavoriteProduct } = useStore();
 	const isFav = favoriteProducts.some((prod) => prod.documentID === product.documentID);
-	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
 	const toggleFavorite = (product: ProductType) => {
 		if (isFav) removeFavoriteProduct(product);
@@ -24,22 +22,7 @@ export default function ProductCard({ product }: Props) {
 	};
 
 	return (
-		<TouchableOpacity
-			activeOpacity={0.8}
-			style={styles.container}
-			// onPress={() =>
-			// 	navigation.push("Product", {
-			// 		product: product,
-			// 	})
-			// }
-			onPress={() =>
-				navigation.navigate("Home", {
-					screen: "HomeScreen",
-					params: { screen: "Product", params: { product } },
-				})
-			}
-			// onPress={onPress}
-		>
+		<TouchableOpacity activeOpacity={0.8} style={styles.container} onPress={onPress}>
 			<ImageBackground
 				style={styles.imageContainer}
 				imageStyle={styles.image}

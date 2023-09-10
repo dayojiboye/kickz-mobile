@@ -3,10 +3,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import theme from "../config/theme";
 import ProfileScreen from "./ProfileScreen";
 import OrdersScreen from "./OrdersScreen";
-import FavoritesScreen from "./FavoritesScreen";
 import { Home3, Archive, ReceiptItem, User } from "iconsax-react-native";
 import HomeStack from "./HomeScreen";
 import { RootStackParamList } from "../types";
+import FavoriteStack from "./FavoritesScreen";
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
@@ -32,8 +32,8 @@ export default function Home() {
 				}}
 			/>
 			<Tab.Screen
-				name="Favorites"
-				component={FavoritesScreen}
+				name="FavoritesScreen"
+				component={FavoriteStack}
 				options={{
 					tabBarIcon: (props) => (
 						<Archive

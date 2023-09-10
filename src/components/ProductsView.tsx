@@ -1,9 +1,11 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import theme from "../config/theme";
-import { ProductType } from "../types";
+import { HomeStackParamList, ProductType } from "../types";
 import { Skeleton } from "moti/skeleton";
 import ProductCard from "./ProductCard";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 export default function ProductsView({
 	products,
@@ -16,6 +18,8 @@ export default function ProductsView({
 	refreshing?: boolean;
 	onRefresh?: () => void;
 }) {
+	const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+
 	return (
 		<View style={styles.container}>
 			{isLoading ? (
@@ -27,6 +31,7 @@ export default function ProductsView({
 					renderItem={({ item: product }) => (
 						<ProductCard
 							product={product}
+							onPress={() => navigation.navigate("Product", { product })}
 							// rating={Math.floor(Math.random() * (6 - 1) + 1)}
 						/>
 					)}

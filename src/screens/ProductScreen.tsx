@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { HomeStackParamList } from "../types";
+import { FavoritesStackParamList, HomeStackParamList } from "../types";
 import CustomAppBar from "../components/CustomAppBar";
 import theme from "../config/theme";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -23,7 +23,10 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import ProductOptionsBottomSheet from "../components/BottomSheets/ProductOptions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-type Props = NativeStackScreenProps<HomeStackParamList, "Product">;
+type Props = NativeStackScreenProps<
+	HomeStackParamList & FavoritesStackParamList,
+	"Product" | "FavoriteProduct"
+>;
 const { width } = Dimensions.get("window");
 
 export default function ProductScreen({ navigation, route }: Props) {

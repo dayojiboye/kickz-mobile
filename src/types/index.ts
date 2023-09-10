@@ -23,13 +23,11 @@ export type AppContextValue = {
 export type RootStackParamList = {
 	Login: undefined;
 	Signup: undefined;
-	Home:
-		| undefined
-		| { screen: string; params: { screen: string; params: { product: ProductType } } };
+	Home: undefined;
 	Profile: undefined;
-	HomeScreen: undefined | { screen: string; params: { product: ProductType } };
+	HomeScreen: undefined;
+	FavoritesScreen: undefined;
 	OrdersScreen: undefined;
-	Favorites: undefined;
 };
 
 export type ProductType = {
@@ -59,4 +57,9 @@ export type HomeStackParamList = {
 	Products: undefined;
 	Product: { product: ProductType };
 	Checkout: undefined;
+};
+
+export type FavoritesStackParamList = {
+	Favorites: undefined;
+	FavoriteProduct: { product: ProductType };
 };

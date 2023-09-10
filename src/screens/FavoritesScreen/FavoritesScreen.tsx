@@ -1,13 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import CustomAppBar from "../components/CustomAppBar";
-import theme from "../config/theme";
-import FlatListContextProvider, { FlatList } from "../context/FlatListContext";
-import useStore from "../hooks/useStore";
-import ProductCard from "../components/ProductCard";
+import CustomAppBar from "../../components/CustomAppBar";
+import theme from "../../config/theme";
+import FlatListContextProvider, { FlatList } from "../../context/FlatListContext";
+import useStore from "../../hooks/useStore";
+import ProductCard from "../../components/ProductCard";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { FavoritesStackParamList } from "../../types";
 
 export default function FavoritesScreen() {
 	const { favoriteProducts } = useStore();
+	const navigation = useNavigation<NativeStackNavigationProp<FavoritesStackParamList>>();
 
 	return (
 		<>
@@ -16,7 +20,12 @@ export default function FavoritesScreen() {
 				<FlatList
 					data={favoriteProducts}
 					keyExtractor={(item, index) => item.documentID}
-					renderItem={({ item: product }) => <ProductCard product={product} />}
+					renderItem={({ item: product }) => (
+						<ProductCard
+							product={product}
+							onPress={() => navigation.navigate("FavoriteProduct", { product })}
+						/>
+					)}
 					style={{ flex: 1, backgroundColor: theme.white }}
 					contentContainerStyle={styles.container}
 					numColumns={2}
