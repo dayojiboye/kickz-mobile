@@ -30,7 +30,7 @@ export default function QuantityButton({ style, quantity, onIncrease, onDecrease
 				<Text style={[styles.label, { width: 30, textAlign: "center" }]}>{quantity}</Text>
 				<TouchableOpacity
 					disabled={isIncreaseDisabled}
-					style={[styles.ctaButton, { opacity: isIncreaseDisabled ? 0.6 : 1 }]}
+					style={[styles.ctaButton, { opacity: isIncreaseDisabled ? 0.5 : 1 }]}
 					onPress={onIncrease}
 				>
 					<Icon name="add" size={25} color={theme.black} />

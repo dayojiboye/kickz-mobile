@@ -22,6 +22,7 @@ import ExpansionPanel from "../components/ExpansionPanel";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import ProductOptionsBottomSheet from "../components/BottomSheets/ProductOptions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import SizeOptionsBottomSheet from "../components/BottomSheets/SizeOptions";
 
 type Props = NativeStackScreenProps<
 	HomeStackParamList & FavoritesStackParamList,
@@ -35,7 +36,9 @@ export default function ProductScreen({ navigation, route }: Props) {
 	const isFav = favoriteProducts.some((prod) => prod.documentID === product.documentID);
 	const [quantity, setQuantity] = React.useState<number>(1);
 	const productOptionsBottomSheetRef = React.useRef<BottomSheetModal>(null);
+	const sizeOptionsBottomSheetRef = React.useRef<BottomSheetModal>(null);
 	const inset = useSafeAreaInsets();
+	const [size, setSize] = React.useState<number>(43);
 
 	const toggleFavorite = () => {
 		if (isFav) removeFavoriteProduct(product);
@@ -94,7 +97,11 @@ export default function ProductScreen({ navigation, route }: Props) {
 						</View>
 						<Text style={styles.priceText}>{formatCurrency(product.price)}</Text>
 						<View style={{ marginTop: 24, gap: 10 }}>
-							<PreferenceButton label="Size" preference="Medium" onPress={() => {}} />
+							<PreferenceButton
+								label="Size"
+								preference={size}
+								onPress={() => sizeOptionsBottomSheetRef.current?.present()}
+							/>
 							<QuantityButton
 								quantity={quantity}
 								onIncrease={() => setQuantity(quantity + 1)}
@@ -126,6 +133,11 @@ export default function ProductScreen({ navigation, route }: Props) {
 				</ScrollView>
 			</View>
 			<ProductOptionsBottomSheet ref={productOptionsBottomSheetRef} />
+			<SizeOptionsBottomSheet
+				ref={sizeOptionsBottomSheetRef}
+				selectedSize={size}
+				onSelectSize={(size) => setSize(size)}
+			/>
 		</>
 	);
 }

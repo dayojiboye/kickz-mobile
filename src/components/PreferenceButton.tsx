@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 type Props = {
 	label: string;
-	preference: string;
+	preference: string | number;
 	style?: StyleProp<ViewStyle>;
 	onPress: () => void;
 };
