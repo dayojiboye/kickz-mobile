@@ -1,4 +1,12 @@
-import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+	ImageBackground,
+	StyleProp,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+	ViewStyle,
+} from "react-native";
 import React from "react";
 import { ProductType, RootStackParamList } from "../types";
 import theme from "../config/theme";
@@ -9,10 +17,11 @@ import useStore from "../hooks/useStore";
 
 type Props = {
 	product: ProductType;
+	style?: StyleProp<ViewStyle>;
 	onPress: () => void;
 };
 
-export default function ProductCard({ product, onPress }: Props) {
+export default function ProductCard({ product, style, onPress }: Props) {
 	const { favoriteProducts, addFavoriteProduct, removeFavoriteProduct } = useStore();
 	const isFav = favoriteProducts.some((prod) => prod.documentID === product.documentID);
 
@@ -22,7 +31,7 @@ export default function ProductCard({ product, onPress }: Props) {
 	};
 
 	return (
-		<TouchableOpacity activeOpacity={0.8} style={styles.container} onPress={onPress}>
+		<TouchableOpacity activeOpacity={0.8} style={[styles.container, style]} onPress={onPress}>
 			<ImageBackground
 				style={styles.imageContainer}
 				imageStyle={styles.image}
@@ -62,9 +71,8 @@ export default function ProductCard({ product, onPress }: Props) {
 
 const styles = StyleSheet.create({
 	container: {
-		width: "48%",
-		maxWidth: "50%",
-		flex: 1,
+		width: "48.5%",
+		flexShrink: 0,
 	},
 	imageContainer: {
 		height: 150,

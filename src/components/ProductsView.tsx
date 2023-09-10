@@ -38,7 +38,7 @@ export default function ProductsView({
 					style={{ flex: 1 }}
 					numColumns={2}
 					contentContainerStyle={styles.contentStyle}
-					columnWrapperStyle={{ gap: 10 }}
+					columnWrapperStyle={{ justifyContent: "space-between" }}
 					refreshing={refreshing}
 					onRefresh={onRefresh}
 				/>
@@ -62,7 +62,10 @@ const LoadingComponent = () => {
 const LoadingSkeleton = () => {
 	return (
 		<View style={styles.skeleton}>
-			<Skeleton colorMode="light" radius={4} height={180} width="100%" />
+			<Skeleton colorMode="light" radius={20} height={150} width="100%" />
+			<Skeleton colorMode="light" height={10} width="80%" />
+			<Skeleton colorMode="light" height={10} width="100%" />
+			<Skeleton colorMode="light" height={10} width="50%" />
 		</View>
 	);
 };
@@ -90,5 +93,6 @@ const styles = StyleSheet.create({
 	},
 	skeleton: {
 		width: "48%",
+		gap: 7,
 	},
 });

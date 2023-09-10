@@ -29,7 +29,7 @@ export default function FavoritesScreen() {
 					style={{ flex: 1, backgroundColor: theme.white }}
 					contentContainerStyle={styles.container}
 					numColumns={2}
-					columnWrapperStyle={{ gap: 10 }}
+					columnWrapperStyle={{ justifyContent: "space-between" }}
 					ListHeaderComponent={() => <Text style={styles.headingText}>Favorites</Text>}
 					ListEmptyComponent={() => (
 						<View style={styles.emptyView}>
