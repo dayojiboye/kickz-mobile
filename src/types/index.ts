@@ -23,10 +23,12 @@ export type AppContextValue = {
 export type RootStackParamList = {
 	Login: undefined;
 	Signup: undefined;
-	Home: undefined;
+	Home:
+		| undefined
+		| { screen: string; params: { screen: string; params: { product: ProductType } } };
 	Profile: undefined;
-	HomeScreen: undefined;
-	Orders: undefined;
+	HomeScreen: undefined | { screen: string; params: { product: ProductType } };
+	OrdersScreen: undefined;
 	Favorites: undefined;
 };
 

@@ -6,8 +6,9 @@ import OrdersScreen from "./OrdersScreen";
 import FavoritesScreen from "./FavoritesScreen";
 import { Home3, Archive, ReceiptItem, User } from "iconsax-react-native";
 import HomeStack from "./HomeScreen";
+import { RootStackParamList } from "../types";
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<RootStackParamList>();
 
 export default function Home() {
 	return (

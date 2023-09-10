@@ -27,7 +27,18 @@ export default function ProductCard({ product }: Props) {
 		<TouchableOpacity
 			activeOpacity={0.8}
 			style={styles.container}
-			onPress={() => navigation.push("Product", { product })}
+			// onPress={() =>
+			// 	navigation.push("Product", {
+			// 		product: product,
+			// 	})
+			// }
+			onPress={() =>
+				navigation.navigate("Home", {
+					screen: "HomeScreen",
+					params: { screen: "Product", params: { product } },
+				})
+			}
+			// onPress={onPress}
 		>
 			<ImageBackground
 				style={styles.imageContainer}

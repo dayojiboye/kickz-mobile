@@ -1,7 +1,6 @@
 import {
 	Dimensions,
 	ImageBackground,
-	SafeAreaView,
 	ScrollView,
 	StyleSheet,
 	Text,
@@ -22,6 +21,7 @@ import CustomButton from "../components/CustomButton";
 import ExpansionPanel from "../components/ExpansionPanel";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import ProductOptionsBottomSheet from "../components/BottomSheets/ProductOptions";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Product">;
 const { width } = Dimensions.get("window");
@@ -32,6 +32,7 @@ export default function ProductScreen({ navigation, route }: Props) {
 	const isFav = favoriteProducts.some((prod) => prod.documentID === product.documentID);
 	const [quantity, setQuantity] = React.useState<number>(1);
 	const productOptionsBottomSheetRef = React.useRef<BottomSheetModal>(null);
+	const inset = useSafeAreaInsets();
 
 	const toggleFavorite = () => {
 		if (isFav) removeFavoriteProduct(product);
@@ -40,7 +41,14 @@ export default function ProductScreen({ navigation, route }: Props) {
 
 	return (
 		<>
-			<SafeAreaView style={{ flex: 1, backgroundColor: theme.white, position: "relative" }}>
+			<View
+				style={{
+					flex: 1,
+					backgroundColor: theme.white,
+					position: "relative",
+					paddingTop: inset.top,
+				}}
+			>
 				<CustomAppBar
 					style={{ backgroundColor: "transparent", position: "absolute", top: 10 }}
 					leadIcon={Icon}
@@ -113,7 +121,7 @@ export default function ProductScreen({ navigation, route }: Props) {
 						</ExpansionPanel>
 					</View>
 				</ScrollView>
-			</SafeAreaView>
+			</View>
 			<ProductOptionsBottomSheet ref={productOptionsBottomSheetRef} />
 		</>
 	);
@@ -127,10 +135,6 @@ const styles = StyleSheet.create({
 	heroImage: {
 		height: 400,
 		width,
-		paddingVertical: 10,
-		paddingHorizontal: 20,
-		justifyContent: "flex-end",
-		alignItems: "flex-end",
 	},
 	ctaButton: {
 		backgroundColor: theme.iconBg,
