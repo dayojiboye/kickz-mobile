@@ -9,7 +9,7 @@ import {
 } from "@react-navigation/material-top-tabs";
 import MenScreen from "./MenScreen";
 import WomenScreen from "./WomenScreen";
-import { BlurView } from "expo-blur";
+// import { BlurView } from "expo-blur";
 import Icon from "react-native-vector-icons/Entypo";
 
 const Tab = createMaterialTopTabNavigator();
@@ -28,10 +28,10 @@ export default function HomeScreen() {
 				<Tab.Screen name="Men" component={MenScreen} />
 				<Tab.Screen name="Women" component={WomenScreen} />
 			</Tab.Navigator>
-			<BlurView intensity={3} tint="default" style={styles.blurView} />
+			{/* <BlurView intensity={3} tint="default" style={styles.blurView} /> */}
 			<TouchableOpacity activeOpacity={0.9} style={styles.checkoutButton}>
 				<View style={styles.checkoutIcon}>
-					<Icon name="shopping-bag" color="white" size={35} />
+					<Icon name="shopping-bag" color="white" size={30} />
 					<View style={styles.checkoutCount}>
 						<Text style={styles.checkoutCountText}>0</Text>
 					</View>
@@ -81,7 +81,7 @@ const ProductTab = ({ state, descriptors, navigation, position }: MaterialTopTab
 				const inputRange = state.routes.map((_, i) => i);
 				indicatorPosition = position.interpolate({
 					inputRange,
-					outputRange: inputRange.map((i) => (i === index ? 120 : 0)),
+					outputRange: inputRange.map((i) => (i === index ? 100 : 0)),
 				});
 
 				return (
@@ -131,18 +131,17 @@ const styles = StyleSheet.create({
 		position: "relative",
 	},
 	tabItemStyle: {
-		width: 120,
+		width: 100,
 		height: 50,
 		justifyContent: "center",
 		alignItems: "center",
-		borderRadius: 50,
 	},
 	tabBarLabelStyle: {
-		fontSize: 18,
+		fontSize: 14,
 		fontFamily: theme.fontBold,
 	},
 	tabIndicator: {
-		width: 120,
+		width: 100,
 		position: "absolute",
 		top: 0,
 		height: "100%",
@@ -159,11 +158,11 @@ const styles = StyleSheet.create({
 	},
 	checkoutButton: {
 		position: "absolute",
-		bottom: 30,
+		bottom: 16,
 		right: 20,
 		backgroundColor: theme.primary,
-		width: 70,
-		height: 70,
+		width: 60,
+		height: 60,
 		borderRadius: 35,
 		alignItems: "center",
 		justifyContent: "center",
@@ -180,9 +179,9 @@ const styles = StyleSheet.create({
 		position: "relative",
 	},
 	checkoutCount: {
-		minWidth: 20,
-		minHeight: 20,
-		borderRadius: 10,
+		minWidth: 18,
+		minHeight: 18,
+		borderRadius: 9,
 		position: "absolute",
 		backgroundColor: theme.textPrimary,
 		right: -5,
@@ -193,6 +192,6 @@ const styles = StyleSheet.create({
 	checkoutCountText: {
 		fontFamily: theme.fontBold,
 		color: theme.white,
-		fontSize: 14,
+		fontSize: 12,
 	},
 });

@@ -1,13 +1,11 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Icon from "react-native-vector-icons/Ionicons";
-import EIcon from "react-native-vector-icons/Entypo";
-import FAIcon from "react-native-vector-icons/FontAwesome5";
 import HomeScreen from "./HomeScreen";
 import theme from "../config/theme";
 import ProfileScreen from "./ProfileScreen";
 import OrdersScreen from "./OrdersScreen";
 import FavoritesScreen from "./FavoritesScreen";
+import { Home3, Archive, ReceiptItem, User } from "iconsax-react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,10 +22,10 @@ export default function Home() {
 				component={HomeScreen}
 				options={{
 					tabBarIcon: (props) => (
-						<FAIcon
-							name="home"
+						<Home3
+							size="32"
 							color={props.focused ? theme.primary : theme.placeholder}
-							size={25}
+							variant={props.focused ? "Bold" : "Broken"}
 						/>
 					),
 				}}
@@ -37,11 +35,10 @@ export default function Home() {
 				component={FavoritesScreen}
 				options={{
 					tabBarIcon: (props) => (
-						<FAIcon
-							name="bookmark"
-							solid
+						<Archive
+							size="32"
 							color={props.focused ? theme.primary : theme.placeholder}
-							size={25}
+							variant={props.focused ? "Bold" : "Broken"}
 						/>
 					),
 				}}
@@ -51,10 +48,10 @@ export default function Home() {
 				component={OrdersScreen}
 				options={{
 					tabBarIcon: (props) => (
-						<FAIcon
-							name="receipt"
+						<ReceiptItem
+							size="32"
 							color={props.focused ? theme.primary : theme.placeholder}
-							size={25}
+							variant={props.focused ? "Bold" : "Broken"}
 						/>
 					),
 				}}
@@ -64,10 +61,10 @@ export default function Home() {
 				component={ProfileScreen}
 				options={{
 					tabBarIcon: (props) => (
-						<Icon
-							name="person"
+						<User
+							size="32"
 							color={props.focused ? theme.primary : theme.placeholder}
-							size={25}
+							variant={props.focused ? "Bold" : "Broken"}
 						/>
 					),
 				}}

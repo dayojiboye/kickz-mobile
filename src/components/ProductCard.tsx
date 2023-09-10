@@ -5,7 +5,6 @@ import theme from "../config/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { formatCurrency } from "../utils/helpers";
-import { BlurView } from "expo-blur";
 import useStore from "../hooks/useStore";
 
 type Props = {
@@ -34,18 +33,15 @@ export default function ProductCard({ product }: Props) {
 					colors={["rgba(0, 0, 0, 0.3)", "rgba(0, 0, 0, 0.5)"]}
 					style={styles.cardOverlay}
 				>
-					<BlurView style={styles.favoriteButton} intensity={3} tint="light">
-						<TouchableOpacity
-							style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-							onPress={() => toggleFavorite(product)}
-						>
-							<Icon
-								name={isFav ? "favorite" : "favorite-border"}
-								size={25}
-								color={isFav ? theme.red : theme.white}
-							/>
-						</TouchableOpacity>
-					</BlurView>
+					<TouchableOpacity
+						style={[
+							styles.favoriteButton,
+							{ backgroundColor: isFav ? theme.primary : "rgba(156, 153, 153, 0.6)" },
+						]}
+						onPress={() => toggleFavorite(product)}
+					>
+						<Icon name={isFav ? "favorite" : "favorite-border"} size={23} color={theme.white} />
+					</TouchableOpacity>
 				</LinearGradient>
 			</ImageBackground>
 			<View style={styles.content}>
@@ -95,12 +91,13 @@ const styles = StyleSheet.create({
 	productName: {
 		color: theme.black,
 		fontFamily: theme.fontRegular,
-		fontSize: 16,
+		fontSize: 15,
 	},
 	favoriteButton: {
 		width: 40,
 		height: 40,
 		borderRadius: 20,
-		backgroundColor: "rgba(156, 153, 153, 0.7)",
+		justifyContent: "center",
+		alignItems: "center",
 	},
 });
