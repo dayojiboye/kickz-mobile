@@ -1,11 +1,13 @@
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
-import { ProductType } from "../types";
+import { ProductType, RootStackParamList } from "../types";
 import theme from "../config/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { formatCurrency } from "../utils/helpers";
 import useStore from "../hooks/useStore";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 type Props = {
 	product: ProductType;
@@ -14,6 +16,7 @@ type Props = {
 export default function ProductCard({ product }: Props) {
 	const { favoriteProducts, addFavoriteProduct, removeFavoriteProduct } = useStore();
 	const isFav = favoriteProducts.some((prod) => prod.documentID === product.documentID);
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
 	const toggleFavorite = (product: ProductType) => {
 		if (isFav) removeFavoriteProduct(product);
@@ -21,7 +24,11 @@ export default function ProductCard({ product }: Props) {
 	};
 
 	return (
-		<TouchableOpacity activeOpacity={0.8} style={styles.container}>
+		<TouchableOpacity
+			activeOpacity={0.8}
+			style={styles.container}
+			onPress={() => navigation.push("Product", { product })}
+		>
 			<ImageBackground
 				style={styles.imageContainer}
 				imageStyle={styles.image}
@@ -36,7 +43,7 @@ export default function ProductCard({ product }: Props) {
 					<TouchableOpacity
 						style={[
 							styles.favoriteButton,
-							{ backgroundColor: isFav ? theme.primary : "rgba(156, 153, 153, 0.6)" },
+							{ backgroundColor: isFav ? theme.primary : theme.iconBg },
 						]}
 						onPress={() => toggleFavorite(product)}
 					>

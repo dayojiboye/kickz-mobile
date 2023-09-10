@@ -23,7 +23,9 @@ export type AppContextValue = {
 export type RootStackParamList = {
 	Login: undefined;
 	Signup: undefined;
-	// Home: undefined;
+	Home: undefined;
+	Product: { product: ProductType };
+	Checkout: undefined;
 	// Profile: undefined;
 	// HomeScreen: undefined;
 	// Orders: undefined;

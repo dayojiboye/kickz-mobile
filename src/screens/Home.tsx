@@ -23,7 +23,7 @@ export default function Home() {
 				options={{
 					tabBarIcon: (props) => (
 						<Home3
-							size="32"
+							size="30"
 							color={props.focused ? theme.primary : theme.placeholder}
 							variant={props.focused ? "Bold" : "Broken"}
 						/>
@@ -36,7 +36,7 @@ export default function Home() {
 				options={{
 					tabBarIcon: (props) => (
 						<Archive
-							size="32"
+							size="30"
 							color={props.focused ? theme.primary : theme.placeholder}
 							variant={props.focused ? "Bold" : "Broken"}
 						/>
@@ -49,7 +49,7 @@ export default function Home() {
 				options={{
 					tabBarIcon: (props) => (
 						<ReceiptItem
-							size="32"
+							size="30"
 							color={props.focused ? theme.primary : theme.placeholder}
 							variant={props.focused ? "Bold" : "Broken"}
 						/>
@@ -62,7 +62,7 @@ export default function Home() {
 				options={{
 					tabBarIcon: (props) => (
 						<User
-							size="32"
+							size="30"
 							color={props.focused ? theme.primary : theme.placeholder}
 							variant={props.focused ? "Bold" : "Broken"}
 						/>

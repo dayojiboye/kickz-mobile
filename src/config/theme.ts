@@ -17,6 +17,7 @@ const theme = {
 	fontMedium: "OSMedium",
 	fontSemiBold: "OSSemiBold",
 	fontBold: "OSBold",
+	iconBg: "rgba(156, 153, 153, 0.5)",
 };
 
 export default theme;

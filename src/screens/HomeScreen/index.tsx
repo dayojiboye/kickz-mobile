@@ -31,7 +31,7 @@ export default function HomeScreen() {
 			{/* <BlurView intensity={3} tint="default" style={styles.blurView} /> */}
 			<TouchableOpacity activeOpacity={0.9} style={styles.checkoutButton}>
 				<View style={styles.checkoutIcon}>
-					<Icon name="shopping-bag" color="white" size={30} />
+					<Icon name="shopping-bag" color="white" size={28} />
 					<View style={styles.checkoutCount}>
 						<Text style={styles.checkoutCountText}>0</Text>
 					</View>
