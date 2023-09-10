@@ -125,9 +125,10 @@ const FormikObserver = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		height,
+		// height,
 		paddingTop: 16,
 		paddingHorizontal: 20,
+		paddingBottom: 50,
 	},
 	headingText: {
 		color: theme.textPrimary,

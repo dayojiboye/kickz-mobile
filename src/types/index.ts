@@ -24,12 +24,10 @@ export type RootStackParamList = {
 	Login: undefined;
 	Signup: undefined;
 	Home: undefined;
-	Product: { product: ProductType };
-	Checkout: undefined;
-	// Profile: undefined;
-	// HomeScreen: undefined;
-	// Orders: undefined;
-	// Favorites: undefined;
+	Profile: undefined;
+	HomeScreen: undefined;
+	Orders: undefined;
+	Favorites: undefined;
 };
 
 export type ProductType = {
@@ -53,4 +51,10 @@ export type ScrollContextType = {
 
 export type ChildProps = {
 	children: JSX.Element[] | JSX.Element;
+};
+
+export type HomeStackParamList = {
+	Products: undefined;
+	Product: { product: ProductType };
+	Checkout: undefined;
 };

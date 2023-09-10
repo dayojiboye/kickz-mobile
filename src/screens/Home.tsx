@@ -1,11 +1,11 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "./HomeScreen";
 import theme from "../config/theme";
 import ProfileScreen from "./ProfileScreen";
 import OrdersScreen from "./OrdersScreen";
 import FavoritesScreen from "./FavoritesScreen";
 import { Home3, Archive, ReceiptItem, User } from "iconsax-react-native";
+import HomeStack from "./HomeScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -19,7 +19,7 @@ export default function Home() {
 		>
 			<Tab.Screen
 				name="HomeScreen"
-				component={HomeScreen}
+				component={HomeStack}
 				options={{
 					tabBarIcon: (props) => (
 						<Home3

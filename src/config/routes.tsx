@@ -5,7 +5,6 @@ import { RootStackParamList } from "../types";
 import useStore from "../hooks/useStore";
 import SignupScreen from "../screens/SignupScreen";
 import LoginScreen from "../screens/LoginScreen";
-import ProductScreen from "../screens/ProductScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -17,7 +16,6 @@ export default function AppRoutes() {
 			{appStore.isAuth ? (
 				<>
 					<Stack.Screen name="Home" component={Home} />
-					<Stack.Screen name="Product" component={ProductScreen} />
 				</>
 			) : (
 				<>
