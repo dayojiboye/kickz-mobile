@@ -19,13 +19,21 @@ const _removeUserId = async () => {
 	}
 };
 
-const _storeFavorites = async (value: ProductType) => {
+const _storeFavorites = async (value: ProductType[]) => {
 	try {
 		await AsyncStorage.setItem("favorites", JSON.stringify(value));
 	} catch (err) {
-		__DEV__ && console.log("Something went wrong saving product", err);
+		__DEV__ && console.log("Something went wrong saving favorites", err);
 	}
 };
+
+// const _storeCart = async (value: ProductType) => {
+// 	try {
+// 		await AsyncStorage.setItem("favorites", JSON.stringify(value));
+// 	} catch (err) {
+// 		__DEV__ && console.log("Something went wrong saving product", err);
+// 	}
+// };
 
 type AppContextAction =
 	| { type: "login_user"; payload: UserData }
@@ -36,7 +44,9 @@ type AppContextAction =
 	| { type: "add_to_cart"; payload: CartItemType }
 	| { type: "remove_cart_item"; payload: string }
 	| { type: "reduce_cart_item"; payload: CartItemType }
-	| { type: "clear_cart" };
+	| { type: "clear_cart" }
+	| { type: "load_favorites"; payload: ProductType[] }
+	| { type: "load_cart"; payload: CartItemType[] };
 
 const initialState: {
 	user: UserData | null;
@@ -76,18 +86,36 @@ const reducer = (state: typeof initialState, action: AppContextAction) => {
 				isInitializing: action.payload,
 			};
 
-		case "add_fav":
+		case "load_favorites":
 			return {
 				...state,
-				favoriteProducts: [action.payload, ...state.favoriteProducts],
+				favoriteProducts: action.payload,
+			};
+
+		case "add_fav":
+			const updatedFavorites = [action.payload, ...state.favoriteProducts];
+			_storeFavorites(updatedFavorites);
+
+			return {
+				...state,
+				favoriteProducts: updatedFavorites,
 			};
 
 		case "remove_fav":
+			const _updatedFavorites = state.favoriteProducts.filter(
+				(prod) => prod.documentID !== action.payload.documentID
+			);
+			_storeFavorites(_updatedFavorites);
+
 			return {
 				...state,
-				favoriteProducts: state.favoriteProducts.filter(
-					(prod) => prod.documentID !== action.payload.documentID
-				),
+				favoriteProducts: _updatedFavorites,
+			};
+
+		case "load_cart":
+			return {
+				...state,
+				cart: action.payload,
 			};
 
 		case "add_to_cart":
@@ -137,14 +165,20 @@ export default function AppProvider(props: React.PropsWithChildren<{}>) {
 			dispatch({ type: "init_app", payload: value });
 		};
 
+		const loadFavorites = (value: ProductType[]) => {
+			dispatch({ type: "load_favorites", payload: value });
+		};
+
 		const addFavoriteProduct = (value: ProductType) => {
 			dispatch({ type: "add_fav", payload: value });
-			_storeFavorites(value);
 		};
 
 		const removeFavoriteProduct = (value: ProductType) => {
 			dispatch({ type: "remove_fav", payload: value });
-			_storeFavorites(value);
+		};
+
+		const loadCart = (value: CartItemType[]) => {
+			dispatch({ type: "load_cart", payload: value });
 		};
 
 		const addToCart = (value: CartItemType) => {
@@ -178,6 +212,8 @@ export default function AppProvider(props: React.PropsWithChildren<{}>) {
 			removeCartItem,
 			reduceCartItem,
 			clearCart,
+			loadCart,
+			loadFavorites,
 		};
 	}, [state.user, state.isInitializing, state.isAuth, state.favoriteProducts, state.cart]);
 

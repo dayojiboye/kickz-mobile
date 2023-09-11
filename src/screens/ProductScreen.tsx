@@ -39,10 +39,19 @@ export default function ProductScreen({ navigation, route }: Props) {
 	const sizeOptionsBottomSheetRef = React.useRef<BottomSheetModal>(null);
 	const inset = useSafeAreaInsets();
 	const [size, setSize] = React.useState<number>(43);
+	const { addToCart } = useStore();
 
 	const toggleFavorite = () => {
 		if (isFav) removeFavoriteProduct(product);
 		else addFavoriteProduct(product);
+	};
+
+	const handleAddToBag = () => {
+		addToCart({
+			...product,
+			quantity,
+			size,
+		});
 	};
 
 	return (
@@ -108,7 +117,7 @@ export default function ProductScreen({ navigation, route }: Props) {
 								onDecrease={() => setQuantity(quantity - 1)}
 							/>
 						</View>
-						<CustomButton label="Add to bag" style={{ marginTop: 24 }} />
+						<CustomButton label="Add to bag" style={{ marginTop: 24 }} onPress={handleAddToBag} />
 						<Text style={[styles.headingText, { marginTop: 40 }]}>Description</Text>
 						<Text style={styles.priceText}>{product.desc}</Text>
 						<ExpansionPanel title="Shipping policy" style={{ marginTop: 32 }}>

@@ -14,6 +14,10 @@ export default function CartScreen() {
 	const { cart } = useStore();
 	const navigation = useNavigation<NativeStackNavigationProp<CartStackParamList>>();
 
+	React.useEffect(() => {
+		console.log(JSON.stringify(cart));
+	}, [cart]);
+
 	return (
 		<>
 			<ScrollContextProvider>

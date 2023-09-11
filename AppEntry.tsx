@@ -27,7 +27,7 @@ export default function AppEntry() {
 		try {
 			const value = await AsyncStorage.getItem("favorites");
 			if (value !== null) {
-				appStore.addFavoriteProduct(JSON.parse(value));
+				appStore.loadFavorites(JSON.parse(value));
 			}
 		} catch (err) {
 			__DEV__ && console.log("Something went wrong loading favorites", err);

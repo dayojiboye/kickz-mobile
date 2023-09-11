@@ -29,7 +29,10 @@ export const formatCurrency = (cash: number | string): string => {
 };
 
 // Cart helpers
-export const existingItem = (prevCartItems: CartItemType[], nextCartItem: CartItemType) => {
+export const existingItem = (
+	prevCartItems: CartItemType[],
+	nextCartItem: CartItemType
+): boolean => {
 	return prevCartItems.some((item) => {
 		return item.documentID === nextCartItem.documentID;
 	});

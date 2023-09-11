@@ -17,8 +17,10 @@ export type AppContextValue = {
 	loginUser: (user: UserData) => void;
 	logoutUser: () => void;
 	setInitApp: (value: boolean) => void;
+	loadFavorites: (favorites: ProductType[]) => void;
 	addFavoriteProduct: (product: ProductType) => void;
 	removeFavoriteProduct: (product: ProductType) => void;
+	loadCart: (cartItems: CartItemType[]) => void;
 	addToCart: (cartItem: CartItemType) => void;
 	removeCartItem: (id: string) => void;
 	reduceCartItem: (cartItem: CartItemType) => void;
@@ -76,4 +78,5 @@ export type CartStackParamList = {
 
 export type CartItemType = {
 	quantity: number;
+	size: number;
 } & ProductType;
