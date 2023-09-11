@@ -3,14 +3,18 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import theme from "../config/theme";
 import ProfileScreen from "./ProfileScreen";
 import OrdersScreen from "./OrdersScreen";
-import { Home3, Archive, ReceiptItem, User } from "iconsax-react-native";
+import { Home3, Archive, ReceiptItem, User, ShoppingBag } from "iconsax-react-native";
 import HomeStack from "./HomeScreen";
 import { RootStackParamList } from "../types";
 import FavoriteStack from "./FavoritesScreen";
+import CartStack from "./CartScreen";
+import useStore from "../hooks/useStore";
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
 export default function Home() {
+	const appStore = useStore();
+
 	return (
 		<Tab.Navigator
 			screenOptions={{
@@ -42,6 +46,26 @@ export default function Home() {
 							variant={props.focused ? "Bold" : "Broken"}
 						/>
 					),
+				}}
+			/>
+			<Tab.Screen
+				name="CartScreen"
+				component={CartStack}
+				options={{
+					tabBarIcon: (props) => (
+						<ShoppingBag
+							size="30"
+							color={props.focused ? theme.primary : theme.placeholder}
+							variant={props.focused ? "Bold" : "Broken"}
+						/>
+					),
+					tabBarBadge: appStore.cart.length > 0 ? appStore.cart.length : undefined,
+					tabBarBadgeStyle: {
+						backgroundColor: theme.primary,
+						borderWidth: 1.5,
+						borderColor: theme.white,
+						fontSize: 10,
+					},
 				}}
 			/>
 			<Tab.Screen

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import React from "react";
 import CustomAppBar from "../../components/CustomAppBar";
 import theme from "../../config/theme";
@@ -8,6 +8,8 @@ import ProductCard from "../../components/ProductCard";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FavoritesStackParamList } from "../../types";
+import EmptyView from "../../components/EmptyView";
+import HeadingText from "../../components/HeadingText";
 
 export default function FavoritesScreen() {
 	const { favoriteProducts } = useStore();
@@ -30,12 +32,8 @@ export default function FavoritesScreen() {
 					contentContainerStyle={styles.container}
 					numColumns={2}
 					columnWrapperStyle={{ justifyContent: "space-between" }}
-					ListHeaderComponent={() => <Text style={styles.headingText}>Favorites</Text>}
-					ListEmptyComponent={() => (
-						<View style={styles.emptyView}>
-							<Text style={styles.emptyViewText}>Your favorite products appear here</Text>
-						</View>
-					)}
+					ListHeaderComponent={() => <HeadingText text="Favorites" />}
+					ListEmptyComponent={() => <EmptyView text="Your favorite products appear here" />}
 				/>
 			</FlatListContextProvider>
 		</>
@@ -47,21 +45,5 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		paddingBottom: 50,
 		rowGap: 20,
-	},
-	headingText: {
-		color: theme.black,
-		fontFamily: theme.fontBold,
-		fontSize: 28,
-		marginBottom: 10,
-	},
-	emptyView: {
-		height: 200,
-		alignItems: "center",
-		justifyContent: "center",
-	},
-	emptyViewText: {
-		fontFamily: theme.fontSemiBold,
-		color: theme.placeholder,
-		fontSize: 18,
 	},
 });

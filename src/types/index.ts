@@ -13,11 +13,16 @@ export type AppContextValue = {
 	isInitializing: boolean;
 	isAuth: boolean;
 	favoriteProducts: ProductType[];
+	cart: CartItemType[];
 	loginUser: (user: UserData) => void;
 	logoutUser: () => void;
 	setInitApp: (value: boolean) => void;
 	addFavoriteProduct: (product: ProductType) => void;
 	removeFavoriteProduct: (product: ProductType) => void;
+	addToCart: (cartItem: CartItemType) => void;
+	removeCartItem: (id: string) => void;
+	reduceCartItem: (cartItem: CartItemType) => void;
+	clearCart: () => void;
 };
 
 export type RootStackParamList = {
@@ -28,6 +33,7 @@ export type RootStackParamList = {
 	HomeScreen: undefined;
 	FavoritesScreen: undefined;
 	OrdersScreen: undefined;
+	CartScreen: undefined;
 };
 
 export type ProductType = {
@@ -56,10 +62,18 @@ export type ChildProps = {
 export type HomeStackParamList = {
 	Products: undefined;
 	Product: { product: ProductType };
-	Checkout: undefined;
 };
 
 export type FavoritesStackParamList = {
 	Favorites: undefined;
 	FavoriteProduct: { product: ProductType };
 };
+
+export type CartStackParamList = {
+	Cart: undefined;
+	Checkout: undefined;
+};
+
+export type CartItemType = {
+	quantity: number;
+} & ProductType;

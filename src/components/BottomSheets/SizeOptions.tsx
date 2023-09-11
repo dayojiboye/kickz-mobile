@@ -20,7 +20,7 @@ const SizeOptionsBottomSheet = React.forwardRef(
 		return (
 			<AppBottomSheet ref={ref} snapPoints={["70%"]} closeBottomsheet={closeBottomsheet}>
 				<View style={styles.header}>
-					<Text style={styles.headingText}>Select Size</Text>
+					<Text style={styles.headingText}>Select size</Text>
 				</View>
 				<ScrollView style={{ flex: 1 }} contentContainerStyle={styles.container}>
 					{shoeSizes.map((size) => (
