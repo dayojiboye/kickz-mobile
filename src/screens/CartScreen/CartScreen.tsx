@@ -9,14 +9,15 @@ import CustomAppBar from "../../components/CustomAppBar";
 import theme from "../../config/theme";
 import EmptyView from "../../components/EmptyView";
 import HeadingText from "../../components/HeadingText";
+import CartItem from "../../components/CartItem";
 
 export default function CartScreen() {
 	const { cart } = useStore();
 	const navigation = useNavigation<NativeStackNavigationProp<CartStackParamList>>();
 
-	React.useEffect(() => {
-		console.log(JSON.stringify(cart));
-	}, [cart]);
+	// React.useEffect(() => {
+	// 	console.log(JSON.stringify(cart));
+	// }, [cart]);
 
 	return (
 		<>
@@ -29,7 +30,11 @@ export default function CartScreen() {
 				>
 					<HeadingText text="Bag" />
 					{cart.length > 0 ? (
-						<></>
+						<>
+							{cart.map((item) => (
+								<CartItem key={item.documentID} product={item} />
+							))}
+						</>
 					) : (
 						<EmptyView
 							text={`No product in your bag. \n Add some now!`}
@@ -46,6 +51,6 @@ const styles = StyleSheet.create({
 	container: {
 		paddingHorizontal: 20,
 		paddingBottom: 50,
-		rowGap: 20,
+		// rowGap: 20,
 	},
 });

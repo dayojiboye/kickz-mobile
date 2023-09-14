@@ -77,7 +77,11 @@ export default function LoginScreen({ navigation }: Props) {
 				</Formik>
 				<View style={styles.footer}>
 					<Text style={styles.footerText}>Don't have an account?</Text>
-					<CustomTextButton label="Sign Up" onPress={() => navigation.push("Signup")} />
+					<CustomTextButton
+						label="Sign Up"
+						disabled={loginMutation.isLoading}
+						onPress={() => navigation.push("Signup")}
+					/>
 				</View>
 			</KeyboardAwareScrollView>
 		</>
