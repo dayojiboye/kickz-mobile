@@ -34,6 +34,7 @@
 		"react-native-keyboard-aware-scroll-view": "^0.9.5",
 		"react-native-modal": "^13.0.1",
 		"react-native-pager-view": "6.2.0",
+		"react-native-paystack-webview": "^4.0.3",
 		"react-native-reanimated": "~3.3.0",
 		"react-native-root-siblings": "^4.1.1",
 		"react-native-root-toast": "^3.4.1",
@@ -42,6 +43,7 @@
 		"react-native-svg": "13.9.0",
 		"react-native-tab-view": "^3.5.2",
 		"react-native-vector-icons": "^10.0.0",
+		"react-native-webview": "13.2.2",
 		"react-query": "^3.39.3",
 		"typescript": "^5.1.6",
 		"yup": "^1.2.0"

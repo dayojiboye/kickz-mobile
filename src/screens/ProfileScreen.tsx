@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 	},
 	userName: {
 		marginTop: 32,
-		color: theme.primary,
+		color: theme.black,
 		fontFamily: theme.fontBold,
 		fontSize: 28,
 		textAlign: "center",
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 	},
 	userEmail: {
 		marginTop: 10,
-		color: theme.primary,
+		color: "#626262",
 		fontFamily: theme.fontMedium,
 		fontSize: 18,
 		textAlign: "center",

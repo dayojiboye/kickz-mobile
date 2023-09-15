@@ -9,6 +9,7 @@ declare module "@env" {
 	export const FIREBASE_MESSAGING_SENDER_ID: string;
 	export const FIREBASE_APP_ID: string;
 	export const FIREBASE_DATA_URL: string;
+	export const PAYSTACK_API_KEY: string;
 }
 declare module "*.svg" {
 	import React from "react";
