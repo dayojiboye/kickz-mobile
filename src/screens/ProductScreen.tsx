@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FavoritesStackParamList, HomeStackParamList } from "../types";
+import { CartStackParamList, FavoritesStackParamList, HomeStackParamList } from "../types";
 import CustomAppBar from "../components/CustomAppBar";
 import theme from "../config/theme";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -25,8 +25,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import SizeOptionsBottomSheet from "../components/BottomSheets/SizeOptions";
 
 type Props = NativeStackScreenProps<
-	HomeStackParamList & FavoritesStackParamList,
-	"Product" | "FavoriteProduct"
+	HomeStackParamList & FavoritesStackParamList & CartStackParamList,
+	"Product" | "FavoriteProduct" | "CartProduct"
 >;
 const { width } = Dimensions.get("window");
 

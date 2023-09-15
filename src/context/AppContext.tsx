@@ -1,5 +1,5 @@
 import React from "react";
-import { AppContextValue, CartItemType, ProductType, UserData } from "../types";
+import { AppContextValue, CartItemType, ProductType, ShippingInfoType, UserData } from "../types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { handleAddToCart, handleReduceCartItem, handleRemoveCartItem } from "../utils/helpers";
 
@@ -46,7 +46,8 @@ type AppContextAction =
 	| { type: "reduce_cart_item"; payload: CartItemType }
 	| { type: "clear_cart" }
 	| { type: "load_favorites"; payload: ProductType[] }
-	| { type: "load_cart"; payload: CartItemType[] };
+	| { type: "load_cart"; payload: CartItemType[] }
+	| { type: "set_shipping_info"; payload: ShippingInfoType };
 
 const initialState: {
 	user: UserData | null;
@@ -54,12 +55,14 @@ const initialState: {
 	isAuth: boolean;
 	favoriteProducts: ProductType[];
 	cart: CartItemType[];
+	shippingInfo: ShippingInfoType;
 } = {
 	user: null,
 	isInitializing: true,
 	isAuth: false,
 	favoriteProducts: [],
 	cart: [],
+	shippingInfo: {},
 };
 
 export const AppContext = React.createContext({} as AppContextValue);
@@ -153,6 +156,12 @@ const reducer = (state: typeof initialState, action: AppContextAction) => {
 				cart: [],
 			};
 
+		case "set_shipping_info":
+			return {
+				...state,
+				shippingInfo: action.payload,
+			};
+
 		default:
 			throw new Error("Unsupported action type for app context");
 	}
@@ -208,12 +217,17 @@ export default function AppProvider(props: React.PropsWithChildren<{}>) {
 			dispatch({ type: "clear_cart" });
 		};
 
+		const setShippingInfo = (value: ShippingInfoType) => {
+			dispatch({ type: "set_shipping_info", payload: value });
+		};
+
 		return {
 			user: state.user,
 			isInitializing: state.isInitializing,
 			isAuth: state.isAuth,
 			favoriteProducts: state.favoriteProducts,
 			cart: state.cart,
+			shippingInfo: state.shippingInfo,
 			loginUser,
 			logoutUser,
 			setInitApp,
@@ -225,8 +239,16 @@ export default function AppProvider(props: React.PropsWithChildren<{}>) {
 			clearCart,
 			loadCart,
 			loadFavorites,
+			setShippingInfo,
 		};
-	}, [state.user, state.isInitializing, state.isAuth, state.favoriteProducts, state.cart]);
+	}, [
+		state.user,
+		state.isInitializing,
+		state.isAuth,
+		state.favoriteProducts,
+		state.cart,
+		state.shippingInfo,
+	]);
 
 	return <AppContext.Provider value={value} {...props} />;
 }

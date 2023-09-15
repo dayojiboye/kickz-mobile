@@ -14,6 +14,7 @@ export type AppContextValue = {
 	isAuth: boolean;
 	favoriteProducts: ProductType[];
 	cart: CartItemType[];
+	shippingInfo: ShippingInfoType;
 	loginUser: (user: UserData) => void;
 	logoutUser: () => void;
 	setInitApp: (value: boolean) => void;
@@ -25,6 +26,7 @@ export type AppContextValue = {
 	removeCartItem: (id: string) => void;
 	reduceCartItem: (cartItem: CartItemType) => void;
 	clearCart: () => void;
+	setShippingInfo: (info: ShippingInfoType) => void;
 };
 
 export type RootStackParamList = {
@@ -73,10 +75,22 @@ export type FavoritesStackParamList = {
 
 export type CartStackParamList = {
 	Cart: undefined;
+	ShippingInfo: undefined;
 	Checkout: undefined;
+	CartProduct: { product: ProductType };
 };
 
 export type CartItemType = {
 	quantity: number;
 	size: number;
 } & ProductType;
+
+export type ShippingInfoType = {
+	firstName?: string;
+	lastName?: string;
+	email?: string;
+	address?: string;
+	city?: string;
+	state?: string;
+	postalCode?: string;
+};

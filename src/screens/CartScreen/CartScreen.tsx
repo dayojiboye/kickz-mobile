@@ -42,6 +42,7 @@ export default function CartScreen() {
 									key={item.documentID}
 									product={item}
 									onOptionTap={() => productOptionsBottomSheetRef.current?.present()}
+									onTap={() => navigation.navigate("CartProduct", { product: item })}
 								/>
 							))}
 						</>
@@ -59,6 +60,7 @@ export default function CartScreen() {
 							rightIcon={TotalPriceText}
 							iconProps={{ totalPrice: cartTotalPrice }}
 							style={styles.checkoutButton}
+							onPress={() => navigation.navigate("ShippingInfo")}
 						/>
 					</View>
 				) : (

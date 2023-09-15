@@ -3,16 +3,17 @@ import React from "react";
 import { CartItemType } from "../types";
 import theme from "../config/theme";
 import QuantityButtonV2 from "./QuantityButtonV2";
-import { formatCurrency, totalCartPrice } from "../utils/helpers";
+import { formatCurrency } from "../utils/helpers";
 import useStore from "../hooks/useStore";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 type Props = {
 	product: CartItemType;
 	onOptionTap: () => void;
+	onTap: () => void;
 };
 
-export default function CartItem({ product, onOptionTap }: Props) {
+export default function CartItem({ product, onOptionTap, onTap }: Props) {
 	const productPrice: number = product.price * product.quantity;
 	const { addToCart, reduceCartItem, removeCartItem } = useStore();
 
@@ -32,7 +33,7 @@ export default function CartItem({ product, onOptionTap }: Props) {
 	};
 
 	return (
-		<TouchableOpacity style={styles.container}>
+		<TouchableOpacity style={styles.container} onPress={onTap}>
 			<Image source={{ uri: product.thumbnail }} style={styles.image} />
 			<View style={{ justifyContent: "space-between" }}>
 				<View>

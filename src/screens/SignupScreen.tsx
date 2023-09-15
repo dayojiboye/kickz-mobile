@@ -65,7 +65,6 @@ export default function SignupScreen({ navigation }: Props) {
 						<>
 							<View style={styles.form}>
 								<CustomTextInput
-									autoCapitalize="none"
 									placeholder="Username"
 									onChangeText={handleChange("username")}
 									error={touched.username && errors.username}
