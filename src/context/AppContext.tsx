@@ -27,13 +27,13 @@ const _storeFavorites = async (value: ProductType[]) => {
 	}
 };
 
-// const _storeCart = async (value: ProductType) => {
-// 	try {
-// 		await AsyncStorage.setItem("favorites", JSON.stringify(value));
-// 	} catch (err) {
-// 		__DEV__ && console.log("Something went wrong saving product", err);
-// 	}
-// };
+const _storeCart = async (value: CartItemType[]) => {
+	try {
+		await AsyncStorage.setItem("cart", JSON.stringify(value));
+	} catch (err) {
+		__DEV__ && console.log("Something went wrong saving product to cart", err);
+	}
+};
 
 type AppContextAction =
 	| { type: "login_user"; payload: UserData }
@@ -102,14 +102,14 @@ const reducer = (state: typeof initialState, action: AppContextAction) => {
 			};
 
 		case "remove_fav":
-			const _updatedFavorites = state.favoriteProducts.filter(
+			const updatedFavoritesAfterRemoval = state.favoriteProducts.filter(
 				(prod) => prod.documentID !== action.payload.documentID
 			);
-			_storeFavorites(_updatedFavorites);
+			_storeFavorites(updatedFavoritesAfterRemoval);
 
 			return {
 				...state,
-				favoriteProducts: _updatedFavorites,
+				favoriteProducts: updatedFavoritesAfterRemoval,
 			};
 
 		case "load_cart":
@@ -119,24 +119,35 @@ const reducer = (state: typeof initialState, action: AppContextAction) => {
 			};
 
 		case "add_to_cart":
+			const updatedCart = handleAddToCart(state.cart, action.payload);
+			_storeCart(updatedCart);
+
 			return {
 				...state,
-				cart: handleAddToCart(state.cart, action.payload),
+				cart: updatedCart,
 			};
 
 		case "remove_cart_item":
+			const updatedCartAfterRemoval = handleRemoveCartItem(state.cart, action.payload);
+			_storeCart(updatedCartAfterRemoval);
+
 			return {
 				...state,
-				cart: handleRemoveCartItem(state.cart, action.payload),
+				cart: updatedCartAfterRemoval,
 			};
 
 		case "reduce_cart_item":
+			const updatedCartAfterReduction = handleReduceCartItem(state.cart, action.payload);
+			_storeCart(updatedCartAfterReduction);
+
 			return {
 				...state,
-				cart: handleReduceCartItem(state.cart, action.payload),
+				cart: updatedCartAfterReduction,
 			};
 
 		case "clear_cart":
+			_storeCart([]);
+
 			return {
 				...state,
 				cart: [],

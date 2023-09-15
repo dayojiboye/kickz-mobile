@@ -23,7 +23,7 @@ export default function AppEntry() {
 	const appStore = useStore();
 	const user = useAuthentication();
 
-	const _getUserFavorites = async () => {
+	const _loadUserFavorites = async () => {
 		try {
 			const value = await AsyncStorage.getItem("favorites");
 			if (value !== null) {
@@ -31,6 +31,17 @@ export default function AppEntry() {
 			}
 		} catch (err) {
 			__DEV__ && console.log("Something went wrong loading favorites", err);
+		}
+	};
+
+	const _loadUserCart = async () => {
+		try {
+			const value = await AsyncStorage.getItem("cart");
+			if (value !== null) {
+				appStore.loadCart(JSON.parse(value));
+			}
+		} catch (err) {
+			__DEV__ && console.log("Something went wrong loading cart", err);
 		}
 	};
 
@@ -81,7 +92,8 @@ export default function AppEntry() {
 
 	const onLayoutRootView = React.useCallback(async () => {
 		if (fontsLoaded) {
-			_getUserFavorites();
+			_loadUserFavorites();
+			_loadUserCart();
 			await SplashScreen.hideAsync();
 		}
 	}, [fontsLoaded]);

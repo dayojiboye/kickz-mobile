@@ -2,66 +2,64 @@ import { StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from "
 import React from "react";
 import theme from "../config/theme";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import SIcon from "react-native-vector-icons/SimpleLineIcons";
 
 type Props = {
 	style?: StyleProp<ViewStyle>;
 	quantity: number;
 	onIncrease: () => void;
 	onDecrease: () => void;
+	onRemove: () => void;
 };
 
-export default function QuantityButton({ style, quantity, onIncrease, onDecrease }: Props) {
+export default function QuantityButtonV2({
+	quantity,
+	onIncrease,
+	onDecrease,
+	onRemove,
+	style,
+}: Props) {
 	const isDecreaseDisabled = quantity === 1;
 	const isIncreaseDisabled = quantity === 50;
 
 	return (
 		<View style={[styles.container, style]}>
-			<Text numberOfLines={1} style={styles.label}>
-				Quantity
-			</Text>
-			<View style={styles.quantityContainer}>
-				<TouchableOpacity
-					disabled={isDecreaseDisabled}
-					style={[styles.ctaButton, { opacity: isDecreaseDisabled ? 0.5 : 1 }]}
-					onPress={onDecrease}
-				>
+			<TouchableOpacity style={styles.ctaButton} onPress={onDecrease}>
+				{isDecreaseDisabled ? (
+					<SIcon name="trash" size={22} color={theme.black} />
+				) : (
 					<Icon name="remove" size={25} color={theme.black} />
-				</TouchableOpacity>
-				<Text style={[styles.label, { width: 30, textAlign: "center" }]}>{quantity}</Text>
-				<TouchableOpacity
-					disabled={isIncreaseDisabled}
-					style={[styles.ctaButton, { opacity: isIncreaseDisabled ? 0.5 : 1 }]}
-					onPress={onIncrease}
-				>
-					<Icon name="add" size={25} color={theme.black} />
-				</TouchableOpacity>
-			</View>
+				)}
+			</TouchableOpacity>
+			<Text style={[styles.label, { width: 30, textAlign: "center" }]}>{quantity}</Text>
+			<TouchableOpacity
+				disabled={isIncreaseDisabled}
+				style={[styles.ctaButton, { opacity: isIncreaseDisabled ? 0.5 : 1 }]}
+				onPress={onIncrease}
+			>
+				<Icon name="add" size={25} color={theme.black} />
+			</TouchableOpacity>
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-		width: "100%",
-		height: 60,
-		borderRadius: 4,
+		borderRadius: 32,
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
 		borderWidth: 1,
-		borderColor: theme.faded,
-		paddingLeft: 20,
-		paddingRight: 16,
+		borderColor: theme.border,
+		paddingHorizontal: 10,
+		// paddingVertical: 7,
+		height: 60,
+		gap: 10,
 	},
 	label: {
 		fontFamily: theme.fontSemiBold,
 		color: theme.black,
 		fontSize: 18,
-	},
-	quantityContainer: {
-		flexDirection: "row",
-		gap: 10,
-		alignItems: "center",
 	},
 	ctaButton: {
 		height: 40,

@@ -10,14 +10,17 @@ import theme from "../../config/theme";
 import EmptyView from "../../components/EmptyView";
 import HeadingText from "../../components/HeadingText";
 import CartItem from "../../components/CartItem";
+import CustomButton from "../../components/CustomButton";
+import { formatCurrency, totalCartPrice } from "../../utils/helpers";
 
 export default function CartScreen() {
 	const { cart } = useStore();
 	const navigation = useNavigation<NativeStackNavigationProp<CartStackParamList>>();
+	const [cartTotalPrice, setCartTotalPrice] = React.useState<number>(0);
 
-	// React.useEffect(() => {
-	// 	console.log(JSON.stringify(cart));
-	// }, [cart]);
+	React.useEffect(() => {
+		setCartTotalPrice(totalCartPrice(cart));
+	}, [cart]);
 
 	return (
 		<>
@@ -42,15 +45,41 @@ export default function CartScreen() {
 						/>
 					)}
 				</ScrollView>
+				<View style={styles.footer}>
+					<CustomButton
+						label="Continue to checkout"
+						rightIcon={TotalPriceText}
+						iconProps={{ totalPrice: cartTotalPrice }}
+						style={styles.checkoutButton}
+					/>
+				</View>
 			</ScrollContextProvider>
 		</>
 	);
 }
 
+const TotalPriceText = ({ totalPrice }: { totalPrice: number }) => {
+	return <Text style={styles.totalPrice}>{formatCurrency(totalPrice)}</Text>;
+};
+
 const styles = StyleSheet.create({
 	container: {
 		paddingHorizontal: 20,
 		paddingBottom: 50,
-		// rowGap: 20,
+	},
+	footer: {
+		marginTop: "auto",
+		paddingHorizontal: 20,
+		paddingVertical: 16,
+		backgroundColor: theme.white,
+	},
+	checkoutButton: {
+		justifyContent: "space-between",
+		paddingHorizontal: 16,
+	},
+	totalPrice: {
+		fontSize: 18,
+		color: theme.white,
+		fontFamily: theme.fontSemiBold,
 	},
 });
