@@ -22,9 +22,18 @@ export default function QuantityButtonV2({
 	const isDecreaseDisabled = quantity === 1;
 	const isIncreaseDisabled = quantity === 50;
 
+	const handleDecreaseTap = () => {
+		if (isDecreaseDisabled) {
+			onRemove();
+			return;
+		}
+
+		onDecrease();
+	};
+
 	return (
 		<View style={[styles.container, style]}>
-			<TouchableOpacity style={styles.ctaButton} onPress={onDecrease}>
+			<TouchableOpacity style={styles.ctaButton} onPress={handleDecreaseTap}>
 				{isDecreaseDisabled ? (
 					<SIcon name="trash" size={22} color={theme.black} />
 				) : (

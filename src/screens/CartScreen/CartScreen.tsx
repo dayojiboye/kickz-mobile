@@ -12,11 +12,14 @@ import HeadingText from "../../components/HeadingText";
 import CartItem from "../../components/CartItem";
 import CustomButton from "../../components/CustomButton";
 import { formatCurrency, totalCartPrice } from "../../utils/helpers";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import ProductOptionsBottomSheet from "../../components/BottomSheets/ProductOptions";
 
 export default function CartScreen() {
 	const { cart } = useStore();
 	const navigation = useNavigation<NativeStackNavigationProp<CartStackParamList>>();
 	const [cartTotalPrice, setCartTotalPrice] = React.useState<number>(0);
+	const productOptionsBottomSheetRef = React.useRef<BottomSheetModal>(null);
 
 	React.useEffect(() => {
 		setCartTotalPrice(totalCartPrice(cart));
@@ -35,7 +38,11 @@ export default function CartScreen() {
 					{cart.length > 0 ? (
 						<>
 							{cart.map((item) => (
-								<CartItem key={item.documentID} product={item} />
+								<CartItem
+									key={item.documentID}
+									product={item}
+									onOptionTap={() => productOptionsBottomSheetRef.current?.present()}
+								/>
 							))}
 						</>
 					) : (
@@ -45,15 +52,20 @@ export default function CartScreen() {
 						/>
 					)}
 				</ScrollView>
-				<View style={styles.footer}>
-					<CustomButton
-						label="Continue to checkout"
-						rightIcon={TotalPriceText}
-						iconProps={{ totalPrice: cartTotalPrice }}
-						style={styles.checkoutButton}
-					/>
-				</View>
+				{cart.length > 0 ? (
+					<View style={styles.footer}>
+						<CustomButton
+							label="Continue to checkout"
+							rightIcon={TotalPriceText}
+							iconProps={{ totalPrice: cartTotalPrice }}
+							style={styles.checkoutButton}
+						/>
+					</View>
+				) : (
+					<></>
+				)}
 			</ScrollContextProvider>
+			<ProductOptionsBottomSheet ref={productOptionsBottomSheetRef} />
 		</>
 	);
 }

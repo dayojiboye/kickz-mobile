@@ -9,16 +9,27 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 type Props = {
 	product: CartItemType;
+	onOptionTap: () => void;
 };
 
-export default function CartItem({ product }: Props) {
+export default function CartItem({ product, onOptionTap }: Props) {
 	const productPrice: number = product.price * product.quantity;
+	const { addToCart, reduceCartItem, removeCartItem } = useStore();
 
-	const onIncreaseQuantity = () => {};
+	const onIncreaseQuantity = () => {
+		addToCart({
+			...product,
+			quantity: 1,
+		});
+	};
 
-	const onDecreaseQuantity = () => {};
+	const onDecreaseQuantity = () => {
+		reduceCartItem(product);
+	};
 
-	const onRemoveProduct = () => {};
+	const onRemoveProduct = () => {
+		removeCartItem(product.documentID);
+	};
 
 	return (
 		<TouchableOpacity style={styles.container}>
@@ -41,7 +52,7 @@ export default function CartItem({ product }: Props) {
 				/>
 			</View>
 			<View style={{ justifyContent: "flex-end", width: 60 }}>
-				<TouchableOpacity style={styles.optionsButton}>
+				<TouchableOpacity style={styles.optionsButton} onPress={onOptionTap}>
 					<Icon name="more-horiz" color={theme.black} size={28} />
 				</TouchableOpacity>
 			</View>
