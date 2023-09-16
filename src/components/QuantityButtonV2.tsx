@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10,
 		// paddingVertical: 7,
 		height: 60,
-		gap: 10,
+		// gap: 10,
 	},
 	label: {
 		fontFamily: theme.fontSemiBold,

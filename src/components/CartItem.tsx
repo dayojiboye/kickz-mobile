@@ -35,7 +35,7 @@ export default function CartItem({ product, onOptionTap, onTap }: Props) {
 	return (
 		<TouchableOpacity style={styles.container} onPress={onTap}>
 			<Image source={{ uri: product.thumbnail }} style={styles.image} />
-			<View style={{ justifyContent: "space-between", width: "40%", gap: 10 }}>
+			<View style={{ justifyContent: "space-between", flex: 1, gap: 10 }}>
 				<View>
 					<Text style={[styles.text, { fontFamily: "OSSemiBold", maxWidth: "95%" }]}>
 						{product.name}
@@ -68,11 +68,13 @@ const styles = StyleSheet.create({
 		borderBottomColor: theme.border,
 		flexDirection: "row",
 		gap: 16,
+		justifyContent: "space-between",
 	},
 	image: {
 		height: "100%",
 		borderRadius: 16,
-		width: 120,
+		// width: 120,
+		flex: 1,
 	},
 	text: {
 		fontFamily: "OS",
