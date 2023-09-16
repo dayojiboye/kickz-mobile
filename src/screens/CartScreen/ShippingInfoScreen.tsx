@@ -12,8 +12,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import CustomTextInput from "../../components/CustomTextInput";
 import CustomButton from "../../components/CustomButton";
 import useStore from "../../hooks/useStore";
-import { showToast } from "../../utils/helpers";
-import { toastType } from "../../enums";
+// import { showToast } from "../../utils/helpers";
+// import { toastType } from "../../enums";
 
 const formValidationSchema = yup.object().shape({
 	firstName: yup.string().required("First name is required"),
@@ -59,7 +59,7 @@ export default function ShippingInfoScreen() {
 					initialValues={initialFormValues}
 					validationSchema={formValidationSchema}
 					onSubmit={(values) => {
-						showToast("SHIPPING ADDRESS SUBMITTED SUCCESSFULLY!", toastType.SUCCESS);
+						// showToast("Shipping address submitted successfully", toastType.SUCCESS);
 						setShippingInfo(values);
 						navigation.navigate("Checkout");
 					}}

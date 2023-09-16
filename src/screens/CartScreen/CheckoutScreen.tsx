@@ -1,9 +1,17 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+	ActivityIndicator,
+	Image,
+	ScrollView,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/Octicons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { CartStackParamList } from "../../types";
+import { CartStackParamList, OrderType } from "../../types";
 import CustomAppBar from "../../components/CustomAppBar";
 import theme from "../../config/theme";
 import useStore from "../../hooks/useStore";
@@ -12,12 +20,37 @@ import CustomButton from "../../components/CustomButton";
 import { Paystack } from "react-native-paystack-webview";
 import { PAYSTACK_API_KEY } from "@env";
 import { toastType } from "../../enums";
+import useSaveOrderMutation from "../../hooks/useSaveOrder";
+import { RootStackParamList } from "../../types";
 
 export default function CheckoutScreen() {
-	const navigation = useNavigation<NativeStackNavigationProp<CartStackParamList>>();
-	const { shippingInfo, cart } = useStore();
+	const navigation =
+		useNavigation<NativeStackNavigationProp<CartStackParamList & RootStackParamList>>();
+	const { shippingInfo, cart, clearCart, setShippingInfo, user } = useStore();
 	const totalPrice = totalCartPrice(cart);
 	const [pay, setPay] = React.useState<boolean>(false);
+	const timestamp = new Date();
+	const [isPaymentLoading, setIsPaymentLoading] = React.useState<boolean>(false);
+
+	const userOrder: OrderType = {
+		orderUserID: user?.uid,
+		orderCreatedDate: timestamp,
+		orderTotal: totalPrice,
+		orderItems: cart.map((item) => ({
+			documentID: item.documentID,
+			name: item.name,
+			price: item.price,
+			quantity: item.quantity,
+			thumbnail: item.thumbnail,
+		})),
+	};
+
+	const _onSuccess = () => {
+		setPay(true);
+		setIsPaymentLoading(true);
+	};
+
+	const _saveUserOrder = useSaveOrderMutation(_onSuccess);
 
 	return (
 		<>
@@ -31,46 +64,61 @@ export default function CheckoutScreen() {
 				contentContainerStyle={styles.container}
 			>
 				<Text style={styles.headingText}>Order Summary</Text>
-				<View style={styles.summary}>
-					{cart.map((product) => (
-						<TouchableOpacity
-							key={product.documentID}
-							style={styles.product}
-							onPress={() => navigation.navigate("CartProduct", { product })}
-						>
-							<Image source={{ uri: product.thumbnail }} style={styles.image} />
-							<View style={{ flex: 1 }}>
-								<Text style={styles.text}>{product.name}</Text>
-								<Text style={styles.text}>{formatCurrency(product.price)}</Text>
-								<Text style={[styles.text, { marginTop: 20 }]}>Quantity - {product.quantity}</Text>
-							</View>
-						</TouchableOpacity>
-					))}
-					<View style={[styles.summaryRow, { marginTop: 20 }]}>
-						<Text style={styles.summaryRowText}>Total</Text>
-						<Text style={styles.summaryRowValue}>{formatCurrency(totalPrice)}</Text>
+				{isPaymentLoading ? (
+					<ActivityIndicator
+						color={theme.primary}
+						size="large"
+						animating
+						style={{ marginTop: 40 }}
+					/>
+				) : (
+					<View style={styles.summary}>
+						{cart.map((product) => (
+							<TouchableOpacity
+								key={product.documentID}
+								style={styles.product}
+								onPress={() => navigation.navigate("CartProduct", { product })}
+							>
+								<Image source={{ uri: product.thumbnail }} style={styles.image} />
+								<View style={{ flex: 1 }}>
+									<Text style={styles.text}>{product.name}</Text>
+									<Text style={styles.text}>{formatCurrency(product.price)}</Text>
+									<Text style={[styles.text, { marginTop: 20 }]}>
+										Quantity - {product.quantity}
+									</Text>
+								</View>
+							</TouchableOpacity>
+						))}
+						<View style={[styles.summaryRow, { marginTop: 20 }]}>
+							<Text style={styles.summaryRowText}>Total</Text>
+							<Text style={styles.summaryRowValue}>{formatCurrency(totalPrice)}</Text>
+						</View>
+						<View style={styles.summaryRow}>
+							<Text style={styles.summaryRowText}>Full Name</Text>
+							<Text style={styles.summaryRowValue}>
+								{shippingInfo.firstName} {shippingInfo.lastName}
+							</Text>
+						</View>
+						<View style={styles.summaryRow}>
+							<Text style={styles.summaryRowText}>Address</Text>
+							<Text style={styles.summaryRowValue}>
+								{shippingInfo.address}, {shippingInfo.city}, {shippingInfo.state},{" "}
+								{shippingInfo.postalCode}
+							</Text>
+						</View>
+						<View style={styles.summaryRow}>
+							<Text style={styles.summaryRowText}>Email Address</Text>
+							<Text style={styles.summaryRowValue}>{shippingInfo.email}</Text>
+						</View>
 					</View>
-					<View style={styles.summaryRow}>
-						<Text style={styles.summaryRowText}>Full Name</Text>
-						<Text style={styles.summaryRowValue}>
-							{shippingInfo.firstName} {shippingInfo.lastName}
-						</Text>
-					</View>
-					<View style={styles.summaryRow}>
-						<Text style={styles.summaryRowText}>Address</Text>
-						<Text style={styles.summaryRowValue}>
-							{shippingInfo.address}, {shippingInfo.city}, {shippingInfo.state},{" "}
-							{shippingInfo.postalCode}
-						</Text>
-					</View>
-					<View style={styles.summaryRow}>
-						<Text style={styles.summaryRowText}>Email Address</Text>
-						<Text style={styles.summaryRowValue}>{shippingInfo.email}</Text>
-					</View>
-				</View>
+				)}
 			</ScrollView>
 			<View style={styles.footer}>
-				<CustomButton label="Pay Now" onPress={() => setPay(true)} />
+				<CustomButton
+					label="Pay Now"
+					isLoading={_saveUserOrder.isLoading}
+					onPress={() => _saveUserOrder.mutate(userOrder)}
+				/>
 			</View>
 
 			{/* Paystack Web View */}
@@ -78,7 +126,6 @@ export default function CheckoutScreen() {
 				<View>
 					<Paystack
 						paystackKey={PAYSTACK_API_KEY}
-						billingName={`${shippingInfo.firstName} ${shippingInfo.lastName}`}
 						amount={totalPrice}
 						billingEmail={shippingInfo.email!}
 						activityIndicatorColor={theme.primary}
@@ -86,12 +133,24 @@ export default function CheckoutScreen() {
 							// handle response here
 							showToast("Payment Cancelled", toastType.ERROR);
 						}}
+						firstName={shippingInfo.firstName}
+						lastName={shippingInfo.lastName}
 						onSuccess={(response) => {
 							// handle response here
+							setIsPaymentLoading(false);
 							const responseStatus = response.status;
+							__DEV__ && console.log(responseStatus);
 							if (responseStatus === "success") {
-								// To-Do: navigate to orders screen on success
 								showToast("Payment Approved", toastType.SUCCESS);
+								clearCart();
+								setShippingInfo({});
+								navigation.push("Home", {
+									screen: "OrdersScreen",
+								});
+							}
+
+							if (responseStatus === "error") {
+								showToast("An error occurred while trying to make payment", toastType.ERROR);
 							}
 						}}
 						autoStart={pay}

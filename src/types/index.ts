@@ -32,7 +32,11 @@ export type AppContextValue = {
 export type RootStackParamList = {
 	Login: undefined;
 	Signup: undefined;
-	Home: undefined;
+	Home:
+		| undefined
+		| {
+				screen: string;
+		  };
 	Profile: undefined;
 	HomeScreen: undefined;
 	FavoritesScreen: undefined;
@@ -93,4 +97,17 @@ export type ShippingInfoType = {
 	city?: string;
 	state?: string;
 	postalCode?: string;
+};
+
+export type OrderType = {
+	orderUserID: string | undefined;
+	orderCreatedDate: string | Date;
+	orderTotal: number;
+	orderItems: {
+		documentID: string;
+		thumbnail: string;
+		name: string;
+		price: number;
+		quantity: number;
+	}[];
 };
