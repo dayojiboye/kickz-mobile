@@ -35,9 +35,9 @@ export default function QuantityButtonV2({
 		<View style={[styles.container, style]}>
 			<TouchableOpacity style={styles.ctaButton} onPress={handleDecreaseTap}>
 				{isDecreaseDisabled ? (
-					<SIcon name="trash" size={22} color={theme.black} />
+					<SIcon name="trash" size={16} color={theme.black} />
 				) : (
-					<Icon name="remove" size={25} color={theme.black} />
+					<Icon name="remove" size={19} color={theme.black} />
 				)}
 			</TouchableOpacity>
 			<Text style={[styles.label, { width: 30, textAlign: "center" }]}>{quantity}</Text>
@@ -46,7 +46,7 @@ export default function QuantityButtonV2({
 				style={[styles.ctaButton, { opacity: isIncreaseDisabled ? 0.5 : 1 }]}
 				onPress={onIncrease}
 			>
-				<Icon name="add" size={25} color={theme.black} />
+				<Icon name="add" size={19} color={theme.black} />
 			</TouchableOpacity>
 		</View>
 	);

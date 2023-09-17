@@ -16,6 +16,6 @@ const styles = StyleSheet.create({
 		color: theme.black,
 		fontFamily: theme.fontBold,
 		fontSize: 28,
-		marginBottom: 10,
+		marginBottom: 28,
 	},
 });
