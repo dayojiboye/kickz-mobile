@@ -84,6 +84,11 @@ export type CartStackParamList = {
 	CartProduct: { product: ProductType };
 };
 
+export type OrdersStackParamList = {
+	Orders: undefined;
+	Order: { order: OrderType };
+};
+
 export type CartItemType = {
 	quantity: number;
 	size: number;
@@ -110,4 +115,5 @@ export type OrderType = {
 		price: number;
 		quantity: number;
 	}[];
+	documentID?: string;
 };

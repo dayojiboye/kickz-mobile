@@ -1,6 +1,7 @@
 import Toast from "react-native-root-toast";
 import { toastType } from "../enums";
 import { CartItemType } from "../types";
+import { Timestamp } from "firebase/firestore";
 
 export const showToast = (
 	message: string,
@@ -83,4 +84,11 @@ export const handleReduceCartItem = (prevCartItems: CartItemType[], currentItem:
 
 export const totalCartPrice = (cart: CartItemType[]) => {
 	return cart.reduce((prev, cur) => prev + cur.quantity * cur.price, 0);
+};
+
+/////////////
+
+export const convertTimestampToDate = (timestamp: Timestamp) => {
+	const date = new Timestamp(timestamp.seconds, timestamp.nanoseconds);
+	return date;
 };

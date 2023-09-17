@@ -2,13 +2,13 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import theme from "../config/theme";
 import ProfileScreen from "./ProfileScreen";
-import OrdersScreen from "./OrdersScreen";
 import { Home3, Archive, ReceiptItem, User, ShoppingBag } from "iconsax-react-native";
 import HomeStack from "./HomeScreen";
 import { RootStackParamList } from "../types";
 import FavoriteStack from "./FavoritesScreen";
 import CartStack from "./CartScreen";
 import useStore from "../hooks/useStore";
+import OrdersStack from "./OrdersScreen";
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
@@ -70,7 +70,7 @@ export default function Home() {
 			/>
 			<Tab.Screen
 				name="OrdersScreen"
-				component={OrdersScreen}
+				component={OrdersStack}
 				options={{
 					tabBarIcon: (props) => (
 						<ReceiptItem
