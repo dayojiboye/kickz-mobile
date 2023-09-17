@@ -41,7 +41,7 @@ const ManageProductBottomSheet = React.forwardRef(({}: Props, ref) => {
 		ref,
 		() => {
 			return {
-				open: (prod: ProductType) => {
+				present: (prod: ProductType) => {
 					bottomsheetRef.current?.present();
 					setProduct(prod);
 				},

@@ -41,8 +41,7 @@ export default function CartScreen() {
 								<CartItem
 									key={item.documentID}
 									product={item}
-									// @ts-ignore
-									onOptionTap={() => manageProductBottomSheetRef?.current?.open(item)}
+									onOptionTap={() => manageProductBottomSheetRef?.current?.present(item)}
 									onTap={() => navigation.navigate("CartProduct", { product: item })}
 								/>
 							))}
