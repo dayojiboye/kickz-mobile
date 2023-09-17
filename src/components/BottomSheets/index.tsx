@@ -3,7 +3,6 @@ import { BottomSheetModal, BottomSheetModalProps } from "@gorhom/bottom-sheet";
 import Backdrop from "../Backdrop";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import theme from "../../config/theme";
-import { Text, View } from "react-native";
 
 const AppBottomSheet = React.forwardRef(
 	(

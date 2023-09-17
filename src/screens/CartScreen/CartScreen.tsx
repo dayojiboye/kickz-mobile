@@ -13,13 +13,13 @@ import CartItem from "../../components/CartItem";
 import CustomButton from "../../components/CustomButton";
 import { formatCurrency, totalCartPrice } from "../../utils/helpers";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import ProductOptionsBottomSheet from "../../components/BottomSheets/ProductOptions";
+import ManageProductBottomSheet from "../../components/BottomSheets/ManageProduct";
 
 export default function CartScreen() {
 	const { cart } = useStore();
 	const navigation = useNavigation<NativeStackNavigationProp<CartStackParamList>>();
 	const [cartTotalPrice, setCartTotalPrice] = React.useState<number>(0);
-	const productOptionsBottomSheetRef = React.useRef<BottomSheetModal>(null);
+	const manageProductBottomSheetRef = React.useRef<BottomSheetModal>(null);
 
 	React.useEffect(() => {
 		setCartTotalPrice(totalCartPrice(cart));
@@ -41,7 +41,8 @@ export default function CartScreen() {
 								<CartItem
 									key={item.documentID}
 									product={item}
-									onOptionTap={() => productOptionsBottomSheetRef.current?.present()}
+									// @ts-ignore
+									onOptionTap={() => manageProductBottomSheetRef?.current?.open(item)}
 									onTap={() => navigation.navigate("CartProduct", { product: item })}
 								/>
 							))}
@@ -67,7 +68,7 @@ export default function CartScreen() {
 					<></>
 				)}
 			</ScrollContextProvider>
-			<ProductOptionsBottomSheet ref={productOptionsBottomSheetRef} />
+			<ManageProductBottomSheet ref={manageProductBottomSheetRef} />
 		</>
 	);
 }
