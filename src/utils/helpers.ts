@@ -88,7 +88,8 @@ export const totalCartPrice = (cart: CartItemType[]) => {
 
 /////////////
 
-export const convertTimestampToDate = (timestamp: Timestamp) => {
-	const date = new Timestamp(timestamp.seconds, timestamp.nanoseconds);
-	return date;
+export const convertTimestampToDate = (date: string | Date) => {
+	let timestamp: Timestamp = JSON.parse(JSON.stringify(date));
+	timestamp = new Timestamp(timestamp.seconds, timestamp.nanoseconds);
+	return timestamp;
 };

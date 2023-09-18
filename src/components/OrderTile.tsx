@@ -1,6 +1,5 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import { Timestamp } from "firebase/firestore";
 import { format as formatDate } from "date-fns";
 import { convertTimestampToDate, formatCurrency } from "../utils/helpers";
 import theme from "../config/theme";
@@ -13,12 +12,10 @@ type Props = {
 };
 
 export default function OrderTile({ orderDate, orderID, orderAmount, onTap }: Props) {
-	const date: Timestamp = JSON.parse(JSON.stringify(orderDate));
-
 	return (
 		<TouchableOpacity style={styles.orderTile} onPress={() => onTap?.()}>
 			<Text style={styles.orderText}>
-				{formatDate(convertTimestampToDate(date).toDate(), "dd/MM/yyyy")}
+				{formatDate(convertTimestampToDate(orderDate).toDate(), "dd/MM/yyyy")}
 			</Text>
 			<Text numberOfLines={1} style={[styles.orderText, { flex: 1 }]}>
 				{orderID}

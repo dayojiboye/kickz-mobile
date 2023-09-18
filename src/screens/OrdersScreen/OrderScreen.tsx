@@ -8,7 +8,8 @@ import CustomAppBar from "../../components/CustomAppBar";
 import theme from "../../config/theme";
 import HeadingText from "../../components/HeadingText";
 import Icon from "react-native-vector-icons/Octicons";
-import { formatCurrency } from "../../utils/helpers";
+import { convertTimestampToDate, formatCurrency } from "../../utils/helpers";
+import { format as formatDate } from "date-fns";
 
 type Props = NativeStackScreenProps<OrdersStackParamList, "Order">;
 
@@ -32,6 +33,8 @@ export default function OrderScreen({ navigation, route }: Props) {
 
 		if (fetchUserOrder?.isSuccess) {
 			if (fetchUserOrder.data.orderItems.length > 0) {
+				const { orderCreatedDate, orderTotal } = fetchUserOrder.data || {};
+
 				return (
 					<>
 						{fetchUserOrder.data.orderItems.map((item: OrderItemType) => (
@@ -49,10 +52,13 @@ export default function OrderScreen({ navigation, route }: Props) {
 									<Text style={styles.text}>{formatCurrency(item.price)}</Text>
 									<Text style={styles.text}>Quantity - {item.quantity}</Text>
 								</View>
+								<Text style={[styles.text, { marginLeft: "auto" }]}>
+									{formatDate(convertTimestampToDate(orderCreatedDate).toDate(), "dd/MM/yyyy")}
+								</Text>
 							</View>
 						))}
 						<Text style={[styles.text, { fontFamily: "OSBold", fontSize: 18, marginTop: 48 }]}>
-							Total: {formatCurrency(fetchUserOrder.data?.orderTotal)}
+							Total: {formatCurrency(orderTotal)}
 						</Text>
 					</>
 				);
