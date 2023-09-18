@@ -20,7 +20,7 @@ export default function OrdersScreen() {
 
 	const renderView = () => {
 		if (fetchUserOrdersQuery.isLoading) {
-			return <ActivityIndicator animating />;
+			return <ActivityIndicator animating size="large" />;
 		}
 
 		if (fetchUserOrdersQuery.isError && fetchUserOrdersQuery.isFetchedAfterMount) {

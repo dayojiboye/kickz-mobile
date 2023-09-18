@@ -19,7 +19,7 @@ export default function OrderScreen({ navigation, route }: Props) {
 
 	const renderView = () => {
 		if (fetchUserOrder?.isLoading) {
-			return <ActivityIndicator animating />;
+			return <ActivityIndicator animating size="large" />;
 		}
 
 		if (fetchUserOrder?.isError && fetchUserOrder.isFetchedAfterMount) {
