@@ -8,8 +8,12 @@ import EmptyView from "../../components/EmptyView";
 import OrderTile from "../../components/OrderTile";
 import ErrorComponent from "../../components/ErrorComponent";
 import HeadingText from "../../components/HeadingText";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { OrdersStackParamList } from "../../types";
 
 export default function OrdersScreen() {
+	const navigation = useNavigation<NativeStackNavigationProp<OrdersStackParamList>>();
 	const [isRefreshing, setIsRefreshing] = React.useState<boolean>(false);
 
 	const fetchUserOrdersQuery = useFetchUserOrders(() => setIsRefreshing(false));
@@ -41,6 +45,7 @@ export default function OrdersScreen() {
 							orderDate={order.orderCreatedDate}
 							orderAmount={order.orderTotal}
 							orderID={order.documentID}
+							onTap={() => navigation.navigate("Order", { orderId: order.documentID })}
 						/>
 					))}
 				</>

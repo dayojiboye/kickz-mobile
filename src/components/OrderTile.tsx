@@ -9,13 +9,14 @@ type Props = {
 	orderDate: Date | string;
 	orderID: string | undefined;
 	orderAmount: number;
+	onTap: () => void;
 };
 
-export default function OrderTile({ orderDate, orderID, orderAmount }: Props) {
+export default function OrderTile({ orderDate, orderID, orderAmount, onTap }: Props) {
 	const date: Timestamp = JSON.parse(JSON.stringify(orderDate));
 
 	return (
-		<TouchableOpacity style={styles.orderTile}>
+		<TouchableOpacity style={styles.orderTile} onPress={() => onTap?.()}>
 			<Text style={styles.orderText}>
 				{formatDate(convertTimestampToDate(date).toDate(), "dd/MM/yyyy")}
 			</Text>

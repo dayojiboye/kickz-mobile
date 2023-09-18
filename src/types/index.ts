@@ -86,7 +86,7 @@ export type CartStackParamList = {
 
 export type OrdersStackParamList = {
 	Orders: undefined;
-	Order: { order: OrderType };
+	Order: { orderId: string | undefined };
 };
 
 export type CartItemType = {
@@ -104,16 +104,18 @@ export type ShippingInfoType = {
 	postalCode?: string;
 };
 
+export type OrderItemType = {
+	documentID: string;
+	thumbnail: string;
+	name: string;
+	price: number;
+	quantity: number;
+};
+
 export type OrderType = {
 	orderUserID: string | undefined;
 	orderCreatedDate: string | Date;
 	orderTotal: number;
-	orderItems: {
-		documentID: string;
-		thumbnail: string;
-		name: string;
-		price: number;
-		quantity: number;
-	}[];
+	orderItems: OrderItemType[];
 	documentID?: string;
 };
