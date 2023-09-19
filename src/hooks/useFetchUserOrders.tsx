@@ -13,7 +13,7 @@ export default function useFetchUserOrders(onDone?: () => void) {
 		const q = query(
 			collection(db, "orders"),
 			where("orderUserID", "==", user?.uid),
-			orderBy("orderCreatedDate")
+			orderBy("orderCreatedDate", "desc")
 		);
 		const querySnapshot = await getDocs(q);
 		const orders: OrderType[] = [];
@@ -33,5 +33,11 @@ export default function useFetchUserOrders(onDone?: () => void) {
 		onSettled: () => {
 			onDone?.();
 		},
+		// select: (data) => {
+		// 	const sortedData = [...data].sort((a, b) =>
+		// 		b.orderCreatedDate > a.orderCreatedDate ? -1 : 1
+		// 	);
+		// 	return sortedData;
+		// },
 	});
 }
