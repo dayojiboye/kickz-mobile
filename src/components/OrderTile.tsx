@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 		gap: 10,
 	},
 	orderText: {
-		fontFamily: "OS",
+		fontFamily: theme.fontRegular,
 		fontSize: 16,
 		color: "#1b1b1b",
 	},

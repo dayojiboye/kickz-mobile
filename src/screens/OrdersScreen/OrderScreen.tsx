@@ -46,7 +46,7 @@ export default function OrderScreen({ navigation, route }: Props) {
 									style={styles.image}
 								/>
 								<View style={{ gap: 7 }}>
-									<Text style={[styles.text, { fontFamily: "OSSemiBold", maxWidth: "95%" }]}>
+									<Text style={[styles.text, { fontFamily: theme.fontSemiBold, maxWidth: 140 }]}>
 										{item.name}
 									</Text>
 									<Text style={styles.text}>{formatCurrency(item.price)}</Text>
@@ -57,7 +57,9 @@ export default function OrderScreen({ navigation, route }: Props) {
 								</Text>
 							</View>
 						))}
-						<Text style={[styles.text, { fontFamily: "OSBold", fontSize: 18, marginTop: 48 }]}>
+						<Text
+							style={[styles.text, { fontFamily: theme.fontBold, fontSize: 18, marginTop: 48 }]}
+						>
 							Total: {formatCurrency(orderTotal)}
 						</Text>
 					</>
@@ -107,7 +109,7 @@ const styles = StyleSheet.create({
 		height: 140,
 	},
 	text: {
-		fontFamily: "OS",
+		fontFamily: theme.fontRegular,
 		color: theme.black,
 		fontSize: 16,
 	},

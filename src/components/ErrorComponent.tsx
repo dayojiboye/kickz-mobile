@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 	},
 	text: {
-		fontFamily: "OSSemiBold",
+		fontFamily: theme.fontSemiBold,
 		fontSize: 18,
 		color: theme.placeholder,
 		textAlign: "center",

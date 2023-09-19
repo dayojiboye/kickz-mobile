@@ -8,7 +8,7 @@ import {
 	ViewStyle,
 } from "react-native";
 import React from "react";
-import { ProductType, RootStackParamList } from "../types";
+import { ProductType } from "../types";
 import theme from "../config/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/MaterialIcons";

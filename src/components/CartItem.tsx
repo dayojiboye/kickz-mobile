@@ -37,7 +37,7 @@ export default function CartItem({ product, onOptionTap, onTap }: Props) {
 			<Image source={{ uri: product.thumbnail }} style={styles.image} />
 			<View style={styles.contents}>
 				<View>
-					<Text style={[styles.text, { fontFamily: "OSSemiBold" }]}>{product.name}</Text>
+					<Text style={[styles.text, { fontFamily: theme.fontSemiBold }]}>{product.name}</Text>
 					<Text style={[styles.text, { color: "#1b1b1b" }]}>{product.size}</Text>
 					<Text style={[styles.text, { color: "#1b1b1b", marginTop: 12 }]}>
 						{formatCurrency(productPrice)}
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
 		gap: 10,
 	},
 	text: {
-		fontFamily: "OS",
+		fontFamily: theme.fontRegular,
 		color: theme.black,
 		fontSize: 16,
 	},

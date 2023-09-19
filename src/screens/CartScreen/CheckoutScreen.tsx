@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
 		borderRadius: 16,
 	},
 	text: {
-		fontFamily: "OS",
+		fontFamily: theme.fontRegular,
 		color: theme.black,
 		fontSize: 16,
 	},
@@ -202,13 +202,13 @@ const styles = StyleSheet.create({
 		borderBottomColor: theme.border,
 	},
 	summaryRowText: {
-		fontFamily: "OSSemiBold",
+		fontFamily: theme.fontSemiBold,
 		fontSize: 16,
 		color: theme.black,
 		flex: 1,
 	},
 	summaryRowValue: {
-		fontFamily: "OSSemiBold",
+		fontFamily: theme.fontSemiBold,
 		fontSize: 16,
 		color: theme.black,
 		textAlign: "right",
