@@ -45,8 +45,8 @@ export default function OrderScreen({ navigation, route }: Props) {
 									}}
 									style={styles.image}
 								/>
-								<View style={{ gap: 7 }}>
-									<Text style={[styles.text, { fontFamily: theme.fontSemiBold, maxWidth: 140 }]}>
+								<View style={{ gap: 7, flex: 1 }}>
+									<Text style={[styles.text, { fontFamily: theme.fontSemiBold, maxWidth: "95%" }]}>
 										{item.name}
 									</Text>
 									<Text style={styles.text}>{formatCurrency(item.price)}</Text>
@@ -105,8 +105,8 @@ const styles = StyleSheet.create({
 	},
 	image: {
 		borderRadius: 16,
-		width: 140,
-		height: 140,
+		width: 120,
+		height: 120,
 	},
 	text: {
 		fontFamily: theme.fontRegular,
